@@ -71,6 +71,7 @@ class _EditStoryViewState extends ConsumerState<_EditStoryView> {
             .read(storyListProvider(widget.story.userId).notifier)
             .updateStory(updatedStory);
         if (mounted) {
+          // ignore: unused_result
           ref.refresh(storyDetailProvider(widget.story.id!));
           context.pop();
         }

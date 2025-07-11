@@ -22,6 +22,7 @@ class SocialSquarePage extends ConsumerWidget {
             icon: const Icon(Icons.refresh),
             onPressed: () {
               // TODO: 刷新数据
+              // ignore: unused_result
               ref.refresh(publicStoriesProvider);
             },
           ),
@@ -77,6 +78,7 @@ class SocialSquarePage extends ConsumerWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
+                  // ignore: unused_result
                   ref.refresh(publicStoriesProvider);
                 },
                 child: const Text('重试'),

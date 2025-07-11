@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:memory_echoes/domain/entities/story_entity.dart';
 import 'package:memory_echoes/presentation/providers/story_provider.dart';
 
 class StoryDetailPage extends ConsumerWidget {

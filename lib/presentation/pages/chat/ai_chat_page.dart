@@ -25,7 +25,6 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
   @override
   Widget build(BuildContext context) {
     final chatState = ref.watch(chatProvider);
-    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,

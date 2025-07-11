@@ -29,7 +29,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen<AuthState>(authProvider, (previous, next) {
-      next?.maybeWhen(
+      next.maybeWhen(
         authenticated: (_) => context.go('/home'),
         orElse: () {},
       );

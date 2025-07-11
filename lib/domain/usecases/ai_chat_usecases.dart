@@ -1,5 +1,4 @@
 import '../entities/chat_message_entity.dart';
-import '../entities/story_entity.dart';
 import 'package:memory_echoes/data/models/story_model.dart';
 import '../repositories/ai_repository.dart';
 import '../repositories/story_repository.dart';

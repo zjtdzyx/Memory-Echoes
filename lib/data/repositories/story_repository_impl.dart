@@ -8,6 +8,7 @@ class StoryRepositoryImpl implements StoryRepository {
   StoryRepositoryImpl(this._remoteDataSource);
 
   // 保留流式获取以供内部使用
+  // ignore: unused_element
   Stream<List<StoryEntity>> _getStoriesStream(String userId) {
     return _remoteDataSource.getStories(userId);
   }

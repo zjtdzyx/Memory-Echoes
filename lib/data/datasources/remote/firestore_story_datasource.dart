@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:memory_echoes/data/models/story_model.dart';
-import 'package:memory_echoes/domain/entities/story_entity.dart';
 
 class FirestoreStoryDataSource {
   final FirebaseFirestore _firestore;
