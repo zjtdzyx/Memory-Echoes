@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_theme.dart';
 
 class EmptyState extends StatelessWidget {
   final String message;
@@ -18,28 +19,63 @@ class EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon ?? Icons.inbox_outlined,
-              size: 64,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+            // 装饰性背景
+            Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    AppTheme.primaryOrange.withOpacity(0.1),
+                    AppTheme.accentOrange.withOpacity(0.1),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(60),
+              ),
+              child: Icon(
+                icon ?? Icons.auto_stories,
+                size: 60,
+                color: AppTheme.primaryOrange.withOpacity(0.6),
+              ),
             ),
-            const SizedBox(height: 16),
+            
+            const SizedBox(height: 24),
+            
             Text(
               message,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                color: AppTheme.richBrown.withOpacity(0.8),
+                fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,
             ),
+            
             if (actionText != null && onAction != null) ...[
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: onAction,
-                child: Text(actionText!),
+              const SizedBox(height: 32),
+              Container(
+                decoration: BoxDecoration(
+                  boxShadow: AppTheme.warmShadow,
+                ),
+                child: ElevatedButton.icon(
+                  onPressed: onAction,
+                  icon: Icon(Icons.add_circle_outline),
+                  label: Text(actionText!),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.primaryOrange,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                ),
               ),
             ],
           ],

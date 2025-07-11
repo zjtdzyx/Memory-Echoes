@@ -80,30 +80,30 @@
 
 1. **克隆项目**
 
-   ```bash
+   \`\`\`bash
    git clone https://github.com/yourusername/memory-echoes.git
    cd memory-echoes
-   ```
+   \`\`\`
 
 2. **安装依赖**
 
-   ```bash
+   \`\`\`bash
    flutter pub get
-   ```
+   \`\`\`
 
 3. **生成代码**
 
-   ```bash
+   \`\`\`bash
    dart run build_runner build --delete-conflicting-outputs
-   ```
+   \`\`\`
 
 4. **环境配置**
 
    创建 `.env` 文件：
 
-   ```env
+   \`\`\`env
    GEMINI_API_KEY=your_gemini_api_key_here
-   ```
+   \`\`\`
 
 5. **Firebase 配置**
 
@@ -114,9 +114,9 @@
    - `macos/Runner/GoogleService-Info.plist`
 
 6. **运行应用**
-   ```bash
+   \`\`\`bash
    flutter run
-   ```
+   \`\`\`
 
 ---
 
@@ -133,7 +133,7 @@
 
 ### 架构设计
 
-```
+\`\`\`
 ┌─────────────────────────────────────────────────────────┐
 │                    Presentation Layer                   │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐│
@@ -154,11 +154,11 @@
 │  │   Models    │ │ DataSources │ │    Repositories     ││
 │  └─────────────┘ └─────────────┘ └─────────────────────┘│
 └─────────────────────────────────────────────────────────┘
-```
+\`\`\`
 
 ### 项目结构
 
-```
+\`\`\`
 lib/
 ├── core/                    # 核心基础模块
 │   ├── constants/          # 全局常量
@@ -181,7 +181,7 @@ lib/
 ├── dependency_injection.dart # 依赖注入
 ├── firebase_options.dart   # Firebase 配置
 └── main.dart              # 应用入口
-```
+\`\`\`
 
 ---
 
@@ -195,7 +195,7 @@ lib/
 
 ### 状态管理模式
 
-```dart
+\`\`\`dart
 // 定义 Provider
 final storyProvider = StateNotifierProvider<StoryNotifier, List<Story>>((ref) {
   return StoryNotifier(ref.read(storyRepositoryProvider));
@@ -209,11 +209,11 @@ class StoryListPage extends ConsumerWidget {
     return ListView.builder(/* ... */);
   }
 }
-```
+\`\`\`
 
 ### 测试策略
 
-```bash
+\`\`\`bash
 # 单元测试
 flutter test
 
@@ -223,7 +223,7 @@ flutter test integration_test/
 # 代码覆盖率
 flutter test --coverage
 genhtml coverage/lcov.info -o coverage/html
-```
+\`\`\`
 
 ---
 
@@ -244,31 +244,31 @@ genhtml coverage/lcov.info -o coverage/html
 
 ### Android
 
-```bash
+\`\`\`bash
 # 构建 APK
 flutter build apk --release
 
 # 构建 App Bundle (推荐)
 flutter build appbundle --release
-```
+\`\`\`
 
 ### iOS
 
-```bash
+\`\`\`bash
 # 构建 iOS 应用
 flutter build ios --release
-```
+\`\`\`
 
 ### Web
 
-```bash
+\`\`\`bash
 # 构建 Web 应用
 flutter build web --release
-```
+\`\`\`
 
 ### Desktop
 
-```bash
+\`\`\`bash
 # macOS
 flutter build macos --release
 
@@ -277,7 +277,7 @@ flutter build windows --release
 
 # Linux
 flutter build linux --release
-```
+\`\`\`
 
 ---
 

@@ -7,7 +7,7 @@
 
 ### 1. Homebrew 安装软件环境
 
-```bash
+\`\`\`bash
 # 1. 安装 Flutter SDK
 brew install --cask flutter
 flutter doctor
@@ -24,11 +24,11 @@ flutter doctor --android-licenses # 接受 Android 许可协议
 # 4. 安装 Firebase 环境
 dart pub global activate flutterfire_cli # 安装 flutterfire_cli
 brew install firebase-cli
-```
+\`\`\`
 
 ### 2. Cursor 推荐插件
 
-```
+\`\`\`
 1. Flutter
    官方 Flutter 插件，提供 Dart 语言支持、代码补全、语法高亮、热重载/热重启、
    Widget Inspector、调试工具、新项目向导等核心功能。
@@ -44,13 +44,13 @@ brew install firebase-cli
 
 5. Flutter Intl
    国际化支持插件。
-```
+\`\`\`
 
 ### 3. Flutter 包管理器依赖 (pubspec.yaml) ✅ 已实现
 
 当前项目的 `pubspec.yaml` 已包含所有必要依赖：
 
-```yaml
+\`\`\`yaml
 name: memory_echoes
 description: "一个温暖的记忆记录与分享应用"
 publish_to: "none"
@@ -124,7 +124,7 @@ flutter:
     - .env
     - assets/icons/
     - assets/images/
-```
+\`\`\`
 
 ## 二、技术方案 ✅ 已实现
 
@@ -220,7 +220,7 @@ flutter:
 
 ### 4. 项目架构 - Clean Architecture ✅ 已实现
 
-```
+\`\`\`
 presentation/ (表现层) ✅
 ├── pages/           # 页面组件
 ├── widgets/         # 可复用 UI 组件
@@ -243,23 +243,23 @@ core/ (核心层) ✅
 ├── errors/          # 错误处理
 ├── services/        # 核心服务
 └── utils/           # 工具函数
-```
+\`\`\`
 
 ## 三、开发工作流 ✅ 已建立
 
 ### 1. 代码生成
 
-```bash
+\`\`\`bash
 # 生成 Freezed 和 JSON 序列化代码
 dart run build_runner build --delete-conflicting-outputs
 
 # 监听文件变化自动生成
 dart run build_runner watch
-```
+\`\`\`
 
 ### 2. 代码质量
 
-```bash
+\`\`\`bash
 # 代码分析
 flutter analyze
 
@@ -268,17 +268,17 @@ flutter test
 
 # 格式化代码
 dart format .
-```
+\`\`\`
 
 ### 3. 调试和热重载
 
-```bash
+\`\`\`bash
 # 启动开发服务器
 flutter run
 
 # 热重载: 在终端中按 'r'
 # 热重启: 在终端中按 'R'
-```
+\`\`\`
 
 ## 四、部署和发布 ✅ 配置完成
 
@@ -289,7 +289,7 @@ flutter run
 
 ### 2. 构建配置
 
-```bash
+\`\`\`bash
 # Android
 flutter build apk --release
 flutter build appbundle --release
@@ -304,7 +304,7 @@ flutter build web --release
 flutter build macos --release
 flutter build windows --release
 flutter build linux --release
-```
+\`\`\`
 
 ## 五、项目状态总结 ✅
 

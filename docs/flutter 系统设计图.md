@@ -26,7 +26,7 @@
 
 当前系统采用 **Clean Architecture** 分层设计，Flutter App 作为客户端与多个 Firebase 服务和 Google Gemini Pro API 直接交互。
 
-```mermaid
+\`\`\`mermaid
 graph TB
     User[用户 User] --> FlutterApp[Flutter App<br/>iOS/Android/Web 客户端]
     FlutterApp --> FirebaseAuth[Firebase Authentication<br/>用户注册/登录/会话]
@@ -43,7 +43,7 @@ graph TB
     CloudFunctions[Firebase Cloud Functions<br/>AI 内容审核 Agent<br/>复杂业务逻辑编排] -.-> Firestore
     CloudFunctions -.-> GeminiAPI
     Admin -.-> CloudFunctions
-```
+\`\`\`
 
 ### 数据流向描述
 
@@ -76,7 +76,7 @@ graph TB
 
 基于 Clean Architecture 的三层结构已完全实现：
 
-```
+\`\`\`
 lib/
 ├── core/                        # ✅ 核心基础模块
 │   ├── constants/              # ✅ 全局常量 (主题、路由等)
@@ -139,7 +139,7 @@ lib/
 ├── dependency_injection.dart   # ✅ Riverpod 依赖注入
 ├── firebase_options.dart      # ✅ Firebase 配置
 └── main.dart                  # ✅ 应用入口
-```
+\`\`\`
 
 ### 依赖关系说明 ✅
 
