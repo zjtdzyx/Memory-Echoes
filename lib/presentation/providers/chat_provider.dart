@@ -18,8 +18,10 @@ class ChatState with _$ChatState {
 
 class ChatNotifier extends StateNotifier<ChatState> {
   final PostChatMessageUseCase _postChatMessageUseCase;
+  final GenerateStoryFromChatUseCase _generateStoryFromChatUseCase;
 
-  ChatNotifier(this._postChatMessageUseCase) : super(const ChatState());
+  ChatNotifier(this._postChatMessageUseCase, this._generateStoryFromChatUseCase)
+      : super(const ChatState());
 
   void clearChat() {
     state = state.copyWith(messages: []);
@@ -55,13 +57,16 @@ class ChatNotifier extends StateNotifier<ChatState> {
     }
   }
 
-  Future<void> generateStoryFromChat(String userId) async {
+  Future<void> generateStoryFromChat(String userId, String title) async {
     if (state.messages.isEmpty) return;
 
     state = state.copyWith(isLoading: true);
     try {
-      // 实现从聊天生成故事的逻辑
-      // 这里需要调用相应的用例
+      await _generateStoryFromChatUseCase(
+        userId: userId,
+        messages: state.messages,
+        title: title,
+      );
       state = state.copyWith(isLoading: false);
     } catch (e) {
       state = state.copyWith(
@@ -75,5 +80,6 @@ class ChatNotifier extends StateNotifier<ChatState> {
 final chatProvider = StateNotifierProvider<ChatNotifier, ChatState>((ref) {
   return ChatNotifier(
     ref.read(postChatMessageUseCaseProvider),
+    ref.read(generateStoryFromChatUseCaseProvider),
   );
 });

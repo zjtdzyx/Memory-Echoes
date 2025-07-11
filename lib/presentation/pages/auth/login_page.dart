@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memory_echoes/presentation/providers/auth_provider.dart';
+import 'package:memory_echoes/presentation/providers/auth_state.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -25,24 +26,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen<AuthState>(authProvider, (previous, next) {
-      next.when(
-        initial: () {},
-        loading: () {},
-        authenticated: (user) {
-          context.go('/home');
-        },
-        unauthenticated: (message) {
-          if (message != null) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(message)));
-          }
-        },
-        error: (message) {
-          if (message != null) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(message)));
-          }
-        },
+      next?.maybeWhen(
+        authenticated: (_) => context.go('/home'),
+        orElse: () {},
       );
     });
 
@@ -134,22 +120,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: authState.when(
+                            onPressed: authState.maybeWhen(
                               loading: () => null,
-                              initial: () => _submit,
                               authenticated: (_) => null,
-                              unauthenticated: (_) => _submit,
-                              error: (_) => _submit,
+                              orElse: () => _submit,
                             ),
-                            child: authState.when(
+                            child: authState.maybeWhen(
                               loading: () => const CircularProgressIndicator(
                                 valueColor:
                                     AlwaysStoppedAnimation<Color>(Colors.white),
                               ),
-                              initial: () => const Text('登录'),
                               authenticated: (_) => const Icon(Icons.check),
-                              unauthenticated: (_) => const Text('登录'),
-                              error: (_) => const Text('重试'),
+                              orElse: () => const Text('登录'),
                             ),
                           ),
                         ),

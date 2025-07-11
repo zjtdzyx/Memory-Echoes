@@ -70,3 +70,10 @@ final getPublicStoriesUseCaseProvider = Provider<GetPublicStoriesUseCase>(
 // UseCases - AI
 final postChatMessageUseCaseProvider = Provider<PostChatMessageUseCase>(
     (ref) => PostChatMessageUseCase(ref.watch(aiRepositoryProvider)));
+
+final generateStoryFromChatUseCaseProvider =
+    Provider<GenerateStoryFromChatUseCase>(
+        (ref) => GenerateStoryFromChatUseCase(
+              ref.watch(aiRepositoryProvider),
+              ref.watch(storyRepositoryProvider),
+            ));

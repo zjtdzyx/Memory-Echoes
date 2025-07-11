@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memory_echoes/domain/entities/story_entity.dart';
+import 'package:memory_echoes/data/models/story_model.dart';
+import '../../../domain/enums/story_mood.dart';
 import 'package:memory_echoes/presentation/providers/story_provider.dart';
 
 class EditStoryPage extends ConsumerWidget {
@@ -57,14 +59,17 @@ class _EditStoryViewState extends ConsumerState<_EditStoryView> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      final updatedStory = widget.story.copyWith(
+      final updatedStory = (widget.story as StoryModel).copyWith(
         title: _title,
         content: _content,
         mood: _mood,
         tags: _tags,
       );
 
-      ref.read(storyListProvider.notifier).updateStory(updatedStory).then((_) {
+      ref
+          .read(storyListProvider(widget.story.userId).notifier)
+          .updateStory(updatedStory)
+          .then((_) {
         // Refresh the detail provider so the changes are visible when we pop back
         ref.refresh(storyDetailProvider(widget.story.id!));
         context.pop();

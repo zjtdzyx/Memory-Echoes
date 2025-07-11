@@ -22,7 +22,7 @@ class SocialSquarePage extends ConsumerWidget {
             icon: const Icon(Icons.refresh),
             onPressed: () {
               // TODO: 刷新数据
-              ref.read(publicStoriesProvider.notifier).refresh();
+              ref.refresh(publicStoriesProvider);
             },
           ),
         ],
@@ -31,9 +31,8 @@ class SocialSquarePage extends ConsumerWidget {
         data: (stories) {
           if (stories.isEmpty) {
             return const EmptyState(
+              message: '暂无公开故事\n成为第一个分享温暖回忆的人吧',
               icon: Icons.public_outlined,
-              title: '暂无公开故事',
-              subtitle: '成为第一个分享温暖回忆的人吧',
             );
           }
 
@@ -48,7 +47,7 @@ class SocialSquarePage extends ConsumerWidget {
                   story: story,
                   showAuthor: true,
                   onTap: () => context.push('/story/${story.id}'),
-                  onLike: () => _handleLike(ref, story.id),
+                  onLike: () => _handleLike(context, ref, story.id),
                 ),
               );
             },
@@ -78,7 +77,7 @@ class SocialSquarePage extends ConsumerWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(publicStoriesProvider.notifier).refresh();
+                  ref.refresh(publicStoriesProvider);
                 },
                 child: const Text('重试'),
               ),
@@ -89,9 +88,8 @@ class SocialSquarePage extends ConsumerWidget {
     );
   }
 
-  void _handleLike(WidgetRef ref, String storyId) {
+  void _handleLike(BuildContext context, WidgetRef ref, String? storyId) {
     // TODO: 实现点赞功能
-    ref.read(publicStoriesProvider.notifier).likeStory(storyId);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('点赞成功')),
     );

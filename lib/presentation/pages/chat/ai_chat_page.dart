@@ -68,7 +68,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               },
             ),
           ),
-          
+
           // 加载指示器
           if (chatState.isLoading)
             Container(
@@ -88,11 +88,11 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                 ],
               ),
             ),
-          
+
           // 输入区域
           ChatInput(
             onSendMessage: _handleSendMessage,
-            enabled: !chatState.isLoading,
+            isLoading: chatState.isLoading,
           ),
         ],
       ),
@@ -101,10 +101,13 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
 
   void _handleSendMessage(String content) {
     final authState = ref.read(authStateProvider);
-    if (authState is _Authenticated) {
-      ref.read(chatProvider.notifier).sendMessage(content, authState.user.id);
-      _scrollToBottom();
-    }
+    authState.maybeWhen(
+      authenticated: (user) {
+        ref.read(chatProvider.notifier).sendMessage(content, user.id);
+      },
+      orElse: () {},
+    );
+    _scrollToBottom();
   }
 
   void _scrollToBottom() {
@@ -121,7 +124,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
 
   void _showGenerateStoryDialog() {
     final titleController = TextEditingController();
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -149,12 +152,15 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
             onPressed: () {
               if (titleController.text.trim().isNotEmpty) {
                 final authState = ref.read(authStateProvider);
-                if (authState is _Authenticated) {
-                  ref.read(chatProvider.notifier).generateStoryFromChat(
-                    authState.user.id,
-                    titleController.text.trim(),
-                  );
-                }
+                authState.maybeWhen(
+                  authenticated: (user) {
+                    ref.read(chatProvider.notifier).generateStoryFromChat(
+                          user.id,
+                          titleController.text.trim(),
+                        );
+                  },
+                  orElse: () {},
+                );
                 Navigator.of(context).pop();
               }
             },

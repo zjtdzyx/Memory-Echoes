@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memory_echoes/domain/entities/story_entity.dart';
 import 'package:memory_echoes/data/models/story_model.dart';
+import '../../../domain/enums/story_mood.dart';
 import 'package:memory_echoes/presentation/providers/story_provider.dart';
 import 'package:memory_echoes/presentation/providers/auth_provider.dart';
 
@@ -39,7 +40,10 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
           createdAt: DateTime.now(),
           isPublic: false,
         );
-        ref.read(storyListProvider.notifier).createStory(newStory).then((_) {
+        ref
+            .read(storyListProvider(userId).notifier)
+            .createStory(newStory)
+            .then((_) {
           context.pop();
         }).catchError((error) {
           ScaffoldMessenger.of(context)

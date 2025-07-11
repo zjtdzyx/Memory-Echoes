@@ -13,6 +13,9 @@ final authStateProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   );
 });
 
+@Deprecated('Use authStateProvider instead')
+final authProvider = authStateProvider;
+
 class AuthNotifier extends StateNotifier<AuthState> {
   final SignInWithEmailUseCase _signInWithEmailUseCase;
   final SignUpWithEmailUseCase _signUpWithEmailUseCase;

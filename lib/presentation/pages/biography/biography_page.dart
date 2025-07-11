@@ -20,19 +20,18 @@ class BiographyPage extends ConsumerWidget {
       ),
       body: authState.maybeWhen(
         authenticated: (user) {
-          final storiesAsync = ref.watch(userStoriesProvider(user.uid));
+          final storiesAsync = ref.watch(userStoriesProvider(user.id));
           return storiesAsync.when(
             data: (stories) {
               if (stories.isEmpty) {
                 return const EmptyState(
+                  message: '故事太少啦\n多记录一些回忆，才能生成更精彩的传记哦',
                   icon: Icons.history_edu_outlined,
-                  title: '故事太少啦',
-                  subtitle: '多记录一些回忆，才能生成更精彩的传记哦',
                 );
               }
               return BiographyGenerator(
                 stories: stories,
-                userId: user.uid,
+                userId: user.id,
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
