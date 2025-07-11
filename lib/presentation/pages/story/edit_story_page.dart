@@ -55,7 +55,7 @@ class _EditStoryViewState extends ConsumerState<_EditStoryView> {
     _tags = List.from(widget.story.tags);
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
@@ -66,17 +66,20 @@ class _EditStoryViewState extends ConsumerState<_EditStoryView> {
         tags: _tags,
       );
 
-      ref
-          .read(storyListProvider(widget.story.userId).notifier)
-          .updateStory(updatedStory)
-          .then((_) {
-        // Refresh the detail provider so the changes are visible when we pop back
-        ref.refresh(storyDetailProvider(widget.story.id!));
-        context.pop();
-      }).catchError((error) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Update failed: $error')));
-      });
+      try {
+        await ref
+            .read(storyListProvider(widget.story.userId).notifier)
+            .updateStory(updatedStory);
+        if (mounted) {
+          ref.refresh(storyDetailProvider(widget.story.id!));
+          context.pop();
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Update failed: $e')));
+        }
+      }
     }
   }
 

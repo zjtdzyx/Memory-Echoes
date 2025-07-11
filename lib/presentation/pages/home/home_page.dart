@@ -14,7 +14,7 @@ class HomePage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('记忆回响'),
         actions: [
-          authState.when(
+          authState.maybeWhen(
             authenticated: (user) => Row(
               children: [
                 CircleAvatar(
@@ -32,16 +32,12 @@ class HomePage extends ConsumerWidget {
                 )
               ],
             ),
-            initial: () => const SizedBox(),
             loading: () => const CircularProgressIndicator(),
-            unauthenticated: (_) => TextButton(
+            unauthenticated: () => TextButton(
               onPressed: () => context.go('/login'),
               child: const Text('登录'),
             ),
-            error: (message) => Tooltip(
-              message: message,
-              child: const Icon(Icons.error, color: Colors.red),
-            ),
+            orElse: () => const SizedBox(),
           ),
         ],
       ),

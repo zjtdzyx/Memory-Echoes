@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../widgets/story/story_card.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../providers/search_provider.dart';
-import '../../../domain/entities/story_entity.dart';
 import '../../../domain/enums/story_mood.dart';
 
 class SearchPage extends ConsumerStatefulWidget {

@@ -18,14 +18,15 @@ import '../providers/auth_provider.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
-  
+
   return GoRouter(
     initialLocation: '/splash',
     redirect: (context, state) {
-      final isAuthenticated = authState is Authenticated;
-      final isAuthRoute = state.matchedLocation.startsWith('/auth') || 
-                         state.matchedLocation == '/login' || 
-                         state.matchedLocation == '/register';
+      final isAuthenticated =
+          authState.maybeWhen(authenticated: (_) => true, orElse: () => false);
+      final isAuthRoute = state.matchedLocation.startsWith('/auth') ||
+          state.matchedLocation == '/login' ||
+          state.matchedLocation == '/register';
       final isSplash = state.matchedLocation == '/splash';
 
       // 如果在启动页面，不重定向

@@ -2,8 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/story_entity.dart';
 import '../../domain/usecases/story_usecases.dart';
 import '../../dependency_injection.dart';
-import 'auth_state.dart';
-import 'auth_provider.dart';
 
 // 用户故事提供者
 final userStoriesProvider =

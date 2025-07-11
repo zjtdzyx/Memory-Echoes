@@ -23,7 +23,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
   final List<String> _imageUrls =
       []; // For simplicity, we'll manage URLs directly
 
-  void _submit() {
+  Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       final authState = ref.read(authProvider);
@@ -40,15 +40,17 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
           createdAt: DateTime.now(),
           isPublic: false,
         );
-        ref
-            .read(storyListProvider(userId).notifier)
-            .createStory(newStory)
-            .then((_) {
-          context.pop();
-        }).catchError((error) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('创建失败: $error')));
-        });
+        try {
+          await ref
+              .read(storyListProvider(userId).notifier)
+              .createStory(newStory);
+          if (mounted) context.pop();
+        } catch (e) {
+          if (mounted) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('创建失败: $e')));
+          }
+        }
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('用户未登录，无法创建故事')));

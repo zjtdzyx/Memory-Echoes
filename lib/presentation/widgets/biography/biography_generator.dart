@@ -40,18 +40,21 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
                 Text(
                   '选择故事',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   '选择要包含在传记中的故事（建议选择3-8个故事）',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                  ),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.7),
+                      ),
                 ),
                 const SizedBox(height: 16),
-                
+
                 // 故事列表
                 ...widget.stories.map((story) {
                   final isSelected = _selectedStoryIds.contains(story.id);
@@ -60,9 +63,9 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
                     onChanged: (value) {
                       setState(() {
                         if (value == true) {
-                          _selectedStoryIds.add(story.id);
+                          _selectedStoryIds.add(story.id ?? '');
                         } else {
-                          _selectedStoryIds.remove(story.id);
+                          _selectedStoryIds.remove(story.id ?? '');
                         }
                       });
                     },
@@ -83,9 +86,9 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
             ),
           ),
         ),
-        
+
         const SizedBox(height: 16),
-        
+
         // 主题选择
         WarmCard(
           child: Padding(
@@ -96,11 +99,11 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
                 Text(
                   '选择主题风格',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
                 const SizedBox(height: 16),
-                
+
                 // 主题选项
                 ...BiographyTheme.values.map((theme) {
                   return RadioListTile<BiographyTheme>(
@@ -120,12 +123,14 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
             ),
           ),
         ),
-        
+
         const SizedBox(height: 20),
-        
+
         // 生成按钮
         ElevatedButton(
-          onPressed: _selectedStoryIds.isEmpty || _isGenerating ? null : _generateBiography,
+          onPressed: _selectedStoryIds.isEmpty || _isGenerating
+              ? null
+              : _generateBiography,
           child: _isGenerating
               ? const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -141,7 +146,7 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
                 )
               : Text('生成传记 (${_selectedStoryIds.length}个故事)'),
         ),
-        
+
         // 生成结果
         if (_generatedContent != null) ...[
           const SizedBox(height: 20),
@@ -161,8 +166,8 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
                       Text(
                         '你的专属传记',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                     ],
                   ),
@@ -170,8 +175,8 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
                   Text(
                     _generatedContent!,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      height: 1.6,
-                    ),
+                          height: 1.6,
+                        ),
                   ),
                   const SizedBox(height: 20),
                   Row(
@@ -236,11 +241,11 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
     try {
       // 模拟AI生成传记
       await Future.delayed(const Duration(seconds: 3));
-      
+
       final selectedStories = widget.stories
-          .where((story) => _selectedStoryIds.contains(story.id))
+          .where((story) => _selectedStoryIds.contains(story.id ?? ''))
           .toList();
-      
+
       setState(() {
         _generatedContent = _createMockBiography(selectedStories);
         _isGenerating = false;
@@ -249,7 +254,7 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
       setState(() {
         _isGenerating = false;
       });
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('生成失败: $e')),
@@ -260,25 +265,26 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
 
   String _createMockBiography(List<StoryEntity> stories) {
     final buffer = StringBuffer();
-    
+
     buffer.writeln('这是一个关于温暖回忆的故事集。');
     buffer.writeln();
-    
+
     for (int i = 0; i < stories.length; i++) {
       final story = stories[i];
       buffer.writeln('${i + 1}. ${story.title}');
       buffer.writeln();
-      buffer.writeln('${story.content.substring(0, story.content.length > 100 ? 100 : story.content.length)}...');
+      buffer.writeln(
+          '${story.content.substring(0, story.content.length > 100 ? 100 : story.content.length)}...');
       buffer.writeln();
-      
+
       if (i < stories.length - 1) {
         buffer.writeln('---');
         buffer.writeln();
       }
     }
-    
+
     buffer.writeln('这些珍贵的回忆，构成了生命中最温暖的篇章。每一个故事都是时光的馈赠，值得被永远珍藏。');
-    
+
     return buffer.toString();
   }
 

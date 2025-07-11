@@ -14,7 +14,7 @@ class SettingsPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('设置'),
       ),
-      body: authState.when(
+      body: authState.maybeWhen(
         authenticated: (user) => ListView(
           children: <Widget>[
             ListTile(
@@ -39,24 +39,12 @@ class SettingsPage extends ConsumerWidget {
           ],
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        initial: () => const Center(child: Text('正在加载...')),
-        unauthenticated: (_) {
+        unauthenticated: () {
           // Should not happen if routed correctly, but good practice to handle.
           Future.microtask(() => context.go('/login'));
           return const Center(child: Text('请先登录.'));
         },
-        error: (message) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('发生错误: $message'),
-              ElevatedButton(
-                onPressed: () => ref.refresh(authProvider),
-                child: const Text('重试'),
-              )
-            ],
-          ),
-        ),
+        orElse: () => const SizedBox(),
       ),
     );
   }
