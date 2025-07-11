@@ -4,55 +4,93 @@ import '../../domain/entities/story_entity.dart';
 import '../../domain/repositories/story_repository.dart';
 import '../../dependency_injection.dart';
 
-final searchProvider = StateNotifierProvider<SearchNotifier, AsyncValue<List<StoryEntity>>>((ref) {
-  return SearchNotifier(ref.read(storyRepositoryProvider));
-});
+// 搜索状态
+class SearchState {
+  final List<StoryEntity> results;
+  final bool isLoading;
+  final String? error;
+  final String query;
 
-class SearchNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
+  SearchState({
+    this.results = const [],
+    this.isLoading = false,
+    this.error,
+    this.query = '',
+  });
+
+  SearchState copyWith({
+    List<StoryEntity>? results,
+    bool? isLoading,
+    String? error,
+    String? query,
+  }) {
+    return SearchState(
+      results: results ?? this.results,
+      isLoading: isLoading ?? this.isLoading,
+      error: error ?? this.error,
+      query: query ?? this.query,
+    );
+  }
+}
+
+// 搜索状态通知器
+class SearchNotifier extends StateNotifier<SearchState> {
   final StoryRepository _storyRepository;
   String _lastQuery = '';
 
-  SearchNotifier(this._storyRepository) : super(const AsyncValue.data([]));
+  SearchNotifier(this._storyRepository) : super(SearchState());
 
   Future<void> searchStories(String query) async {
     if (query.trim().isEmpty) {
-      state = const AsyncValue.data([]);
+      state = SearchState();
       return;
     }
 
     if (query == _lastQuery) return;
     _lastQuery = query;
 
-    state = const AsyncValue.loading();
+    state = state.copyWith(isLoading: true, query: query);
 
     try {
       final results = await _storyRepository.searchStories(query);
-      state = AsyncValue.data(results);
+      state = state.copyWith(
+        results: results,
+        isLoading: false,
+      );
     } catch (e, stackTrace) {
-      state = AsyncValue.error(e, stackTrace);
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
     }
   }
 
   void clearSearch() {
     _lastQuery = '';
-    state = const AsyncValue.data([]);
+    state = SearchState();
   }
 
   Future<void> searchByMood(StoryMood mood) async {
-    state = const AsyncValue.loading();
+    state = state.copyWith(isLoading: true);
 
     try {
       // TODO: 实现按情感搜索
       final results = await _storyRepository.searchStories('');
       final filteredResults = results.where((story) => story.mood == mood).toList();
-      state = AsyncValue.data(filteredResults);
+      state = state.copyWith(
+        results: filteredResults,
+        isLoading: false,
+      );
     } catch (e, stackTrace) {
-      state = AsyncValue.error(e, stackTrace);
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
     }
   }
 
   Future<void> searchByDateRange(DateTime startDate, DateTime endDate) async {
-    state = const AsyncValue.loading();
+    state = state.copyWith(isLoading: true);
 
     try {
       // TODO: 实现按时间范围搜索
@@ -60,9 +98,20 @@ class SearchNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
       final filteredResults = results.where((story) {
         return story.createdAt.isAfter(startDate) && story.createdAt.isBefore(endDate);
       }).toList();
-      state = AsyncValue.data(filteredResults);
+      state = state.copyWith(
+        results: filteredResults,
+        isLoading: false,
+      );
     } catch (e, stackTrace) {
-      state = AsyncValue.error(e, stackTrace);
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
     }
   }
 }
+
+// 提供者
+final searchProvider = StateNotifierProvider<SearchNotifier, SearchState>((ref) {
+  return SearchNotifier(ref.read(storyRepositoryProvider));
+});

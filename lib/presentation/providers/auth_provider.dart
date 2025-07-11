@@ -1,104 +1,93 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../domain/entities/user_entity.dart';
 import '../../domain/usecases/auth_usecases.dart';
 import '../../dependency_injection.dart';
 
-final authStateProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  return AuthNotifier(
-    ref.read(signInUseCaseProvider),
-    ref.read(signUpUseCaseProvider),
-    ref.read(getCurrentUserUseCaseProvider),
-    ref.read(signOutUseCaseProvider),
-  );
-});
+// 认证状态
+abstract class AuthState {}
 
-class AuthNotifier extends StateNotifier<AuthState> {
+class Initial extends AuthState {}
+
+class Loading extends AuthState {}
+
+class Authenticated extends AuthState {
+  final UserEntity user;
+  Authenticated(this.user);
+}
+
+class Unauthenticated extends AuthState {}
+
+class AuthError extends AuthState {
+  final String message;
+  AuthError(this.message);
+}
+
+// 认证状态通知器
+class AuthStateNotifier extends StateNotifier<AuthState> {
   final SignInUseCase _signInUseCase;
   final SignUpUseCase _signUpUseCase;
-  final GetCurrentUserUseCase _getCurrentUserUseCase;
   final SignOutUseCase _signOutUseCase;
+  final GetCurrentUserUseCase _getCurrentUserUseCase;
 
-  AuthNotifier(
+  AuthStateNotifier(
     this._signInUseCase,
     this._signUpUseCase,
-    this._getCurrentUserUseCase,
     this._signOutUseCase,
-  ) : super(const AuthState.initial()) {
-    _checkAuthStatus();
+    this._getCurrentUserUseCase,
+  ) : super(Initial()) {
+    _checkCurrentUser();
   }
 
-  Future<void> _checkAuthStatus() async {
-    state = const AuthState.loading();
+  Future<void> _checkCurrentUser() async {
     try {
       final user = await _getCurrentUserUseCase();
       if (user != null) {
-        state = AuthState.authenticated(user);
+        state = Authenticated(user);
       } else {
-        state = const AuthState.unauthenticated();
+        state = Unauthenticated();
       }
     } catch (e) {
-      state = AuthState.error(e.toString());
+      state = Unauthenticated();
     }
   }
 
   Future<void> signIn(String email, String password) async {
-    state = const AuthState.loading();
+    state = Loading();
     try {
       final user = await _signInUseCase(email, password);
-      state = AuthState.authenticated(user);
+      state = Authenticated(user);
     } catch (e) {
-      state = AuthState.error(e.toString());
+      state = AuthError(e.toString());
     }
   }
 
   Future<void> signUp(String email, String password, String displayName) async {
-    state = const AuthState.loading();
+    state = Loading();
     try {
       final user = await _signUpUseCase(email, password, displayName);
-      state = AuthState.authenticated(user);
+      state = Authenticated(user);
     } catch (e) {
-      state = AuthState.error(e.toString());
+      state = AuthError(e.toString());
     }
   }
 
   Future<void> signOut() async {
     try {
       await _signOutUseCase();
-      state = const AuthState.unauthenticated();
+      state = Unauthenticated();
     } catch (e) {
-      state = AuthState.error(e.toString());
+      state = AuthError(e.toString());
     }
   }
 }
 
-class AuthState {
-  const AuthState();
-
-  const factory AuthState.initial() = _Initial;
-  const factory AuthState.loading() = _Loading;
-  const factory AuthState.authenticated(UserEntity user) = _Authenticated;
-  const factory AuthState.unauthenticated() = _Unauthenticated;
-  const factory AuthState.error(String message) = _Error;
-}
-
-class _Initial extends AuthState {
-  const _Initial();
-}
-
-class _Loading extends AuthState {
-  const _Loading();
-}
-
-class _Authenticated extends AuthState {
-  final UserEntity user;
-  const _Authenticated(this.user);
-}
-
-class _Unauthenticated extends AuthState {
-  const _Unauthenticated();
-}
-
-class _Error extends AuthState {
-  final String message;
-  const _Error(this.message);
-}
+// 提供者
+final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
+  return AuthStateNotifier(
+    ref.read(signInUseCaseProvider),
+    ref.read(signUpUseCaseProvider),
+    ref.read(signOutUseCaseProvider),
+    ref.read(getCurrentUserUseCaseProvider),
+  );
+});

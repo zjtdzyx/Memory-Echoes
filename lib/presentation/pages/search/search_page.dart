@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../widgets/story/story_card.dart';
 import '../../widgets/common/empty_state.dart';
+import '../../widgets/common/warm_card.dart';
 import '../../providers/search_provider.dart';
 import '../../../domain/entities/story_entity.dart';
+import '../../../domain/enums/story_mood.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -22,7 +24,9 @@ class _SearchPageState extends ConsumerState<SearchPage> {
   @override
   void initState() {
     super.initState();
-    _searchFocusNode.requestFocus();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _searchFocusNode.requestFocus();
+    });
   }
 
   @override
@@ -42,21 +46,9 @@ class _SearchPageState extends ConsumerState<SearchPage> {
         title: TextField(
           controller: _searchController,
           focusNode: _searchFocusNode,
-          decoration: InputDecoration(
-            hintText: '搜索故事、标签或内容...',
+          decoration: const InputDecoration(
+            hintText: '搜索故事、标签...',
             border: InputBorder.none,
-            suffixIcon: _currentQuery.isNotEmpty
-                ? IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      _searchController.clear();
-                      setState(() {
-                        _currentQuery = '';
-                      });
-                      ref.read(searchProvider.notifier).clearSearch();
-                    },
-                  )
-                : null,
           ),
           onChanged: (query) {
             setState(() {
@@ -75,6 +67,15 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           },
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              final query = _searchController.text.trim();
+              if (query.isNotEmpty) {
+                ref.read(searchProvider.notifier).searchStories(query);
+              }
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.filter_list),
             onPressed: () => _showFilterDialog(),
