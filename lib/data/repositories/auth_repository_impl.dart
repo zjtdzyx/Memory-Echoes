@@ -10,19 +10,23 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<UserEntity?> getCurrentUser() async {
     final userModel = await _authDataSource.getCurrentUser();
-    return userModel?.toEntity();
+    return userModel;
   }
 
   @override
-  Future<UserEntity> signInWithEmailAndPassword(String email, String password) async {
-    final userModel = await _authDataSource.signInWithEmailAndPassword(email, password);
-    return userModel.toEntity();
+  Future<UserEntity> signInWithEmailAndPassword(
+      String email, String password) async {
+    final userModel =
+        await _authDataSource.signInWithEmailAndPassword(email, password);
+    return userModel;
   }
 
   @override
-  Future<UserEntity> signUpWithEmailAndPassword(String email, String password, String displayName) async {
-    final userModel = await _authDataSource.signUpWithEmailAndPassword(email, password, displayName);
-    return userModel.toEntity();
+  Future<UserEntity> signUpWithEmailAndPassword(
+      String email, String password, String displayName) async {
+    final userModel = await _authDataSource.signUpWithEmailAndPassword(
+        email, password, displayName);
+    return userModel;
   }
 
   @override
@@ -37,6 +41,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Stream<UserEntity?> get authStateChanges {
-    return _authDataSource.authStateChanges.map((userModel) => userModel?.toEntity());
+    return _authDataSource.authStateChanges;
   }
 }

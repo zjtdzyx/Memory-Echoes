@@ -2,21 +2,66 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/story_entity.dart';
 import '../../domain/usecases/story_usecases.dart';
 import '../../dependency_injection.dart';
+import 'auth_provider.dart';
 
 // 用户故事提供者
-final userStoriesProvider = FutureProvider.family<List<StoryEntity>, String>((ref, userId) async {
+final userStoriesProvider =
+    FutureProvider.family<List<StoryEntity>, String>((ref, userId) async {
   final getUserStoriesUseCase = ref.read(getUserStoriesUseCaseProvider);
   return await getUserStoriesUseCase(userId);
 });
 
 // 公开故事提供者
-final publicStoriesProvider = FutureProvider<List<StoryEntity>>((ref) async {
-  final getPublicStoriesUseCase = ref.read(getPublicStoriesUseCaseProvider);
-  return await getPublicStoriesUseCase();
+final publicStoriesProvider =
+    AsyncNotifierProvider<PublicStoriesNotifier, List<StoryEntity>>(() {
+  return PublicStoriesNotifier();
 });
 
+class PublicStoriesNotifier extends AsyncNotifier<List<StoryEntity>> {
+  @override
+  Future<List<StoryEntity>> build() async {
+    return _fetchStories();
+  }
+
+  Future<List<StoryEntity>> _fetchStories() {
+    final getPublicStoriesUseCase = ref.read(getPublicStoriesUseCaseProvider);
+    return getPublicStoriesUseCase();
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() => _fetchStories());
+  }
+
+  Future<void> likeStory(String storyId) async {
+    final likeStoryUseCase = ref.read(likeStoryUseCaseProvider);
+    final authState = ref.read(authStateProvider);
+
+    if (authState is Authenticated) {
+      final userId = authState.user.uid;
+      await likeStoryUseCase(storyId, userId);
+
+      final previousState = state.valueOrNull ?? [];
+      final newState = previousState.map((story) {
+        if (story.id == storyId) {
+          final newLikedBy = List<String>.from(story.likedBy);
+          if (newLikedBy.contains(userId)) {
+            newLikedBy.remove(userId);
+          } else {
+            newLikedBy.add(userId);
+          }
+          return story.copyWith(likedBy: newLikedBy);
+        }
+        return story;
+      }).toList();
+      state = AsyncValue.data(newState);
+    }
+  }
+}
+
 // 故事详情提供者
-final storyDetailProvider = FutureProvider.family<StoryEntity, String>((ref, storyId) async {
+final storyDetailProvider =
+    FutureProvider.family<StoryEntity, String>((ref, storyId) async {
   final getStoryByIdUseCase = ref.read(getStoryByIdUseCaseProvider);
   return await getStoryByIdUseCase(storyId);
 });

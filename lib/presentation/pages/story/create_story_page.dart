@@ -69,9 +69,9 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // 内容编辑器
             StoryEditor(
               contentController: _contentController,
@@ -86,9 +86,9 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                 });
               },
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // 设置选项
             WarmCard(
               child: Padding(
@@ -116,7 +116,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 32),
           ],
         ),
@@ -125,7 +125,8 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
   }
 
   Future<void> _handleSave() async {
-    if (_titleController.text.trim().isEmpty || _contentController.text.trim().isEmpty) {
+    if (_titleController.text.trim().isEmpty ||
+        _contentController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('请填写标题和内容')),
       );
@@ -133,42 +134,15 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
     }
 
     final authState = ref.read(authStateProvider);
-    if (authState is! _Authenticated) return;
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      final createStoryUseCase = ref.read(createStoryUseCaseProvider);
-      
-      await createStoryUseCase(
-        userId: authState.user.id,
-        title: _titleController.text.trim(),
-        content: _contentController.text.trim(),
-        imageUrls: _selectedImages,
-        audioUrl: _audioUrl,
-        isPublic: _isPublic,
-      );
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('故事保存成功')),
-        );
-        context.pop();
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('保存失败: $e')),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+    if (authState is Authenticated) {
+      ref.read(createStoryUseCaseProvider).call(
+            userId: authState.user.uid,
+            title: _titleController.text,
+            content: _contentController.text,
+            imageUrls: [], // TODO: Handle image upload and get URLs
+            isPublic: _isPublic,
+          );
+      context.pop();
     }
   }
 }

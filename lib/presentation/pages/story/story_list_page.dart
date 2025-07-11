@@ -7,25 +7,28 @@ import '../../widgets/common/empty_state.dart';
 import '../../providers/story_provider.dart';
 import '../../providers/auth_provider.dart';
 
-class StoryListPage extends ConsumerStatefulWidget {
+class StoryListPage extends ConsumerWidget {
   const StoryListPage({super.key});
 
   @override
-  ConsumerState<StoryListPage> createState() => _StoryListPageState();
-}
-
-class _StoryListPageState extends ConsumerState<StoryListPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
-    
-    if (authState is! _Authenticated) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
 
-    final storiesAsync = ref.watch(userStoriesProvider(authState.user.id));
+    return authState.maybeWhen(
+      authenticated: (user) => _buildStoryList(context, ref, user.uid),
+      orElse: () {
+        // Fallback for any other state (initial, loading, unauthenticated, error)
+        // Redirect to login if not authenticated.
+        Future.microtask(() => context.go('/login'));
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      },
+    );
+  }
+
+  Widget _buildStoryList(BuildContext context, WidgetRef ref, String userId) {
+    final userStories = ref.watch(userStoriesProvider(userId));
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -40,9 +43,9 @@ class _StoryListPageState extends ConsumerState<StoryListPage> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          ref.invalidate(userStoriesProvider(authState.user.id));
+          ref.invalidate(userStoriesProvider(userId));
         },
-        child: storiesAsync.when(
+        child: userStories.when(
           data: (stories) {
             if (stories.isEmpty) {
               return const EmptyState(
@@ -63,7 +66,9 @@ class _StoryListPageState extends ConsumerState<StoryListPage> {
                     story: story,
                     onTap: () => context.push('/story/${story.id}'),
                     onEdit: () => context.push('/story/${story.id}/edit'),
-                    onDelete: () => _showDeleteDialog(story.id),
+                    onDelete: story.id == null
+                        ? null
+                        : () => _showDeleteDialog(context, story.id!),
                   ),
                 );
               },
@@ -93,7 +98,7 @@ class _StoryListPageState extends ConsumerState<StoryListPage> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    ref.invalidate(userStoriesProvider(authState.user.id));
+                    ref.invalidate(userStoriesProvider(userId));
                   },
                   child: const Text('重试'),
                 ),
@@ -105,7 +110,7 @@ class _StoryListPageState extends ConsumerState<StoryListPage> {
     );
   }
 
-  void _showDeleteDialog(String storyId) {
+  void _showDeleteDialog(BuildContext context, String storyId) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

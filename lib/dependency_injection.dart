@@ -29,9 +29,12 @@ import 'domain/usecases/ai_chat_usecases.dart';
 import 'core/services/file_upload_service.dart';
 
 // External Dependencies
-final firebaseAuthProvider = Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
-final firestoreProvider = Provider<FirebaseFirestore>((ref) => FirebaseFirestore.instance);
-final firebaseStorageProvider = Provider<FirebaseStorage>((ref) => FirebaseStorage.instance);
+final firebaseAuthProvider =
+    Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
+final firestoreProvider =
+    Provider<FirebaseFirestore>((ref) => FirebaseFirestore.instance);
+final firebaseStorageProvider =
+    Provider<FirebaseStorage>((ref) => FirebaseStorage.instance);
 final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();
   dio.options = BaseOptions(
@@ -49,11 +52,13 @@ final firebaseAuthDataSourceProvider = Provider<FirebaseAuthDataSource>((ref) {
   );
 });
 
-final firestoreStoryDataSourceProvider = Provider<FirestoreStoryDataSource>((ref) {
+final firestoreStoryDataSourceProvider =
+    Provider<FirestoreStoryDataSource>((ref) {
   return FirestoreStoryDataSourceImpl(ref.read(firestoreProvider));
 });
 
-final firebaseStorageDataSourceProvider = Provider<FirebaseStorageDataSource>((ref) {
+final firebaseStorageDataSourceProvider =
+    Provider<FirebaseStorageDataSource>((ref) {
   return FirebaseStorageDataSourceImpl(ref.read(firebaseStorageProvider));
 });
 
@@ -107,8 +112,17 @@ final getUserStoriesUseCaseProvider = Provider<GetUserStoriesUseCase>((ref) {
   return GetUserStoriesUseCase(ref.read(storyRepositoryProvider));
 });
 
-final getPublicStoriesUseCaseProvider = Provider<GetPublicStoriesUseCase>((ref) {
+final getPublicStoriesUseCaseProvider =
+    Provider<GetPublicStoriesUseCase>((ref) {
   return GetPublicStoriesUseCase(ref.read(storyRepositoryProvider));
+});
+
+final getStoryByIdUseCaseProvider = Provider<GetStoryByIdUseCase>((ref) {
+  return GetStoryByIdUseCase(ref.read(storyRepositoryProvider));
+});
+
+final searchStoriesUseCaseProvider = Provider<SearchStoriesUseCase>((ref) {
+  return SearchStoriesUseCase(ref.read(storyRepositoryProvider));
 });
 
 final likeStoryUseCaseProvider = Provider<LikeStoryUseCase>((ref) {
@@ -119,7 +133,8 @@ final sendChatMessageUseCaseProvider = Provider<SendChatMessageUseCase>((ref) {
   return SendChatMessageUseCase(ref.read(aiRepositoryProvider));
 });
 
-final generateStoryFromChatUseCaseProvider = Provider<GenerateStoryFromChatUseCase>((ref) {
+final generateStoryFromChatUseCaseProvider =
+    Provider<GenerateStoryFromChatUseCase>((ref) {
   return GenerateStoryFromChatUseCase(
     ref.read(aiRepositoryProvider),
     ref.read(storyRepositoryProvider),

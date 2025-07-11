@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class DateUtils {
   static String formatRelativeTime(DateTime dateTime) {
     final now = DateTime.now();
@@ -38,15 +40,15 @@ class DateUtils {
   static bool isToday(DateTime dateTime) {
     final now = DateTime.now();
     return dateTime.year == now.year &&
-           dateTime.month == now.month &&
-           dateTime.day == now.day;
+        dateTime.month == now.month &&
+        dateTime.day == now.day;
   }
 
   static bool isYesterday(DateTime dateTime) {
     final yesterday = DateTime.now().subtract(const Duration(days: 1));
     return dateTime.year == yesterday.year &&
-           dateTime.month == yesterday.month &&
-           dateTime.day == yesterday.day;
+        dateTime.month == yesterday.month &&
+        dateTime.day == yesterday.day;
   }
 
   static bool isThisWeek(DateTime dateTime) {
@@ -64,4 +66,8 @@ class DateUtils {
     final now = DateTime.now();
     return dateTime.year == now.year;
   }
+}
+
+String formatReadableDate(DateTime date) {
+  return DateFormat('yyyy年MM月dd日').format(date);
 }

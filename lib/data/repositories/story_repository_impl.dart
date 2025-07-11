@@ -4,60 +4,66 @@ import '../datasources/remote/firestore_story_datasource.dart';
 import '../models/story_model.dart';
 
 class StoryRepositoryImpl implements StoryRepository {
-  final FirestoreStoryDataSource _storyDataSource;
+  final FirestoreStoryDataSource _firestoreStoryDataSource;
 
-  StoryRepositoryImpl(this._storyDataSource);
+  StoryRepositoryImpl(this._firestoreStoryDataSource);
 
   @override
   Future<List<StoryEntity>> getUserStories(String userId) async {
-    final storyModels = await _storyDataSource.getUserStories(userId);
-    return storyModels.map((model) => model.toEntity()).toList();
+    final storyModels = await _firestoreStoryDataSource.getUserStories(userId);
+    return storyModels;
   }
 
   @override
-  Future<List<StoryEntity>> getPublicStories({int limit = 20, String? lastStoryId}) async {
-    final storyModels = await _storyDataSource.getPublicStories(limit: limit, lastStoryId: lastStoryId);
-    return storyModels.map((model) => model.toEntity()).toList();
+  Future<List<StoryEntity>> getPublicStories(
+      {int limit = 20, String? lastStoryId}) async {
+    final storyModels = await _firestoreStoryDataSource.getPublicStories(
+        limit: limit, lastStoryId: lastStoryId);
+    return storyModels;
   }
 
   @override
   Future<StoryEntity> getStoryById(String storyId) async {
-    final storyModel = await _storyDataSource.getStoryById(storyId);
-    return storyModel.toEntity();
+    final storyModel = await _firestoreStoryDataSource.getStoryById(storyId);
+    return storyModel;
   }
 
   @override
   Future<StoryEntity> createStory(StoryEntity story) async {
     final storyModel = StoryModel.fromEntity(story);
-    final createdModel = await _storyDataSource.createStory(storyModel);
-    return createdModel.toEntity();
+    final createdModel =
+        await _firestoreStoryDataSource.createStory(storyModel);
+    return createdModel;
   }
 
   @override
   Future<StoryEntity> updateStory(StoryEntity story) async {
     final storyModel = StoryModel.fromEntity(story);
-    final updatedModel = await _storyDataSource.updateStory(storyModel);
-    return updatedModel.toEntity();
+    final updatedModel =
+        await _firestoreStoryDataSource.updateStory(storyModel);
+    return updatedModel;
   }
 
   @override
   Future<void> deleteStory(String storyId) async {
-    await _storyDataSource.deleteStory(storyId);
+    await _firestoreStoryDataSource.deleteStory(storyId);
   }
 
   @override
   Future<void> likeStory(String storyId, String userId) async {
-    await _storyDataSource.likeStory(storyId, userId);
+    await _firestoreStoryDataSource.likeStory(storyId, userId);
   }
 
   @override
   Future<void> unlikeStory(String storyId, String userId) async {
-    await _storyDataSource.unlikeStory(storyId, userId);
+    await _firestoreStoryDataSource.unlikeStory(storyId, userId);
   }
 
   @override
-  Future<List<StoryEntity>> searchStories(String query, {String? userId}) async {
-    final storyModels = await _storyDataSource.searchStories(query, userId: userId);
-    return storyModels.map((model) => model.toEntity()).toList();
+  Future<List<StoryEntity>> searchStories(String query,
+      {String? userId, String? mood, String? tag}) async {
+    final storyModels = await _firestoreStoryDataSource.searchStories(query,
+        userId: userId, mood: mood, tag: tag);
+    return storyModels;
   }
 }

@@ -43,14 +43,16 @@ class _EditStoryPageState extends ConsumerState<EditStoryPage> {
 
   Future<void> _loadStory() async {
     try {
-      final story = await ref.read(storyRepositoryProvider).getStoryById(widget.storyId);
+      final story =
+          await ref.read(storyRepositoryProvider).getStoryById(widget.storyId);
       setState(() {
         _originalStory = story;
         _titleController.text = story.title;
         _contentController.text = story.content;
         _isPublic = story.isPublic;
-        _selectedImages = List.from(story.imageUrls);
-        _audioUrl = story.audioUrl;
+        if (story.imageUrls != null) {
+          _selectedImages = List.from(story.imageUrls!);
+        }
       });
     } catch (e) {
       if (mounted) {
@@ -106,9 +108,9 @@ class _EditStoryPageState extends ConsumerState<EditStoryPage> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // 内容编辑器
             StoryEditor(
               contentController: _contentController,
@@ -123,9 +125,9 @@ class _EditStoryPageState extends ConsumerState<EditStoryPage> {
                 });
               },
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // 设置选项
             WarmCard(
               child: Padding(
@@ -153,7 +155,7 @@ class _EditStoryPageState extends ConsumerState<EditStoryPage> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 32),
           ],
         ),
@@ -162,7 +164,8 @@ class _EditStoryPageState extends ConsumerState<EditStoryPage> {
   }
 
   Future<void> _handleSave() async {
-    if (_titleController.text.trim().isEmpty || _contentController.text.trim().isEmpty) {
+    if (_titleController.text.trim().isEmpty ||
+        _contentController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('请填写标题和内容')),
       );
@@ -178,7 +181,6 @@ class _EditStoryPageState extends ConsumerState<EditStoryPage> {
         title: _titleController.text.trim(),
         content: _contentController.text.trim(),
         imageUrls: _selectedImages,
-        audioUrl: _audioUrl,
         isPublic: _isPublic,
         updatedAt: DateTime.now(),
       );

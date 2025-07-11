@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../widgets/common/warm_card.dart';
 import '../../widgets/home/feature_card.dart';
 import '../../providers/auth_provider.dart';
+import '../../../domain/entities/user_entity.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -12,15 +13,30 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
-    
-    if (authState is! _Authenticated) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
 
-    final user = authState.user;
+    return authState.when(
+      initial: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      authenticated: (user) => _buildHomePage(context, user),
+      unauthenticated: () {
+        // This should ideally not happen if routing is correct,
+        // but as a fallback, redirect to login.
+        Future.microtask(() => context.go('/login'));
+        return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      },
+      error: (message) {
+        // Similar to unauthenticated, redirect to login.
+        Future.microtask(() => context.go('/login'));
+        return Scaffold(
+          body: Center(child: Text("Error: $message")),
+        );
+      },
+    );
+  }
 
+  Widget _buildHomePage(BuildContext context, UserEntity user) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -50,16 +66,20 @@ class HomePage extends ConsumerWidget {
                   children: [
                     Text(
                       '记录每一个温暖时刻',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       '让AI陪伴你整理珍贵的回忆，创作属于你的人生故事',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
-                      ),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.8),
+                          ),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton.icon(
@@ -71,9 +91,9 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // 功能网格
             GridView.count(
               shrinkWrap: true,
@@ -113,9 +133,9 @@ class HomePage extends ConsumerWidget {
                 ),
               ],
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // 快速统计
             WarmCard(
               child: Padding(
@@ -126,8 +146,8 @@ class HomePage extends ConsumerWidget {
                     Text(
                       '我的记录',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                            fontWeight: FontWeight.w600,
+                          ),
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -159,7 +179,7 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 32),
           ],
         ),
@@ -192,16 +212,16 @@ class _StatItem extends StatelessWidget {
         Text(
           value,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
         ),
         const SizedBox(height: 4),
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-          ),
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+              ),
         ),
       ],
     );

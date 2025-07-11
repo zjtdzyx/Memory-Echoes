@@ -26,22 +26,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final authState = ref.watch(authStateProvider);
-    
-    // 监听认证状态变化
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AuthState>(authStateProvider, (previous, next) {
-      if (next is _Authenticated) {
-        context.go('/home');
-      } else if (next is _Error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.message),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      next.when(
+        initial: () {},
+        loading: () {},
+        authenticated: (user) {
+          context.go('/home');
+        },
+        unauthenticated: () {},
+        error: (message) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(message)));
+        },
+      );
     });
+
+    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -52,28 +53,31 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 60),
-              
+
               // 欢迎标题
               Text(
                 '欢迎回来',
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+                      fontWeight: FontWeight.w600,
+                    ),
                 textAlign: TextAlign.center,
               ),
-              
+
               const SizedBox(height: 8),
-              
+
               Text(
                 '继续你的记忆之旅',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onBackground.withOpacity(0.7),
-                ),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.7),
+                    ),
                 textAlign: TextAlign.center,
               ),
-              
+
               const SizedBox(height: 48),
-              
+
               // 登录表单
               WarmCard(
                 child: Padding(
@@ -94,15 +98,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             if (value == null || value.isEmpty) {
                               return '请输入邮箱地址';
                             }
-                            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                .hasMatch(value)) {
                               return '请输入有效的邮箱地址';
                             }
                             return null;
                           },
                         ),
-                        
+
                         const SizedBox(height: 16),
-                        
+
                         // 密码输入框
                         TextFormField(
                           controller: _passwordController,
@@ -133,26 +138,29 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             return null;
                           },
                         ),
-                        
+
                         const SizedBox(height: 24),
-                        
+
                         // 登录按钮
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: authState is _Loading ? null : _handleLogin,
-                            child: authState is _Loading
-                                ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(strokeWidth: 2),
-                                  )
-                                : const Text('登录'),
+                            onPressed: authState.maybeWhen(
+                              loading: () => null,
+                              orElse: () => _handleLogin,
+                            ),
+                            child: authState.maybeWhen(
+                              loading: () => const CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                              orElse: () => const Text('登录'),
+                            ),
                           ),
                         ),
-                        
+
                         const SizedBox(height: 16),
-                        
+
                         // 忘记密码
                         TextButton(
                           onPressed: () {
@@ -170,9 +178,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // 注册链接
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -204,8 +212,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!_formKey.currentState!.validate()) return;
 
     await ref.read(authStateProvider.notifier).signIn(
-      _emailController.text.trim(),
-      _passwordController.text,
-    );
+          _emailController.text.trim(),
+          _passwordController.text,
+        );
   }
 }

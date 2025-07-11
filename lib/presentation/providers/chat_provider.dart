@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/chat_message_entity.dart';
@@ -31,23 +32,21 @@ class ChatState {
 
 // 聊天状态通知器
 class ChatNotifier extends StateNotifier<ChatState> {
-  final SendMessageUseCase _sendMessageUseCase;
+  final SendChatMessageUseCase _sendChatMessageUseCase;
   final GenerateStoryFromChatUseCase _generateStoryFromChatUseCase;
 
   ChatNotifier(
-    this._sendMessageUseCase,
+    this._sendChatMessageUseCase,
     this._generateStoryFromChatUseCase,
   ) : super(ChatState());
 
-  Future<void> sendMessage(String content, String userId) async {
-    // 添加用户消息
+  Future<void> sendMessage(String text, String userId) async {
+    if (text.isEmpty) return;
+
     final userMessage = ChatMessageEntity(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      userId: userId,
-      content: content,
-      isUser: true,
-      timestamp: DateTime.now(),
-      type: MessageType.text,
+      text: text,
+      sender: MessageSender.user,
+      createdAt: DateTime.now(),
     );
 
     state = state.copyWith(
@@ -56,51 +55,42 @@ class ChatNotifier extends StateNotifier<ChatState> {
     );
 
     try {
-      // 发送消息并获取AI回复
-      final aiResponse = await _sendMessageUseCase(content, userId);
-      
+      final aiResponse = await _sendChatMessageUseCase(text, state.messages);
       final aiMessage = ChatMessageEntity(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        userId: 'ai',
-        content: aiResponse,
-        isUser: false,
-        timestamp: DateTime.now(),
-        type: MessageType.text,
+        text: aiResponse,
+        sender: MessageSender.ai,
+        createdAt: DateTime.now(),
       );
-
       state = state.copyWith(
         messages: [...state.messages, aiMessage],
         isLoading: false,
       );
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
   Future<void> generateStoryFromChat(String userId, String title) async {
+    state = state.copyWith(isLoading: true);
     try {
-      await _generateStoryFromChatUseCase(
-        state.messages.map((m) => m.content).join('\n'),
-        userId,
-        title,
+      await _generateStoryFromChatUseCase.call(
+        userId: userId,
+        messages: state.messages,
+        title: title,
       );
+      // Maybe add a confirmation message to chat
     } catch (e) {
-      state = state.copyWith(error: e.toString());
+      state = state.copyWith(isLoading: false, error: e.toString());
+    } finally {
+      state = state.copyWith(isLoading: false);
     }
-  }
-
-  void clearChat() {
-    state = ChatState();
   }
 }
 
 // 提供者
 final chatProvider = StateNotifierProvider<ChatNotifier, ChatState>((ref) {
   return ChatNotifier(
-    ref.read(sendMessageUseCaseProvider),
+    ref.read(sendChatMessageUseCaseProvider),
     ref.read(generateStoryFromChatUseCaseProvider),
   );
 });

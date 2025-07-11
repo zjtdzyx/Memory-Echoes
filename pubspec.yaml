@@ -60,6 +60,9 @@ dependencies:
   # 路径操作
   path: ^1.8.3
 
+  # 日期格式化
+  intl: ^0.18.1
+
   # UI图标
   cupertino_icons: ^1.0.6
 
