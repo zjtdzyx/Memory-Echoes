@@ -1,10 +1,12 @@
-import '../entities/user_entity.dart';
+import 'package:memory_echoes/domain/entities/user_entity.dart';
 
 abstract class AuthRepository {
-  Future<UserEntity?> getCurrentUser();
-  Future<UserEntity> signInWithEmailAndPassword(String email, String password);
-  Future<UserEntity> signUpWithEmailAndPassword(String email, String password, String displayName);
-  Future<void> signOut();
-  Future<void> resetPassword(String email);
   Stream<UserEntity?> get authStateChanges;
+  Future<UserEntity> signInWithEmail(String email, String password);
+  Future<UserEntity> signUpWithEmail(
+      {required String email,
+      required String password,
+      required String displayName});
+  Future<void> signOut();
+  Future<void> updateUser(UserEntity user);
 }

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../widgets/common/warm_card.dart';
-import '../../widgets/story/story_editor.dart';
-import '../../providers/auth_provider.dart';
-import '../../../domain/usecases/story_usecases.dart';
-import '../../../dependency_injection.dart';
+import 'package:memory_echoes/domain/entities/story_entity.dart';
+import 'package:memory_echoes/data/models/story_model.dart';
+import 'package:memory_echoes/presentation/providers/story_provider.dart';
+import 'package:memory_echoes/presentation/providers/auth_provider.dart';
 
 class CreateStoryPage extends ConsumerStatefulWidget {
   const CreateStoryPage({super.key});
@@ -16,133 +14,111 @@ class CreateStoryPage extends ConsumerStatefulWidget {
 }
 
 class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
-  final _titleController = TextEditingController();
-  final _contentController = TextEditingController();
-  bool _isPublic = false;
-  bool _isLoading = false;
-  List<String> _selectedImages = [];
-  String? _audioUrl;
+  final _formKey = GlobalKey<FormState>();
+  String _title = '';
+  String _content = '';
+  StoryMood _mood = StoryMood.neutral;
+  final List<String> _tags = [];
+  final List<String> _imageUrls =
+      []; // For simplicity, we'll manage URLs directly
 
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
-    super.dispose();
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      final authState = ref.read(authProvider);
+      final userId = authState.whenOrNull(authenticated: (user) => user.id);
+
+      if (userId != null) {
+        final newStory = StoryModel(
+          userId: userId,
+          title: _title,
+          content: _content,
+          mood: _mood,
+          tags: _tags,
+          imageUrls: _imageUrls,
+          createdAt: DateTime.now(),
+          isPublic: false,
+        );
+        ref.read(storyListProvider.notifier).createStory(newStory).then((_) {
+          context.pop();
+        }).catchError((error) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('创建失败: $error')));
+        });
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('用户未登录，无法创建故事')));
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // This page should not be reachable if unauthenticated, but as a safeguard:
+    ref.watch(authProvider).whenOrNull(
+      unauthenticated: (_) {
+        Future.microtask(() => context.go('/login'));
+      },
+    );
+
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: const Text('创建故事'),
+        title: const Text('创建新的记忆'),
         actions: [
-          TextButton(
-            onPressed: _isLoading ? null : _handleSave,
-            child: _isLoading
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Text('保存'),
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: _submit,
           ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // 标题输入
-            WarmCard(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: TextField(
-                  controller: _titleController,
-                  decoration: const InputDecoration(
-                    labelText: '故事标题',
-                    hintText: '为你的故事起个温暖的名字',
-                    border: InputBorder.none,
-                  ),
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                decoration: const InputDecoration(labelText: '标题'),
+                validator: (value) => value!.isEmpty ? '标题不能为空' : null,
+                onSaved: (value) => _title = value!,
               ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // 内容编辑器
-            StoryEditor(
-              contentController: _contentController,
-              onImagesChanged: (images) {
-                setState(() {
-                  _selectedImages = images;
-                });
-              },
-              onAudioChanged: (audioUrl) {
-                setState(() {
-                  _audioUrl = audioUrl;
-                });
-              },
-            ),
-
-            const SizedBox(height: 16),
-
-            // 设置选项
-            WarmCard(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '故事设置',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 12),
-                    SwitchListTile(
-                      title: const Text('公开分享'),
-                      subtitle: const Text('允许其他用户在社交广场看到这个故事'),
-                      value: _isPublic,
-                      onChanged: (value) {
-                        setState(() {
-                          _isPublic = value;
-                        });
-                      },
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                  ],
-                ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: '内容'),
+                maxLines: 10,
+                validator: (value) => value!.isEmpty ? '内容不能为空' : null,
+                onSaved: (value) => _content = value!,
               ),
-            ),
-
-            const SizedBox(height: 32),
-          ],
+              DropdownButtonFormField<StoryMood>(
+                value: _mood,
+                decoration: const InputDecoration(labelText: '心情'),
+                items: StoryMood.values
+                    .map((mood) => DropdownMenuItem(
+                          value: mood,
+                          child: Text(mood.toString().split('.').last),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() {
+                      _mood = value;
+                    });
+                  }
+                },
+              ),
+              // A simple way to manage tags and images for this example
+              TextFormField(
+                decoration: const InputDecoration(labelText: '标签 (用逗号分隔)'),
+                onSaved: (value) {
+                  if (value != null && value.isNotEmpty) {
+                    _tags.clear();
+                    _tags.addAll(value.split(',').map((e) => e.trim()));
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  Future<void> _handleSave() async {
-    if (_titleController.text.trim().isEmpty ||
-        _contentController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('请填写标题和内容')),
-      );
-      return;
-    }
-
-    final authState = ref.read(authStateProvider);
-    if (authState is Authenticated) {
-      ref.read(createStoryUseCaseProvider).call(
-            userId: authState.user.uid,
-            title: _titleController.text,
-            content: _contentController.text,
-            imageUrls: [], // TODO: Handle image upload and get URLs
-            isPublic: _isPublic,
-          );
-      context.pop();
-    }
   }
 }

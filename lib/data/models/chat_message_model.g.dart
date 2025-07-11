@@ -9,23 +9,17 @@ part of 'chat_message_model.dart';
 _$ChatMessageModelImpl _$$ChatMessageModelImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatMessageModelImpl(
-      id: json['id'] as String?,
-      text: json['text'] as String,
-      sender: $enumDecode(_$MessageSenderEnumMap, json['sender']),
-      createdAt:
-          const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
+      id: json['id'] as String,
+      content: json['content'] as String,
+      isUser: json['isUser'] as bool,
+      timestamp: DateTime.parse(json['timestamp'] as String),
     );
 
 Map<String, dynamic> _$$ChatMessageModelImplToJson(
         _$ChatMessageModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'text': instance.text,
-      'sender': _$MessageSenderEnumMap[instance.sender]!,
-      'createdAt': const TimestampConverter().toJson(instance.createdAt),
+      'content': instance.content,
+      'isUser': instance.isUser,
+      'timestamp': instance.timestamp.toIso8601String(),
     };
-
-const _$MessageSenderEnumMap = {
-  MessageSender.user: 'user',
-  MessageSender.ai: 'ai',
-};

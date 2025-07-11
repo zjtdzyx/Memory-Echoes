@@ -1,69 +1,42 @@
-import '../../domain/entities/story_entity.dart';
-import '../../domain/repositories/story_repository.dart';
-import '../datasources/remote/firestore_story_datasource.dart';
-import '../models/story_model.dart';
+import 'package:memory_echoes/data/datasources/remote/firestore_story_datasource.dart';
+import 'package:memory_echoes/domain/entities/story_entity.dart';
+import 'package:memory_echoes/domain/repositories/story_repository.dart';
 
 class StoryRepositoryImpl implements StoryRepository {
-  final FirestoreStoryDataSource _firestoreStoryDataSource;
+  final FirestoreStoryDataSource _remoteDataSource;
 
-  StoryRepositoryImpl(this._firestoreStoryDataSource);
+  StoryRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<List<StoryEntity>> getUserStories(String userId) async {
-    final storyModels = await _firestoreStoryDataSource.getUserStories(userId);
-    return storyModels;
+  Stream<List<StoryEntity>> getStories(String userId) {
+    return _remoteDataSource.getStories(userId);
   }
 
   @override
-  Future<List<StoryEntity>> getPublicStories(
-      {int limit = 20, String? lastStoryId}) async {
-    final storyModels = await _firestoreStoryDataSource.getPublicStories(
-        limit: limit, lastStoryId: lastStoryId);
-    return storyModels;
+  Future<StoryEntity> getStoryById(String storyId) {
+    return _remoteDataSource.getStoryById(storyId);
   }
 
   @override
-  Future<StoryEntity> getStoryById(String storyId) async {
-    final storyModel = await _firestoreStoryDataSource.getStoryById(storyId);
-    return storyModel;
+  Future<void> createStory(StoryEntity story) {
+    // The datasource expects a model, so we might need a conversion if they differ.
+    // Assuming StoryEntity can be represented as StoryModel for now.
+    return _remoteDataSource.createStory(story as dynamic);
   }
 
   @override
-  Future<StoryEntity> createStory(StoryEntity story) async {
-    final storyModel = StoryModel.fromEntity(story);
-    final createdModel =
-        await _firestoreStoryDataSource.createStory(storyModel);
-    return createdModel;
+  Future<void> updateStory(StoryEntity story) {
+    return _remoteDataSource.updateStory(story as dynamic);
   }
 
   @override
-  Future<StoryEntity> updateStory(StoryEntity story) async {
-    final storyModel = StoryModel.fromEntity(story);
-    final updatedModel =
-        await _firestoreStoryDataSource.updateStory(storyModel);
-    return updatedModel;
+  Future<void> deleteStory(String storyId) {
+    return _remoteDataSource.deleteStory(storyId);
   }
 
   @override
-  Future<void> deleteStory(String storyId) async {
-    await _firestoreStoryDataSource.deleteStory(storyId);
-  }
-
-  @override
-  Future<void> likeStory(String storyId, String userId) async {
-    await _firestoreStoryDataSource.likeStory(storyId, userId);
-  }
-
-  @override
-  Future<void> unlikeStory(String storyId, String userId) async {
-    await _firestoreStoryDataSource.unlikeStory(storyId, userId);
-  }
-
-  @override
-  Future<List<StoryEntity>> searchStories(String query,
-      {String? userId, String? mood, String? tag}) async {
-    final storyModels = await _firestoreStoryDataSource.searchStories(query,
-        userId: userId, mood: mood, tag: tag);
-    return storyModels;
+  Future<List<StoryEntity>> searchStories(
+      {required String query, String? mood, String? tag}) {
+    return _remoteDataSource.searchStories(query: query, mood: mood, tag: tag);
   }
 }

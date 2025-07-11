@@ -20,11 +20,10 @@ ChatMessageModel _$ChatMessageModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ChatMessageModel {
-  String? get id => throw _privateConstructorUsedError;
-  String get text => throw _privateConstructorUsedError;
-  MessageSender get sender => throw _privateConstructorUsedError;
-  @TimestampConverter()
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get content => throw _privateConstructorUsedError;
+  bool get isUser => throw _privateConstructorUsedError;
+  DateTime get timestamp => throw _privateConstructorUsedError;
 
   /// Serializes this ChatMessageModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,11 +41,7 @@ abstract class $ChatMessageModelCopyWith<$Res> {
           ChatMessageModel value, $Res Function(ChatMessageModel) then) =
       _$ChatMessageModelCopyWithImpl<$Res, ChatMessageModel>;
   @useResult
-  $Res call(
-      {String? id,
-      String text,
-      MessageSender sender,
-      @TimestampConverter() DateTime createdAt});
+  $Res call({String id, String content, bool isUser, DateTime timestamp});
 }
 
 /// @nodoc
@@ -64,27 +59,27 @@ class _$ChatMessageModelCopyWithImpl<$Res, $Val extends ChatMessageModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? text = null,
-    Object? sender = null,
-    Object? createdAt = null,
+    Object? id = null,
+    Object? content = null,
+    Object? isUser = null,
+    Object? timestamp = null,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
               as String,
-      sender: null == sender
-          ? _value.sender
-          : sender // ignore: cast_nullable_to_non_nullable
-              as MessageSender,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      isUser: null == isUser
+          ? _value.isUser
+          : isUser // ignore: cast_nullable_to_non_nullable
+              as bool,
+      timestamp: null == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ) as $Val);
   }
@@ -98,11 +93,7 @@ abstract class _$$ChatMessageModelImplCopyWith<$Res>
       __$$ChatMessageModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String? id,
-      String text,
-      MessageSender sender,
-      @TimestampConverter() DateTime createdAt});
+  $Res call({String id, String content, bool isUser, DateTime timestamp});
 }
 
 /// @nodoc
@@ -118,27 +109,27 @@ class __$$ChatMessageModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? text = null,
-    Object? sender = null,
-    Object? createdAt = null,
+    Object? id = null,
+    Object? content = null,
+    Object? isUser = null,
+    Object? timestamp = null,
   }) {
     return _then(_$ChatMessageModelImpl(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
               as String,
-      sender: null == sender
-          ? _value.sender
-          : sender // ignore: cast_nullable_to_non_nullable
-              as MessageSender,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      isUser: null == isUser
+          ? _value.isUser
+          : isUser // ignore: cast_nullable_to_non_nullable
+              as bool,
+      timestamp: null == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ));
   }
@@ -148,27 +139,26 @@ class __$$ChatMessageModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatMessageModelImpl implements _ChatMessageModel {
   const _$ChatMessageModelImpl(
-      {this.id,
-      required this.text,
-      required this.sender,
-      @TimestampConverter() required this.createdAt});
+      {required this.id,
+      required this.content,
+      required this.isUser,
+      required this.timestamp});
 
   factory _$ChatMessageModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatMessageModelImplFromJson(json);
 
   @override
-  final String? id;
+  final String id;
   @override
-  final String text;
+  final String content;
   @override
-  final MessageSender sender;
+  final bool isUser;
   @override
-  @TimestampConverter()
-  final DateTime createdAt;
+  final DateTime timestamp;
 
   @override
   String toString() {
-    return 'ChatMessageModel(id: $id, text: $text, sender: $sender, createdAt: $createdAt)';
+    return 'ChatMessageModel(id: $id, content: $content, isUser: $isUser, timestamp: $timestamp)';
   }
 
   @override
@@ -177,15 +167,15 @@ class _$ChatMessageModelImpl implements _ChatMessageModel {
         (other.runtimeType == runtimeType &&
             other is _$ChatMessageModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.text, text) || other.text == text) &&
-            (identical(other.sender, sender) || other.sender == sender) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.isUser, isUser) || other.isUser == isUser) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, text, sender, createdAt);
+  int get hashCode => Object.hash(runtimeType, id, content, isUser, timestamp);
 
   /// Create a copy of ChatMessageModel
   /// with the given fields replaced by the non-null parameter values.
@@ -206,24 +196,22 @@ class _$ChatMessageModelImpl implements _ChatMessageModel {
 
 abstract class _ChatMessageModel implements ChatMessageModel {
   const factory _ChatMessageModel(
-          {final String? id,
-          required final String text,
-          required final MessageSender sender,
-          @TimestampConverter() required final DateTime createdAt}) =
-      _$ChatMessageModelImpl;
+      {required final String id,
+      required final String content,
+      required final bool isUser,
+      required final DateTime timestamp}) = _$ChatMessageModelImpl;
 
   factory _ChatMessageModel.fromJson(Map<String, dynamic> json) =
       _$ChatMessageModelImpl.fromJson;
 
   @override
-  String? get id;
+  String get id;
   @override
-  String get text;
+  String get content;
   @override
-  MessageSender get sender;
+  bool get isUser;
   @override
-  @TimestampConverter()
-  DateTime get createdAt;
+  DateTime get timestamp;
 
   /// Create a copy of ChatMessageModel
   /// with the given fields replaced by the non-null parameter values.

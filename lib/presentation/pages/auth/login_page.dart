@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../widgets/common/warm_card.dart';
-import '../../providers/auth_provider.dart';
+import 'package:memory_echoes/presentation/providers/auth_provider.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -14,35 +12,41 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _isPasswordVisible = false;
+  String _email = '';
+  String _password = '';
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      ref.read(authProvider.notifier).signInWithEmail(_email, _password);
+    }
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<AuthState>(authStateProvider, (previous, next) {
+  Widget build(BuildContext context) {
+    ref.listen<AuthState>(authProvider, (previous, next) {
       next.when(
         initial: () {},
         loading: () {},
         authenticated: (user) {
           context.go('/home');
         },
-        unauthenticated: () {},
+        unauthenticated: (message) {
+          if (message != null) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(message)));
+          }
+        },
         error: (message) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(message)));
+          if (message != null) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(message)));
+          }
         },
       );
     });
 
-    final authState = ref.watch(authStateProvider);
+    final authState = ref.watch(authProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -79,7 +83,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               const SizedBox(height: 48),
 
               // 登录表单
-              WarmCard(
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Form(
@@ -88,55 +96,36 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       children: [
                         // 邮箱输入框
                         TextFormField(
-                          controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
-                            labelText: '邮箱地址',
-                            prefixIcon: Icon(Icons.email_outlined),
+                            labelText: '邮箱',
+                            prefixIcon: Icon(Icons.email),
                           ),
+                          keyboardType: TextInputType.emailAddress,
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return '请输入邮箱地址';
-                            }
-                            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                .hasMatch(value)) {
+                            if (value == null || !value.contains('@')) {
                               return '请输入有效的邮箱地址';
                             }
                             return null;
                           },
+                          onSaved: (value) => _email = value!,
                         ),
 
                         const SizedBox(height: 16),
 
                         // 密码输入框
                         TextFormField(
-                          controller: _passwordController,
-                          obscureText: !_isPasswordVisible,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: '密码',
-                            prefixIcon: const Icon(Icons.lock_outlined),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _isPasswordVisible
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
-                                });
-                              },
-                            ),
+                            prefixIcon: Icon(Icons.lock),
                           ),
+                          obscureText: true,
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return '请输入密码';
-                            }
-                            if (value.length < 6) {
-                              return '密码长度至少为6位';
+                            if (value == null || value.length < 6) {
+                              return '密码长度不能少于6位';
                             }
                             return null;
                           },
+                          onSaved: (value) => _password = value!,
                         ),
 
                         const SizedBox(height: 24),
@@ -145,16 +134,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: authState.maybeWhen(
+                            onPressed: authState.when(
                               loading: () => null,
-                              orElse: () => _handleLogin,
+                              initial: () => _submit,
+                              authenticated: (_) => null,
+                              unauthenticated: (_) => _submit,
+                              error: (_) => _submit,
                             ),
-                            child: authState.maybeWhen(
+                            child: authState.when(
                               loading: () => const CircularProgressIndicator(
                                 valueColor:
                                     AlwaysStoppedAnimation<Color>(Colors.white),
                               ),
-                              orElse: () => const Text('登录'),
+                              initial: () => const Text('登录'),
+                              authenticated: (_) => const Icon(Icons.check),
+                              unauthenticated: (_) => const Text('登录'),
+                              error: (_) => const Text('重试'),
                             ),
                           ),
                         ),
@@ -206,14 +201,5 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ),
       ),
     );
-  }
-
-  Future<void> _handleLogin() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    await ref.read(authStateProvider.notifier).signIn(
-          _emailController.text.trim(),
-          _passwordController.text,
-        );
   }
 }

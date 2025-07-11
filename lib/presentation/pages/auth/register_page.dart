@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../providers/auth_provider.dart';
+import 'package:memory_echoes/presentation/providers/auth_provider.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -13,47 +12,34 @@ class RegisterPage extends ConsumerStatefulWidget {
 
 class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-  final _displayNameController = TextEditingController();
-  bool _agreeToTerms = false;
+  String _email = '';
+  String _password = '';
+  String _displayName = '';
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    _displayNameController.dispose();
-    super.dispose();
-  }
-
-  void _handleRegister() {
+  void _submit() {
     if (_formKey.currentState!.validate()) {
-      if (!_agreeToTerms) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('请同意用户协议和隐私政策')),
-        );
-        return;
-      }
-      ref.read(authStateProvider.notifier).signUp(
-            _emailController.text,
-            _passwordController.text,
-            _displayNameController.text,
-          );
+      _formKey.currentState!.save();
+      ref
+          .read(authProvider.notifier)
+          .signUpWithEmail(_email, _password, _displayName);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AuthState>(authStateProvider, (previous, next) {
+    ref.listen<AuthState>(authProvider, (previous, next) {
       next.when(
         initial: () {},
         loading: () {},
         authenticated: (user) {
           context.go('/home');
         },
-        unauthenticated: () {},
+        unauthenticated: (message) {
+          if (message != null) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(message)));
+          }
+        },
         error: (message) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(message)));
@@ -61,147 +47,104 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       );
     });
 
-    final authState = ref.watch(authStateProvider);
+    final authState = ref.watch(authProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('注册')),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '创建您的账户',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                const SizedBox(height: 32),
-                TextFormField(
-                  controller: _displayNameController,
-                  decoration: const InputDecoration(
-                    labelText: '昵称',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.person_outline),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return '请输入您的昵称';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: '邮箱',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.email_outlined),
-                  ),
-                  validator: (value) {
-                    if (value == null || !value.contains('@')) {
-                      return '请输入有效的邮箱';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: '密码',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.lock_outline),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.length < 6) {
-                      return '密码长度不能少于6位';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _confirmPasswordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: '确认密码',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.lock_outline),
-                  ),
-                  validator: (value) {
-                    if (value != _passwordController.text) {
-                      return '两次输入的密码不一致';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                Row(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Checkbox(
-                      value: _agreeToTerms,
-                      onChanged: (value) {
-                        setState(() {
-                          _agreeToTerms = value!;
-                        });
-                      },
+                    Text(
+                      '创建您的记忆回响账户',
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    Expanded(
-                      child: RichText(
-                        text: TextSpan(
-                          style: Theme.of(context).textTheme.bodySmall,
-                          children: [
-                            const TextSpan(text: '我已阅读并同意'),
-                            TextSpan(
-                              text: '用户协议',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                decoration: TextDecoration.underline,
-                              ),
-                              // TODO: Add onTap to show user agreement
-                            ),
-                            const TextSpan(text: '和'),
-                            TextSpan(
-                              text: '隐私政策',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                decoration: TextDecoration.underline,
-                              ),
-                              // TODO: Add onTap to show privacy policy
-                            ),
-                          ],
+                    const SizedBox(height: 24),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: '用户名',
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return '请输入用户名';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) => _displayName = value!,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: '邮箱',
+                        prefixIcon: Icon(Icons.email),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || !value.contains('@')) {
+                          return '请输入有效的邮箱地址';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) => _email = value!,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: '密码',
+                        prefixIcon: Icon(Icons.lock),
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.length < 6) {
+                          return '密码长度不能少于6位';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) => _password = value!,
+                    ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: authState.when(
+                          loading: () => null,
+                          initial: () => _submit,
+                          authenticated: (_) => null,
+                          unauthenticated: (_) => _submit,
+                          error: (_) => _submit,
+                        ),
+                        child: authState.when(
+                          loading: () => const CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                          initial: () => const Text('注册'),
+                          authenticated: (_) => const Icon(Icons.check),
+                          unauthenticated: (_) => const Text('注册'),
+                          error: (_) => const Text('重试'),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 16),
+                    TextButton(
+                      onPressed: () => context.go('/login'),
+                      child: const Text('已经有账户了？登录'),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: ElevatedButton(
-                    onPressed: authState.maybeWhen(
-                      loading: () => null,
-                      orElse: () => _agreeToTerms ? _handleRegister : null,
-                    ),
-                    child: authState.maybeWhen(
-                      loading: () => const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                      orElse: () => const Text('注册'),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () => context.pop(),
-                  child: const Text('已经有账户了？去登录'),
-                ),
-              ],
+              ),
             ),
           ),
         ),

@@ -13,17 +13,15 @@ _$StoryModelImpl _$$StoryModelImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       content: json['content'] as String,
       imageUrls: (json['imageUrls'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      mood: $enumDecodeNullable(_$StoryMoodEnumMap, json['mood']),
-      createdAt:
-          const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
-      updatedAt:
-          const TimestampConverter().fromJson(json['updatedAt'] as Timestamp),
-      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
-      isPublic: json['isPublic'] as bool,
-      likedBy:
-          (json['likedBy'] as List<dynamic>).map((e) => e as String).toList(),
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      mood: $enumDecode(_$StoryMoodEnumMap, json['mood']),
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              const [],
+      isPublic: json['isPublic'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$StoryModelImplToJson(_$StoryModelImpl instance) =>
@@ -33,19 +31,18 @@ Map<String, dynamic> _$$StoryModelImplToJson(_$StoryModelImpl instance) =>
       'title': instance.title,
       'content': instance.content,
       'imageUrls': instance.imageUrls,
-      'mood': _$StoryMoodEnumMap[instance.mood],
-      'createdAt': const TimestampConverter().toJson(instance.createdAt),
-      'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
+      'createdAt': instance.createdAt.toIso8601String(),
+      'mood': _$StoryMoodEnumMap[instance.mood]!,
       'tags': instance.tags,
       'isPublic': instance.isPublic,
-      'likedBy': instance.likedBy,
     };
 
 const _$StoryMoodEnumMap = {
   StoryMood.happy: 'happy',
   StoryMood.sad: 'sad',
+  StoryMood.nostalgic: 'nostalgic',
+  StoryMood.peaceful: 'peaceful',
+  StoryMood.excited: 'excited',
+  StoryMood.neutral: 'neutral',
   StoryMood.adventurous: 'adventurous',
-  StoryMood.mysterious: 'mysterious',
-  StoryMood.romantic: 'romantic',
-  StoryMood.humorous: 'humorous',
 };

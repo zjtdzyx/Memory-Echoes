@@ -68,6 +68,6 @@ class DateUtils {
   }
 }
 
-String formatReadableDate(DateTime date) {
-  return DateFormat('yyyy年MM月dd日').format(date);
+String formatDate(DateTime dateTime) {
+  return DateFormat('yyyy-MM-dd – kk:mm').format(dateTime);
 }

@@ -1,47 +1,69 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:memory_echoes/domain/entities/story_entity.dart';
+import 'package:memory_echoes/domain/usecases/story_usecases.dart';
+import 'package:memory_echoes/dependency_injection.dart';
 
-import '../../domain/entities/story_entity.dart';
-import '../../domain/usecases/story_usecases.dart';
-import '../../dependency_injection.dart';
-import '../../domain/enums/story_mood.dart';
-import 'auth_provider.dart';
+part 'search_provider.freezed.dart';
 
-// 使用 AsyncValue 来管理异步状态
-final searchProvider =
-    StateNotifierProvider<SearchNotifier, AsyncValue<List<StoryEntity>>>((ref) {
-  return SearchNotifier(ref);
-});
+@freezed
+abstract class SearchState with _$SearchState {
+  const factory SearchState({
+    String? query,
+    @Default([]) List<StoryEntity> results,
+    @Default(false) bool isLoading,
+    String? error,
+    StoryMood? moodFilter,
+    String? tagFilter,
+  }) = _SearchState;
+}
 
-class SearchNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
-  final Ref _ref;
+class SearchNotifier extends StateNotifier<SearchState> {
+  final SearchStoriesUseCase _searchStoriesUseCase;
 
-  SearchNotifier(this._ref) : super(const AsyncValue.data([]));
+  SearchNotifier(this._searchStoriesUseCase) : super(const SearchState());
 
-  Future<void> search(String query) async {
-    state = const AsyncValue.loading();
+  Future<void> searchStories(String query) async {
+    if (query.isEmpty) {
+      state = state.copyWith(results: [], query: '');
+      return;
+    }
+    state = state.copyWith(isLoading: true, query: query, error: null);
     try {
-      final searchUseCase = _ref.read(searchStoriesUseCaseProvider);
-      final userId = _ref
-          .read(authStateProvider)
-          .maybeWhen(authenticated: (user) => user.uid, orElse: () => null);
-      final stories = await searchUseCase(query, userId: userId);
-      state = AsyncValue.data(stories);
-    } catch (e, s) {
-      state = AsyncValue.error(e, s);
+      final stories = await _searchStoriesUseCase(
+        query: query,
+        mood: state.moodFilter,
+        tag: state.tagFilter,
+      );
+      state = state.copyWith(isLoading: false, results: stories);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
-  Future<void> searchByMood(StoryMood mood) async {
-    state = const AsyncValue.loading();
-    try {
-      final searchUseCase = _ref.read(searchStoriesUseCaseProvider);
-      final userId = _ref
-          .read(authStateProvider)
-          .maybeWhen(authenticated: (user) => user.uid, orElse: () => null);
-      final stories = await searchUseCase('', mood: mood.name, userId: userId);
-      state = AsyncValue.data(stories);
-    } catch (e, s) {
-      state = AsyncValue.error(e, s);
-    }
+  void setMoodFilter(StoryMood? mood) {
+    state = state.copyWith(moodFilter: mood);
+    searchStories(state.query ?? '');
+  }
+
+  void setTagFilter(String? tag) {
+    state = state.copyWith(tagFilter: tag);
+    searchStories(state.query ?? '');
+  }
+
+  void clearSearch() {
+    state = state.copyWith(
+      query: '',
+      results: [],
+      isLoading: false,
+      error: null,
+      moodFilter: null,
+      tagFilter: null,
+    );
   }
 }
+
+final searchProvider =
+    StateNotifierProvider<SearchNotifier, SearchState>((ref) {
+  return SearchNotifier(ref.watch(searchStoriesUseCaseProvider));
+});

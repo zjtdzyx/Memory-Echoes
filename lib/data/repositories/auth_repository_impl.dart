@@ -1,46 +1,36 @@
-import '../../domain/entities/user_entity.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../datasources/remote/firebase_auth_datasource.dart';
+import 'package:memory_echoes/data/datasources/remote/firebase_auth_datasource.dart';
+import 'package:memory_echoes/domain/entities/user_entity.dart';
+import 'package:memory_echoes/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final FirebaseAuthDataSource _authDataSource;
+  final FirebaseAuthDataSource _remoteDataSource;
 
-  AuthRepositoryImpl(this._authDataSource);
+  AuthRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<UserEntity?> getCurrentUser() async {
-    final userModel = await _authDataSource.getCurrentUser();
-    return userModel;
+  Stream<UserEntity?> get authStateChanges =>
+      _remoteDataSource.authStateChanges;
+
+  @override
+  Future<UserEntity> signInWithEmail(String email, String password) {
+    return _remoteDataSource.signInWithEmail(email, password);
   }
 
   @override
-  Future<UserEntity> signInWithEmailAndPassword(
-      String email, String password) async {
-    final userModel =
-        await _authDataSource.signInWithEmailAndPassword(email, password);
-    return userModel;
+  Future<void> signOut() {
+    return _remoteDataSource.signOut();
   }
 
   @override
-  Future<UserEntity> signUpWithEmailAndPassword(
-      String email, String password, String displayName) async {
-    final userModel = await _authDataSource.signUpWithEmailAndPassword(
-        email, password, displayName);
-    return userModel;
+  Future<UserEntity> signUpWithEmail(
+      {required String email,
+      required String password,
+      required String displayName}) {
+    return _remoteDataSource.signUpWithEmail(email, password, displayName);
   }
 
   @override
-  Future<void> signOut() async {
-    await _authDataSource.signOut();
-  }
-
-  @override
-  Future<void> resetPassword(String email) async {
-    await _authDataSource.resetPassword(email);
-  }
-
-  @override
-  Stream<UserEntity?> get authStateChanges {
-    return _authDataSource.authStateChanges;
+  Future<void> updateUser(UserEntity user) {
+    return _remoteDataSource.updateUser(user);
   }
 }

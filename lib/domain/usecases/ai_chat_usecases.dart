@@ -34,8 +34,9 @@ class GenerateStoryFromChatUseCase {
     }
 
     // 使用AI从对话生成故事内容
-    final storyContent = await _aiRepository.generateStoryFromConversation(messages);
-    
+    final storyContent =
+        await _aiRepository.generateStoryFromConversation(messages);
+
     // 生成标签
     final tags = await _aiRepository.generateStoryTags(storyContent);
 
@@ -51,5 +52,15 @@ class GenerateStoryFromChatUseCase {
     );
 
     return await _storyRepository.createStory(story);
+  }
+}
+
+class PostChatMessageUseCase {
+  final AiRepository _repository;
+
+  PostChatMessageUseCase(this._repository);
+
+  Future<ChatMessageEntity> call(List<ChatMessageEntity> messages) {
+    return _repository.postChatMessage(messages);
   }
 }

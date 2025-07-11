@@ -1,70 +1,51 @@
-import '../entities/user_entity.dart';
-import '../repositories/auth_repository.dart';
+import 'package:memory_echoes/domain/entities/user_entity.dart';
+import 'package:memory_echoes/domain/repositories/auth_repository.dart';
 
-class SignInUseCase {
-  final AuthRepository _authRepository;
+class GetAuthStatusUseCase {
+  final AuthRepository _repository;
+  GetAuthStatusUseCase(this._repository);
 
-  SignInUseCase(this._authRepository);
-
-  Future<UserEntity> call(String email, String password) async {
-    if (email.isEmpty || password.isEmpty) {
-      throw Exception('邮箱和密码不能为空');
-    }
-    
-    if (!_isValidEmail(email)) {
-      throw Exception('请输入有效的邮箱地址');
-    }
-
-    return await _authRepository.signInWithEmailAndPassword(email, password);
-  }
-
-  bool _isValidEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+  Stream<UserEntity?> call() {
+    return _repository.authStateChanges;
   }
 }
 
-class SignUpUseCase {
-  final AuthRepository _authRepository;
+class SignInWithEmailUseCase {
+  final AuthRepository _repository;
+  SignInWithEmailUseCase(this._repository);
 
-  SignUpUseCase(this._authRepository);
-
-  Future<UserEntity> call(String email, String password, String displayName) async {
-    if (email.isEmpty || password.isEmpty || displayName.isEmpty) {
-      throw Exception('所有字段都不能为空');
-    }
-    
-    if (!_isValidEmail(email)) {
-      throw Exception('请输入有效的邮箱地址');
-    }
-
-    if (password.length < 6) {
-      throw Exception('密码长度至少为6位');
-    }
-
-    return await _authRepository.signUpWithEmailAndPassword(email, password, displayName);
-  }
-
-  bool _isValidEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+  Future<UserEntity> call(String email, String password) {
+    return _repository.signInWithEmail(email, password);
   }
 }
 
-class GetCurrentUserUseCase {
-  final AuthRepository _authRepository;
+class SignUpWithEmailUseCase {
+  final AuthRepository _repository;
+  SignUpWithEmailUseCase(this._repository);
 
-  GetCurrentUserUseCase(this._authRepository);
-
-  Future<UserEntity?> call() async {
-    return await _authRepository.getCurrentUser();
+  Future<UserEntity> call(
+      {required String email,
+      required String password,
+      required String displayName}) {
+    return _repository.signUpWithEmail(
+        email: email, password: password, displayName: displayName);
   }
 }
 
 class SignOutUseCase {
-  final AuthRepository _authRepository;
+  final AuthRepository _repository;
+  SignOutUseCase(this._repository);
 
-  SignOutUseCase(this._authRepository);
+  Future<void> call() {
+    return _repository.signOut();
+  }
+}
 
-  Future<void> call() async {
-    await _authRepository.signOut();
+class UpdateUserUseCase {
+  final AuthRepository _repository;
+  UpdateUserUseCase(this._repository);
+
+  Future<void> call(UserEntity user) {
+    return _repository.updateUser(user);
   }
 }

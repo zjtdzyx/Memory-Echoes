@@ -1,122 +1,77 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../models/user_model.dart';
+import 'package:memory_echoes/data/models/user_model.dart';
+import 'package:memory_echoes/domain/entities/user_entity.dart';
 
-abstract class FirebaseAuthDataSource {
-  Future<UserModel?> getCurrentUser();
-  Future<UserModel> signInWithEmailAndPassword(String email, String password);
-  Future<UserModel> signUpWithEmailAndPassword(String email, String password, String displayName);
-  Future<void> signOut();
-  Future<void> resetPassword(String email);
-  Stream<UserModel?> get authStateChanges;
-}
-
-class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
+class FirebaseAuthDataSource {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
 
-  FirebaseAuthDataSourceImpl(this._firebaseAuth, this._firestore);
+  FirebaseAuthDataSource(this._firebaseAuth, this._firestore);
 
-  @override
-  Future<UserModel?> getCurrentUser() async {
-    final user = _firebaseAuth.currentUser;
-    if (user == null) return null;
-
-    final userDoc = await _firestore.collection('users').doc(user.uid).get();
-    if (!userDoc.exists) return null;
-
-    final userData = userDoc.data()!;
-    userData['id'] = user.uid;
-    return UserModel.fromJson(userData);
-  }
-
-  @override
-  Future<UserModel> signInWithEmailAndPassword(String email, String password) async {
+  Future<UserEntity> signInWithEmail(String email, String password) async {
     try {
-      final credential = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      final user = credential.user!;
-      final userDoc = await _firestore.collection('users').doc(user.uid).get();
-      
-      if (!userDoc.exists) {
-        throw Exception('用户数据不存在');
+      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      final user = userCredential.user;
+      if (user == null) {
+        throw Exception('Sign in failed: user not found.');
       }
-
-      final userData = userDoc.data()!;
-      userData['id'] = user.uid;
-      return UserModel.fromJson(userData);
+      // You might want to fetch full user profile from Firestore here
+      return _userFromFirebase(user)!;
     } on FirebaseAuthException catch (e) {
-      throw _handleAuthException(e);
+      throw Exception(e.message);
     }
   }
 
-  @override
-  Future<UserModel> signUpWithEmailAndPassword(String email, String password, String displayName) async {
+  Future<UserEntity> signUpWithEmail(
+      String email, String password, String displayName) async {
     try {
-      final credential = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      final user = credential.user!;
-      final now = DateTime.now();
-      
-      final userModel = UserModel(
-        id: user.uid,
-        email: email,
-        displayName: displayName,
-        createdAt: now,
-        updatedAt: now,
-      );
-
-      // 保存用户信息到Firestore
-      await _firestore.collection('users').doc(user.uid).set(userModel.toJson());
-
-      return userModel;
+      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      final user = userCredential.user;
+      if (user != null) {
+        await user.updateDisplayName(displayName);
+        // Create user document in Firestore
+        await _firestore.collection('users').doc(user.uid).set({
+          'email': email,
+          'displayName': displayName,
+          'createdAt': FieldValue.serverTimestamp(),
+          'photoURL': null,
+        });
+      }
+      return _userFromFirebase(user)!;
     } on FirebaseAuthException catch (e) {
-      throw _handleAuthException(e);
+      throw Exception(e.message);
     }
   }
 
-  @override
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
 
-  @override
-  Future<void> resetPassword(String email) async {
-    try {
-      await _firebaseAuth.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (e) {
-      throw _handleAuthException(e);
-    }
+  Stream<UserEntity?> get authStateChanges {
+    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 
-  @override
-  Stream<UserModel?> get authStateChanges {
-    return _firebaseAuth.authStateChanges().asyncMap((user) async {
-      if (user == null) return null;
-      return await getCurrentUser();
+  UserEntity? _userFromFirebase(User? user) {
+    if (user == null) {
+      return null;
+    }
+    return UserModel(
+      id: user.uid,
+      email: user.email ?? '',
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      createdAt: user.metadata.creationTime,
+    );
+  }
+
+  // This should probably be in a separate user datasource, but keeping here for simplicity
+  Future<void> updateUser(UserEntity user) async {
+    await _firestore.collection('users').doc(user.id).update({
+      'displayName': user.displayName,
+      'photoURL': user.photoURL,
     });
-  }
-
-  String _handleAuthException(FirebaseAuthException e) {
-    switch (e.code) {
-      case 'user-not-found':
-        return '用户不存在';
-      case 'wrong-password':
-        return '密码错误';
-      case 'email-already-in-use':
-        return '邮箱已被使用';
-      case 'weak-password':
-        return '密码强度不够';
-      case 'invalid-email':
-        return '邮箱格式不正确';
-      default:
-        return '认证失败: ${e.message}';
-    }
   }
 }

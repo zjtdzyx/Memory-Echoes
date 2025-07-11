@@ -1,87 +1,79 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../domain/entities/user_entity.dart';
-import '../../domain/usecases/auth_usecases.dart';
-import '../../dependency_injection.dart';
+import 'package:memory_echoes/domain/entities/user_entity.dart';
+import 'package:memory_echoes/domain/usecases/auth_usecases.dart';
+import 'package:memory_echoes/dependency_injection.dart';
 
 part 'auth_provider.freezed.dart';
 
-// 认证状态
 @freezed
 abstract class AuthState with _$AuthState {
-  const factory AuthState.initial() = Initial;
-  const factory AuthState.loading() = Loading;
-  const factory AuthState.authenticated(UserEntity user) = Authenticated;
-  const factory AuthState.unauthenticated() = Unauthenticated;
-  const factory AuthState.error(String message) = AuthError;
+  const factory AuthState.initial() = _Initial;
+  const factory AuthState.loading() = _Loading;
+  const factory AuthState.authenticated({required UserEntity user}) =
+      _Authenticated;
+  const factory AuthState.unauthenticated({String? message}) = _Unauthenticated;
+  const factory AuthState.error(String message) = _Error;
 }
 
-// 认证状态通知器
-class AuthStateNotifier extends StateNotifier<AuthState> {
-  final SignInUseCase _signInUseCase;
-  final SignUpUseCase _signUpUseCase;
+class AuthNotifier extends StateNotifier<AuthState> {
+  final SignInWithEmailUseCase _signInWithEmailUseCase;
+  final SignUpWithEmailUseCase _signUpWithEmailUseCase;
   final SignOutUseCase _signOutUseCase;
-  final GetCurrentUserUseCase _getCurrentUserUseCase;
+  final GetAuthStatusUseCase _getAuthStatusUseCase;
 
-  AuthStateNotifier(
-    this._signInUseCase,
-    this._signUpUseCase,
+  AuthNotifier(
+    this._signInWithEmailUseCase,
+    this._signUpWithEmailUseCase,
     this._signOutUseCase,
-    this._getCurrentUserUseCase,
+    this._getAuthStatusUseCase,
   ) : super(const AuthState.initial()) {
-    _checkCurrentUser();
+    _checkAuthStatus();
   }
 
-  Future<void> _checkCurrentUser() async {
-    try {
-      final user = await _getCurrentUserUseCase();
+  void _checkAuthStatus() {
+    _getAuthStatusUseCase().listen((user) {
       if (user != null) {
-        state = AuthState.authenticated(user);
+        state = AuthState.authenticated(user: user);
       } else {
         state = const AuthState.unauthenticated();
       }
+    });
+  }
+
+  Future<void> signInWithEmail(String email, String password) async {
+    state = const AuthState.loading();
+    try {
+      final user = await _signInWithEmailUseCase(email, password);
+      state = AuthState.authenticated(user: user);
     } catch (e) {
-      state = const AuthState.unauthenticated();
+      state = AuthState.unauthenticated(message: e.toString());
     }
   }
 
-  Future<void> signIn(String email, String password) async {
+  Future<void> signUpWithEmail(
+      String email, String password, String displayName) async {
     state = const AuthState.loading();
     try {
-      final user = await _signInUseCase(email, password);
-      state = AuthState.authenticated(user);
+      final user = await _signUpWithEmailUseCase(
+          email: email, password: password, displayName: displayName);
+      state = AuthState.authenticated(user: user);
     } catch (e) {
-      state = AuthState.error(e.toString());
-    }
-  }
-
-  Future<void> signUp(String email, String password, String displayName) async {
-    state = const AuthState.loading();
-    try {
-      final user = await _signUpUseCase(email, password, displayName);
-      state = AuthState.authenticated(user);
-    } catch (e) {
-      state = AuthState.error(e.toString());
+      state = AuthState.unauthenticated(message: e.toString());
     }
   }
 
   Future<void> signOut() async {
-    try {
-      await _signOutUseCase();
-      state = const AuthState.unauthenticated();
-    } catch (e) {
-      state = AuthState.error(e.toString());
-    }
+    await _signOutUseCase();
+    state = const AuthState.unauthenticated();
   }
 }
 
-// 提供者
-final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((ref) {
-  return AuthStateNotifier(
-    ref.read(signInUseCaseProvider),
-    ref.read(signUpUseCaseProvider),
-    ref.read(signOutUseCaseProvider),
-    ref.read(getCurrentUserUseCaseProvider),
+final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
+  return AuthNotifier(
+    ref.watch(signInWithEmailUseCaseProvider),
+    ref.watch(signUpWithEmailUseCaseProvider),
+    ref.watch(signOutUseCaseProvider),
+    ref.watch(getAuthStatusUseCaseProvider),
   );
 });

@@ -24,15 +24,11 @@ mixin _$StoryModel {
   String get userId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  List<String>? get imageUrls => throw _privateConstructorUsedError;
-  StoryMood? get mood => throw _privateConstructorUsedError;
-  @TimestampConverter()
+  List<String> get imageUrls => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
-  @TimestampConverter()
-  DateTime get updatedAt => throw _privateConstructorUsedError;
+  StoryMood get mood => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
   bool get isPublic => throw _privateConstructorUsedError;
-  List<String> get likedBy => throw _privateConstructorUsedError;
 
   /// Serializes this StoryModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,13 +51,11 @@ abstract class $StoryModelCopyWith<$Res> {
       String userId,
       String title,
       String content,
-      List<String>? imageUrls,
-      StoryMood? mood,
-      @TimestampConverter() DateTime createdAt,
-      @TimestampConverter() DateTime updatedAt,
+      List<String> imageUrls,
+      DateTime createdAt,
+      StoryMood mood,
       List<String> tags,
-      bool isPublic,
-      List<String> likedBy});
+      bool isPublic});
 }
 
 /// @nodoc
@@ -83,13 +77,11 @@ class _$StoryModelCopyWithImpl<$Res, $Val extends StoryModel>
     Object? userId = null,
     Object? title = null,
     Object? content = null,
-    Object? imageUrls = freezed,
-    Object? mood = freezed,
+    Object? imageUrls = null,
     Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? mood = null,
     Object? tags = null,
     Object? isPublic = null,
-    Object? likedBy = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -108,22 +100,18 @@ class _$StoryModelCopyWithImpl<$Res, $Val extends StoryModel>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrls: freezed == imageUrls
+      imageUrls: null == imageUrls
           ? _value.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      mood: freezed == mood
-          ? _value.mood
-          : mood // ignore: cast_nullable_to_non_nullable
-              as StoryMood?,
+              as List<String>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      mood: null == mood
+          ? _value.mood
+          : mood // ignore: cast_nullable_to_non_nullable
+              as StoryMood,
       tags: null == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -132,10 +120,6 @@ class _$StoryModelCopyWithImpl<$Res, $Val extends StoryModel>
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
-      likedBy: null == likedBy
-          ? _value.likedBy
-          : likedBy // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ) as $Val);
   }
 }
@@ -153,13 +137,11 @@ abstract class _$$StoryModelImplCopyWith<$Res>
       String userId,
       String title,
       String content,
-      List<String>? imageUrls,
-      StoryMood? mood,
-      @TimestampConverter() DateTime createdAt,
-      @TimestampConverter() DateTime updatedAt,
+      List<String> imageUrls,
+      DateTime createdAt,
+      StoryMood mood,
       List<String> tags,
-      bool isPublic,
-      List<String> likedBy});
+      bool isPublic});
 }
 
 /// @nodoc
@@ -179,13 +161,11 @@ class __$$StoryModelImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? title = null,
     Object? content = null,
-    Object? imageUrls = freezed,
-    Object? mood = freezed,
+    Object? imageUrls = null,
     Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? mood = null,
     Object? tags = null,
     Object? isPublic = null,
-    Object? likedBy = null,
   }) {
     return _then(_$StoryModelImpl(
       id: freezed == id
@@ -204,22 +184,18 @@ class __$$StoryModelImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrls: freezed == imageUrls
+      imageUrls: null == imageUrls
           ? _value._imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      mood: freezed == mood
-          ? _value.mood
-          : mood // ignore: cast_nullable_to_non_nullable
-              as StoryMood?,
+              as List<String>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      mood: null == mood
+          ? _value.mood
+          : mood // ignore: cast_nullable_to_non_nullable
+              as StoryMood,
       tags: null == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -228,10 +204,6 @@ class __$$StoryModelImplCopyWithImpl<$Res>
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
-      likedBy: null == likedBy
-          ? _value._likedBy
-          : likedBy // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ));
   }
 }
@@ -244,16 +216,13 @@ class _$StoryModelImpl implements _StoryModel {
       required this.userId,
       required this.title,
       required this.content,
-      final List<String>? imageUrls,
-      this.mood,
-      @TimestampConverter() required this.createdAt,
-      @TimestampConverter() required this.updatedAt,
-      required final List<String> tags,
-      required this.isPublic,
-      required final List<String> likedBy})
+      final List<String> imageUrls = const [],
+      required this.createdAt,
+      required this.mood,
+      final List<String> tags = const [],
+      this.isPublic = false})
       : _imageUrls = imageUrls,
-        _tags = tags,
-        _likedBy = likedBy;
+        _tags = tags;
 
   factory _$StoryModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$StoryModelImplFromJson(json);
@@ -266,26 +235,22 @@ class _$StoryModelImpl implements _StoryModel {
   final String title;
   @override
   final String content;
-  final List<String>? _imageUrls;
+  final List<String> _imageUrls;
   @override
-  List<String>? get imageUrls {
-    final value = _imageUrls;
-    if (value == null) return null;
+  @JsonKey()
+  List<String> get imageUrls {
     if (_imageUrls is EqualUnmodifiableListView) return _imageUrls;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_imageUrls);
   }
 
   @override
-  final StoryMood? mood;
-  @override
-  @TimestampConverter()
   final DateTime createdAt;
   @override
-  @TimestampConverter()
-  final DateTime updatedAt;
+  final StoryMood mood;
   final List<String> _tags;
   @override
+  @JsonKey()
   List<String> get tags {
     if (_tags is EqualUnmodifiableListView) return _tags;
     // ignore: implicit_dynamic_type
@@ -293,18 +258,12 @@ class _$StoryModelImpl implements _StoryModel {
   }
 
   @override
+  @JsonKey()
   final bool isPublic;
-  final List<String> _likedBy;
-  @override
-  List<String> get likedBy {
-    if (_likedBy is EqualUnmodifiableListView) return _likedBy;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_likedBy);
-  }
 
   @override
   String toString() {
-    return 'StoryModel(id: $id, userId: $userId, title: $title, content: $content, imageUrls: $imageUrls, mood: $mood, createdAt: $createdAt, updatedAt: $updatedAt, tags: $tags, isPublic: $isPublic, likedBy: $likedBy)';
+    return 'StoryModel(id: $id, userId: $userId, title: $title, content: $content, imageUrls: $imageUrls, createdAt: $createdAt, mood: $mood, tags: $tags, isPublic: $isPublic)';
   }
 
   @override
@@ -318,15 +277,12 @@ class _$StoryModelImpl implements _StoryModel {
             (identical(other.content, content) || other.content == content) &&
             const DeepCollectionEquality()
                 .equals(other._imageUrls, _imageUrls) &&
-            (identical(other.mood, mood) || other.mood == mood) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
+            (identical(other.mood, mood) || other.mood == mood) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.isPublic, isPublic) ||
-                other.isPublic == isPublic) &&
-            const DeepCollectionEquality().equals(other._likedBy, _likedBy));
+                other.isPublic == isPublic));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -338,12 +294,10 @@ class _$StoryModelImpl implements _StoryModel {
       title,
       content,
       const DeepCollectionEquality().hash(_imageUrls),
-      mood,
       createdAt,
-      updatedAt,
+      mood,
       const DeepCollectionEquality().hash(_tags),
-      isPublic,
-      const DeepCollectionEquality().hash(_likedBy));
+      isPublic);
 
   /// Create a copy of StoryModel
   /// with the given fields replaced by the non-null parameter values.
@@ -361,19 +315,17 @@ class _$StoryModelImpl implements _StoryModel {
   }
 }
 
-abstract class _StoryModel implements StoryModel {
+abstract class _StoryModel implements StoryModel, StoryEntity {
   const factory _StoryModel(
       {final String? id,
       required final String userId,
       required final String title,
       required final String content,
-      final List<String>? imageUrls,
-      final StoryMood? mood,
-      @TimestampConverter() required final DateTime createdAt,
-      @TimestampConverter() required final DateTime updatedAt,
-      required final List<String> tags,
-      required final bool isPublic,
-      required final List<String> likedBy}) = _$StoryModelImpl;
+      final List<String> imageUrls,
+      required final DateTime createdAt,
+      required final StoryMood mood,
+      final List<String> tags,
+      final bool isPublic}) = _$StoryModelImpl;
 
   factory _StoryModel.fromJson(Map<String, dynamic> json) =
       _$StoryModelImpl.fromJson;
@@ -387,21 +339,15 @@ abstract class _StoryModel implements StoryModel {
   @override
   String get content;
   @override
-  List<String>? get imageUrls;
+  List<String> get imageUrls;
   @override
-  StoryMood? get mood;
-  @override
-  @TimestampConverter()
   DateTime get createdAt;
   @override
-  @TimestampConverter()
-  DateTime get updatedAt;
+  StoryMood get mood;
   @override
   List<String> get tags;
   @override
   bool get isPublic;
-  @override
-  List<String> get likedBy;
 
   /// Create a copy of StoryModel
   /// with the given fields replaced by the non-null parameter values.
