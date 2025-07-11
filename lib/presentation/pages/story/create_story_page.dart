@@ -61,7 +61,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
   Widget build(BuildContext context) {
     // This page should not be reachable if unauthenticated, but as a safeguard:
     ref.watch(authProvider).whenOrNull(
-      unauthenticated: (_) {
+      unauthenticated: () {
         Future.microtask(() => context.go('/login'));
       },
     );

@@ -35,15 +35,15 @@ class StoryDetailPage extends ConsumerWidget {
         data: (story) {
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
+                  Text(
                   story.title,
                   style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                const SizedBox(height: 8),
-                Text(
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
                   '创建于: ${story.createdAt.toLocal()}',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
@@ -75,14 +75,14 @@ class StoryDetailPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 Row(
-                  children: [
+                          children: [
                     const Icon(Icons.mood),
                     const SizedBox(width: 8),
                     Text(story.mood.toString().split('.').last),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  ),
+                ],
+              ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
