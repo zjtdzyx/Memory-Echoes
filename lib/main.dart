@@ -6,19 +6,22 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/constants/app_theme.dart';
 import 'presentation/routes/app_router.dart';
 import 'presentation/providers/auth_provider.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // 加载环境变量
   await dotenv.load(fileName: ".env");
-  
+
   // 初始化 Firebase
-  await Firebase.initializeApp();
-  
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(
-    ProviderScope(
-      child: const MemoryEchoesApp(),
+    const ProviderScope(
+      child: MemoryEchoesApp(),
     ),
   );
 }
@@ -29,11 +32,7 @@ class MemoryEchoesApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
-    
-    return MaterialApp.router(
-      title:
-    final router = ref.watch(appRouterProvider);
-    
+
     return MaterialApp.router(
       title: '记忆回响',
       debugShowCheckedModeBanner: false,
