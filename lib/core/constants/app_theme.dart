@@ -72,7 +72,7 @@ class AppTheme {
     ),
 
     // 卡片主题 - 温暖圆润
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: lightCream,
       shadowColor: primaryOrange.withOpacity(0.2),
       elevation: 4,
@@ -267,7 +267,6 @@ class AppTheme {
     useMaterial3: true,
     colorScheme: darkColorScheme,
     fontFamily: 'Georgia',
-    
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.transparent,
       foregroundColor: warmCream,
@@ -281,59 +280,48 @@ class AppTheme {
       ),
       iconTheme: const IconThemeData(color: warmCream),
     ),
-
-    cardTheme: CardTheme(
-      color: const Color(0xFF2C1810),
-      shadowColor: accentOrange.withOpacity(0.3),
-      elevation: 6,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    ),
-
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 
   // 自定义装饰
   static BoxDecoration get warmGradientDecoration => BoxDecoration(
-    gradient: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        primaryOrange,
-        secondaryOrange,
-        accentOrange,
-      ],
-      stops: const [0.0, 0.5, 1.0],
-    ),
-  );
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            primaryOrange,
+            secondaryOrange,
+            accentOrange,
+          ],
+          stops: const [0.0, 0.5, 1.0],
+        ),
+      );
 
   static BoxDecoration get subtleGradientDecoration => BoxDecoration(
-    gradient: LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: [
-        lightCream,
-        warmCream,
-      ],
-    ),
-  );
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            lightCream,
+            warmCream,
+          ],
+        ),
+      );
 
   // 阴影效果
   static List<BoxShadow> get warmShadow => [
-    BoxShadow(
-      color: primaryOrange.withOpacity(0.2),
-      blurRadius: 8,
-      offset: const Offset(0, 4),
-    ),
-  ];
+        BoxShadow(
+          color: primaryOrange.withOpacity(0.2),
+          blurRadius: 8,
+          offset: const Offset(0, 4),
+        ),
+      ];
 
   static List<BoxShadow> get softShadow => [
-    BoxShadow(
-      color: Colors.black.withOpacity(0.1),
-      blurRadius: 6,
-      offset: const Offset(0, 2),
-    ),
-  ];
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          blurRadius: 6,
+          offset: const Offset(0, 2),
+        ),
+      ];
 }

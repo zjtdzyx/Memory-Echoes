@@ -138,12 +138,12 @@ class HomePage extends ConsumerWidget {
                                   ? NetworkImage(user.photoURL!)
                                   : null,
                               child: user.photoURL == null
-                                  ? const Icon(Icons.person, 
+                                  ? const Icon(Icons.person,
                                       color: Colors.white, size: 20)
                                   : null,
                             ),
                             const SizedBox(width: 8),
-                            const Icon(Icons.more_vert, 
+                            const Icon(Icons.more_vert,
                                 color: Colors.white, size: 20),
                           ],
                         ),
@@ -160,7 +160,7 @@ class HomePage extends ConsumerWidget {
                           value: 'settings',
                           child: Row(
                             children: [
-                              Icon(Icons.settings, 
+                              Icon(Icons.settings,
                                   color: AppTheme.primaryOrange),
                               const SizedBox(width: 12),
                               const Text('设置'),
@@ -171,8 +171,7 @@ class HomePage extends ConsumerWidget {
                           value: 'logout',
                           child: Row(
                             children: [
-                              Icon(Icons.logout, 
-                                  color: AppTheme.errorRed),
+                              Icon(Icons.logout, color: AppTheme.errorRed),
                               const SizedBox(width: 12),
                               const Text('退出登录'),
                             ],
@@ -262,7 +261,8 @@ class HomePage extends ConsumerWidget {
                                       .textTheme
                                       .bodyMedium
                                       ?.copyWith(
-                                        color: AppTheme.richBrown.withOpacity(0.8),
+                                        color:
+                                            AppTheme.richBrown.withOpacity(0.8),
                                       ),
                                 ),
                               ],
@@ -287,10 +287,11 @@ class HomePage extends ConsumerWidget {
                         const SizedBox(width: 12),
                         Text(
                           '开始你的记忆之旅',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppTheme.darkBrown,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppTheme.darkBrown,
+                                  ),
                         ),
                       ],
                     ),
@@ -316,21 +317,30 @@ class HomePage extends ConsumerWidget {
                         title: 'AI 对话',
                         subtitle: '智能陪伴聊天',
                         icon: Icons.psychology,
-                        colors: [AppTheme.infoBlue, AppTheme.infoBlue.withOpacity(0.8)],
+                        colors: [
+                          AppTheme.infoBlue,
+                          AppTheme.infoBlue.withOpacity(0.8)
+                        ],
                         onTap: () => context.go('/chat'),
                       ),
                       _WarmFeatureCard(
                         title: '我的记忆',
                         subtitle: '回顾珍贵时光',
                         icon: Icons.photo_library,
-                        colors: [AppTheme.successGreen, AppTheme.successGreen.withOpacity(0.8)],
+                        colors: [
+                          AppTheme.successGreen,
+                          AppTheme.successGreen.withOpacity(0.8)
+                        ],
                         onTap: () => context.go('/stories'),
                       ),
                       _WarmFeatureCard(
                         title: '社交广场',
                         subtitle: '分享温暖故事',
                         icon: Icons.people_alt,
-                        colors: [AppTheme.warningAmber, AppTheme.secondaryOrange],
+                        colors: [
+                          AppTheme.warningAmber,
+                          AppTheme.secondaryOrange
+                        ],
                         onTap: () => context.go('/social'),
                       ),
                     ],
@@ -351,10 +361,11 @@ class HomePage extends ConsumerWidget {
                         const SizedBox(width: 12),
                         Text(
                           '更多精彩功能',
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppTheme.darkBrown,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppTheme.darkBrown,
+                                  ),
                         ),
                       ],
                     ),
@@ -479,42 +490,46 @@ class _WarmFeatureCard extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(20),
             ),
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                   child: Icon(
                     icon,
-                    size: 32,
+                    size: 28,
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 Text(
                   title,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Georgia',
                   ),
                   textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.9),
-                    fontSize: 12,
+                    fontSize: 11,
                     fontFamily: 'Georgia',
                   ),
                   textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),

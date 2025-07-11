@@ -55,7 +55,9 @@ class _SplashPageState extends ConsumerState<SplashPage>
   void _startAnimation() {
     _fadeController.forward();
     Future.delayed(const Duration(milliseconds: 300), () {
-      _scaleController.forward();
+      if (mounted) {
+        _scaleController.forward();
+      }
     });
   }
 
