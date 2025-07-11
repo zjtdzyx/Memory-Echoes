@@ -24,6 +24,7 @@ mixin _$UserModel {
   String get email => throw _privateConstructorUsedError;
   String? get displayName => throw _privateConstructorUsedError;
   String? get photoURL => throw _privateConstructorUsedError;
+  bool get emailVerified => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this UserModel to a JSON map.
@@ -46,6 +47,7 @@ abstract class $UserModelCopyWith<$Res> {
       String email,
       String? displayName,
       String? photoURL,
+      bool emailVerified,
       DateTime? createdAt});
 }
 
@@ -68,6 +70,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? email = null,
     Object? displayName = freezed,
     Object? photoURL = freezed,
+    Object? emailVerified = null,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -87,6 +90,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.photoURL
           : photoURL // ignore: cast_nullable_to_non_nullable
               as String?,
+      emailVerified: null == emailVerified
+          ? _value.emailVerified
+          : emailVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -108,6 +115,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String email,
       String? displayName,
       String? photoURL,
+      bool emailVerified,
       DateTime? createdAt});
 }
 
@@ -128,6 +136,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? email = null,
     Object? displayName = freezed,
     Object? photoURL = freezed,
+    Object? emailVerified = null,
     Object? createdAt = freezed,
   }) {
     return _then(_$UserModelImpl(
@@ -147,6 +156,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.photoURL
           : photoURL // ignore: cast_nullable_to_non_nullable
               as String?,
+      emailVerified: null == emailVerified
+          ? _value.emailVerified
+          : emailVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -163,6 +176,7 @@ class _$UserModelImpl implements _UserModel {
       required this.email,
       this.displayName,
       this.photoURL,
+      this.emailVerified = false,
       this.createdAt});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -177,11 +191,14 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String? photoURL;
   @override
+  @JsonKey()
+  final bool emailVerified;
+  @override
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, displayName: $displayName, photoURL: $photoURL, createdAt: $createdAt)';
+    return 'UserModel(id: $id, email: $email, displayName: $displayName, photoURL: $photoURL, emailVerified: $emailVerified, createdAt: $createdAt)';
   }
 
   @override
@@ -195,14 +212,16 @@ class _$UserModelImpl implements _UserModel {
                 other.displayName == displayName) &&
             (identical(other.photoURL, photoURL) ||
                 other.photoURL == photoURL) &&
+            (identical(other.emailVerified, emailVerified) ||
+                other.emailVerified == emailVerified) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, email, displayName, photoURL, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, id, email, displayName, photoURL, emailVerified, createdAt);
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -226,6 +245,7 @@ abstract class _UserModel implements UserModel {
       required final String email,
       final String? displayName,
       final String? photoURL,
+      final bool emailVerified,
       final DateTime? createdAt}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -239,6 +259,8 @@ abstract class _UserModel implements UserModel {
   String? get displayName;
   @override
   String? get photoURL;
+  @override
+  bool get emailVerified;
   @override
   DateTime? get createdAt;
 

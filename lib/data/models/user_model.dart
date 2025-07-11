@@ -11,6 +11,7 @@ class UserModel with _$UserModel implements UserEntity {
     required String email,
     String? displayName,
     String? photoURL,
+    @Default(false) bool emailVerified,
     DateTime? createdAt,
   }) = _UserModel;
 

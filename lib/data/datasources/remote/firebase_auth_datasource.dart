@@ -63,6 +63,7 @@ class FirebaseAuthDataSource {
       email: user.email ?? '',
       displayName: user.displayName,
       photoURL: user.photoURL,
+      emailVerified: user.emailVerified,
       createdAt: user.metadata.creationTime,
     );
   }
