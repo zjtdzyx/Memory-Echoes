@@ -14,7 +14,7 @@ class SocialSquarePage extends ConsumerWidget {
     final storiesAsync = ref.watch(publicStoriesProvider);
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: const Text('社交广场'),
         actions: [

@@ -49,7 +49,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final authState = ref.watch(authProvider);
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -74,7 +74,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Theme.of(context)
                           .colorScheme
-                          .onBackground
+                          .onSurface
                           .withOpacity(0.7),
                     ),
                 textAlign: TextAlign.center,

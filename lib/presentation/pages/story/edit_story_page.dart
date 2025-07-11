@@ -14,12 +14,6 @@ class EditStoryPage extends ConsumerWidget {
 
     return storyState.when(
       data: (story) {
-        if (story == null) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: const Center(child: Text('Story not found')),
-          );
-        }
         return _EditStoryView(story: story);
       },
       loading: () => Scaffold(

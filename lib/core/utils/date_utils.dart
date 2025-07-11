@@ -15,13 +15,13 @@ class DateUtils {
       return '${difference.inDays}天前';
     } else if (difference.inDays < 30) {
       final weeks = (difference.inDays / 7).floor();
-      return '${weeks}周前';
+      return '$weeks周前';
     } else if (difference.inDays < 365) {
       final months = (difference.inDays / 30).floor();
-      return '${months}个月前';
+      return '$months个月前';
     } else {
       final years = (difference.inDays / 365).floor();
-      return '${years}年前';
+      return '$years年前';
     }
   }
 

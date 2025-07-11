@@ -104,7 +104,7 @@ class _StoryEditorState extends State<StoryEditor> {
                                 child: Container(
                                   width: 80,
                                   height: 80,
-                                  color: Theme.of(context).colorScheme.surfaceVariant,
+                                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
                                   child: const Icon(Icons.image),
                                 ),
                               ),
@@ -116,7 +116,7 @@ class _StoryEditorState extends State<StoryEditor> {
                                   child: Container(
                                     width: 20,
                                     height: 20,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.red,
                                       shape: BoxShape.circle,
                                     ),

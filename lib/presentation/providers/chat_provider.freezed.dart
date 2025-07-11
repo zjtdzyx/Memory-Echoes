@@ -118,7 +118,7 @@ class __$$ChatStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ChatStateImpl with DiagnosticableTreeMixin implements _ChatState {
+class _$ChatStateImpl implements _ChatState {
   const _$ChatStateImpl(
       {final List<ChatMessageEntity> messages = const [],
       this.isLoading = false,
@@ -141,18 +141,8 @@ class _$ChatStateImpl with DiagnosticableTreeMixin implements _ChatState {
   final String? error;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'ChatState(messages: $messages, isLoading: $isLoading, error: $error)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'ChatState'))
-      ..add(DiagnosticsProperty('messages', messages))
-      ..add(DiagnosticsProperty('isLoading', isLoading))
-      ..add(DiagnosticsProperty('error', error));
   }
 
   @override

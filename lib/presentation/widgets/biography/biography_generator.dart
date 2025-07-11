@@ -78,7 +78,7 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
                     ),
                     contentPadding: EdgeInsets.zero,
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),
@@ -115,7 +115,7 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
                     subtitle: Text(_getThemeDescription(theme)),
                     contentPadding: EdgeInsets.zero,
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),

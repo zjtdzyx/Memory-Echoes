@@ -315,7 +315,7 @@ class _$StoryModelImpl implements _StoryModel {
   }
 }
 
-abstract class _StoryModel implements StoryModel, StoryEntity {
+abstract class _StoryModel implements StoryModel {
   const factory _StoryModel(
       {final String? id,
       required final String userId,

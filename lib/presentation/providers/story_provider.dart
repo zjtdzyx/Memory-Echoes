@@ -8,7 +8,7 @@ import 'auth_provider.dart';
 // 用户故事提供者
 final userStoriesProvider = FutureProvider.family<List<StoryEntity>, String>((ref, userId) async {
   final getUserStoriesUseCase = ref.read(getUserStoriesUseCaseProvider);
-  return await getUserStoriesUseCase(userId);
+  return getUserStoriesUseCase(userId);
 });
 
 // 故事列表状态通知器
@@ -32,7 +32,7 @@ class StoryListNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
   Future<void> _loadStories() async {
     state = const AsyncValue.loading();
     try {
-      final stories = await _getUserStoriesUseCase(_userId);
+      final stories = _getUserStoriesUseCase(_userId);
       state = AsyncValue.data(stories);
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);

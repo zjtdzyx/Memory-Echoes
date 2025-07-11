@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SearchState {
-  String? get query => throw _privateConstructorUsedError;
+  String get query => throw _privateConstructorUsedError;
   List<StoryEntity> get results => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $SearchStateCopyWith<$Res> {
       _$SearchStateCopyWithImpl<$Res, SearchState>;
   @useResult
   $Res call(
-      {String? query,
+      {String query,
       List<StoryEntity> results,
       bool isLoading,
       String? error,
@@ -60,7 +60,7 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? query = freezed,
+    Object? query = null,
     Object? results = null,
     Object? isLoading = null,
     Object? error = freezed,
@@ -68,10 +68,10 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
     Object? tagFilter = freezed,
   }) {
     return _then(_value.copyWith(
-      query: freezed == query
+      query: null == query
           ? _value.query
           : query // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       results: null == results
           ? _value.results
           : results // ignore: cast_nullable_to_non_nullable
@@ -105,7 +105,7 @@ abstract class _$$SearchStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? query,
+      {String query,
       List<StoryEntity> results,
       bool isLoading,
       String? error,
@@ -126,7 +126,7 @@ class __$$SearchStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? query = freezed,
+    Object? query = null,
     Object? results = null,
     Object? isLoading = null,
     Object? error = freezed,
@@ -134,10 +134,10 @@ class __$$SearchStateImplCopyWithImpl<$Res>
     Object? tagFilter = freezed,
   }) {
     return _then(_$SearchStateImpl(
-      query: freezed == query
+      query: null == query
           ? _value.query
           : query // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       results: null == results
           ? _value._results
           : results // ignore: cast_nullable_to_non_nullable
@@ -166,7 +166,7 @@ class __$$SearchStateImplCopyWithImpl<$Res>
 
 class _$SearchStateImpl implements _SearchState {
   const _$SearchStateImpl(
-      {this.query,
+      {this.query = '',
       final List<StoryEntity> results = const [],
       this.isLoading = false,
       this.error,
@@ -175,7 +175,8 @@ class _$SearchStateImpl implements _SearchState {
       : _results = results;
 
   @override
-  final String? query;
+  @JsonKey()
+  final String query;
   final List<StoryEntity> _results;
   @override
   @JsonKey()
@@ -237,7 +238,7 @@ class _$SearchStateImpl implements _SearchState {
 
 abstract class _SearchState implements SearchState {
   const factory _SearchState(
-      {final String? query,
+      {final String query,
       final List<StoryEntity> results,
       final bool isLoading,
       final String? error,
@@ -245,7 +246,7 @@ abstract class _SearchState implements SearchState {
       final String? tagFilter}) = _$SearchStateImpl;
 
   @override
-  String? get query;
+  String get query;
   @override
   List<StoryEntity> get results;
   @override

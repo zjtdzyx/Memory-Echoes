@@ -1,5 +1,4 @@
 import '../entities/chat_message_entity.dart';
-import '../../data/models/chat_message_model.dart';
 
 abstract class AiRepository {
   Future<String> getChatResponse(String message, List<ChatMessageEntity> context);

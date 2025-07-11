@@ -12,7 +12,7 @@ class ValidationUtils {
   }
 
   static bool isValidStoryTitle(String title) {
-    return title.trim().length >= 1 && title.trim().length <= 100;
+    return title.trim().isNotEmpty && title.trim().length <= 100;
   }
 
   static bool isValidStoryContent(String content) {

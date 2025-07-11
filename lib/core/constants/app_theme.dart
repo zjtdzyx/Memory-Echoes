@@ -8,6 +8,6 @@ class AppTheme {
   );
 
   static final ThemeData darkTheme = ThemeData.dark().copyWith(
-    useMaterial3: true,
+    
   );
 }

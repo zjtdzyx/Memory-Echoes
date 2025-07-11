@@ -5,7 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'core/constants/app_theme.dart';
 import 'presentation/routes/app_router.dart';
-import 'presentation/providers/auth_provider.dart';
 import 'firebase_options.dart';
 
 void main() async {

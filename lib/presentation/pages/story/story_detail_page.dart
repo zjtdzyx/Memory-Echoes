@@ -15,14 +15,13 @@ class StoryDetailPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: storyState.when(
-          data: (story) => Text(story?.title ?? '故事详情'),
+          data: (story) => Text(story.title ?? '故事详情'),
           loading: () => const Text('加载中...'),
           error: (_, __) => const Text('错误'),
         ),
         actions: [
           storyState.when(
             data: (story) {
-              if (story == null) return const SizedBox.shrink();
               return IconButton(
                 icon: const Icon(Icons.edit),
                 onPressed: () => context.go('/edit-story/${story.id}'),
@@ -35,9 +34,6 @@ class StoryDetailPage extends ConsumerWidget {
       ),
       body: storyState.when(
         data: (story) {
-          if (story == null) {
-            return const Center(child: Text('未找到该故事'));
-          }
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(
