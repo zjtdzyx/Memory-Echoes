@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/story_entity.dart';
+import '../../domain/enums/story_mood.dart';
 
 part 'story_model.freezed.dart';
 part 'story_model.g.dart';
 
 @freezed
 class StoryModel with _$StoryModel implements StoryEntity {
-  @Implements<StoryEntity>()
   const factory StoryModel({
     String? id,
     required String userId,

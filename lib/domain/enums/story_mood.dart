@@ -1,8 +1,9 @@
 enum StoryMood {
   happy,
   sad,
+  nostalgic,
+  peaceful,
+  excited,
+  neutral,
   adventurous,
-  mysterious,
-  romantic,
-  humorous,
 }

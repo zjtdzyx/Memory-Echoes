@@ -211,7 +211,7 @@ flutter build web --release
 
 ## 13. 创建许可证文件
 
-```plaintext file="LICENSE"
+\`\`\`plaintext file="LICENSE"
 MIT License
 
 Copyright (c) 2024 Memory Echoes

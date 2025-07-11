@@ -1,14 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-enum StoryMood {
-  happy,
-  sad,
-  nostalgic,
-  peaceful,
-  excited,
-  neutral,
-  adventurous,
-}
+import '../enums/story_mood.dart';
 
 abstract class StoryEntity {
   String? get id;
@@ -20,16 +10,4 @@ abstract class StoryEntity {
   StoryMood get mood;
   List<String> get tags;
   bool get isPublic;
-
-  StoryEntity copyWith({
-    String? id,
-    String? userId,
-    String? title,
-    String? content,
-    List<String>? imageUrls,
-    DateTime? createdAt,
-    StoryMood? mood,
-    List<String>? tags,
-    bool? isPublic,
-  });
 }

@@ -4,7 +4,7 @@
 
 ### 1.brew 安装软件环境
 
-```
+\`\`\`
 brew install
 1.安装 flutter sdk
 brew install --cask flutter flutter doctor
@@ -18,11 +18,11 @@ flutter doctor --android-licenses # 接受 Android 许可协议
 4.安装firebase 环境
 dart pub global activate flutterfire_cli # 安装flutterfire_cli
 brew install firebase-cli 
-```
+\`\`\`
 
 ### 2.cursor plugin
 
-```
+\`\`\`
 cursor plugin
 1.flutter
 官方 Flutter 插件，提供了 Dart 语言支持、代码补全、语法高亮、热重载/热重启按钮、Widget Inspector、调试工具、新项目向导等核心功能。
@@ -30,7 +30,7 @@ cursor plugin
 虽然 `json_serializable` 负责自动生成序列化代码，但这个插件可以帮助你快速从 JSON 字符串生成 Dart 类的基础结构，非常方便。
 3.Flutter Riverpod Snippets
 提供 Riverpod 相关的代码片段，加快你的开发速度，例如快速生成 `Provider`、`StateNotifierProvider` 等。
-```
+\`\`\`
 
 ### 3.Flutter 包管理器依赖 (pubspec.yaml)
 
@@ -38,7 +38,7 @@ cursor plugin
 
 你的 `pubspec.yaml` 文件应该包含我们最终敲定的所有依赖：
 
-```
+\`\`\`
 name: memory_echoes
 description: "一个温暖的记忆记录与分享应用"
 publish_to: "none"
@@ -118,7 +118,7 @@ flutter:
     - assets/icons/
 icons/
 
-```
+\`\`\`
 
 ## 二、技术方案
 
@@ -183,7 +183,7 @@ icons/
 
 我们将遵循清晰的分层原则，以确保项目的可维护性、可扩展性和测试性。
 
-```
+\`\`\`
 your_app/
 ├── lib/
 │   ├── main.dart                      # 应用主入口，初始化 Firebase 和 Riverpod 等
@@ -212,7 +212,7 @@ your_app/
 │   │   └── routes/                    # GoRouter 路由配置 (定义所有路由路径、参数和导航守卫)
 │   │
 │   └── dependency_injection.dart      # Riverpod 全局 Provider 注册和依赖注入配置
-```
+\`\`\`
 
 ### 5. 开发流程与部署概览
 
@@ -347,7 +347,7 @@ AI Agent 框架通过引入以下核心概念来解决这些问题：
 
 ### 1.V0
 
-```
+\`\`\`
 你现在是 V0，一个专注于 UI/UX 设计和项目初始化的智能体。你的任务是根据“记忆回响”项目的核心主题、精确技术栈、以及**所有已提供的详细设计文档和图表**，初始化 Flutter 开发环境，并严格按照产品理念进行 UI/UX 设计，最终实现初步的前端页面代码。
 
 ### 项目核心与情感风格：
@@ -362,7 +362,7 @@ AI Agent 框架通过引入以下核心概念来解决这些问题：
     * 配置 `dev_dependencies`，包含 `flutter_test`, `flutter_lints`, `build_runner`, `json_serializable`。
     * **重要：** 完成 Firebase 项目在 Flutter 中的基本配置。**请假定已提供 `google-services.json` 和 `GoogleService-Info.plist`，并指导将它们放置在 `android/app/` 和 `ios/Runner/` 目录下。**
     * **严格按照以下 Clean Architecture 分层原则搭建 `lib/` 目录结构。请确保创建所有列出的核心目录和子目录：**
-        ```
+        \`\`\`
         lib/
         ├── main.dart                      # 应用主入口，初始化 Firebase 和 Riverpod 等
         │
@@ -390,7 +390,7 @@ AI Agent 框架通过引入以下核心概念来解决这些问题：
         │   └── routes/                    # GoRouter 路由配置 (定义所有路由路径、参数和导航守卫)
         │
         └── dependency_injection.dart      # Riverpod 全局 Provider 注册和依赖注入配置
-        ```
+        \`\`\`
     * 确保项目能够成功运行在模拟器或真实设备上，并能显示一个基础的欢迎页面。
 
 2.  **UI/UX 设计与前端代码实现（严格依据产品理念和图表）：**
@@ -434,7 +434,7 @@ UI/UX 风格参考：
 可以提供一些关键词或短句来强化风格，比如“老照片的泛黄感”、“手写书信的温度”、“旧物回忆的安静”、“雨天窗边的沉思”。
 
 如果有条件，可以提供一些图片示例（虽然 V0 不能直接看图，但可以描述图片特征，让它更好地理解你的意图）。
-```
+\`\`\`
 
 ### 2.cursor
 
@@ -499,4 +499,3 @@ App 内部代码严格划分为以下层级，确保清晰的职责边界：
 ### 7.6 文档与图表的重要性
 
 这份设计文档（包括系统架构图、模块结构图、数据流图、功能泳道图、E-R 图和 API 文档）将作为项目开发的核心参考。它不仅指导 V0 和 Cursor 的具体实现，也是毕业设计完整性、专业性和可维护性的重要体现。后续迭代中，所有开发都将严格遵循这些设计蓝图。
-

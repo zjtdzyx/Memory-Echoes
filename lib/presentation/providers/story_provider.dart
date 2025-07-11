@@ -2,140 +2,93 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/story_entity.dart';
 import '../../domain/usecases/story_usecases.dart';
 import '../../dependency_injection.dart';
+import 'auth_state.dart';
 import 'auth_provider.dart';
 
 // 用户故事提供者
-final userStoriesProvider =
-    FutureProvider.family<List<StoryEntity>, String>((ref, userId) async {
+final userStoriesProvider = FutureProvider.family<List<StoryEntity>, String>((ref, userId) async {
   final getUserStoriesUseCase = ref.read(getUserStoriesUseCaseProvider);
   return await getUserStoriesUseCase(userId);
 });
 
-// 公开故事提供者
-final publicStoriesProvider =
-    AsyncNotifierProvider<PublicStoriesNotifier, List<StoryEntity>>(() {
-  return PublicStoriesNotifier();
-});
+// 故事列表状态通知器
+class StoryListNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
+  final GetUserStoriesUseCase _getUserStoriesUseCase;
+  final CreateStoryUseCase _createStoryUseCase;
+  final UpdateStoryUseCase _updateStoryUseCase;
+  final DeleteStoryUseCase _deleteStoryUseCase;
+  final String _userId;
 
-class PublicStoriesNotifier extends AsyncNotifier<List<StoryEntity>> {
-  @override
-  Future<List<StoryEntity>> build() async {
-    return _fetchStories();
+  StoryListNotifier(
+    this._getUserStoriesUseCase,
+    this._createStoryUseCase,
+    this._updateStoryUseCase,
+    this._deleteStoryUseCase,
+    this._userId,
+  ) : super(const AsyncValue.loading()) {
+    _loadStories();
   }
 
-  Future<List<StoryEntity>> _fetchStories() {
-    final getPublicStoriesUseCase = ref.read(getPublicStoriesUseCaseProvider);
-    return getPublicStoriesUseCase();
+  Future<void> _loadStories() async {
+    state = const AsyncValue.loading();
+    try {
+      final stories = await _getUserStoriesUseCase(_userId);
+      state = AsyncValue.data(stories);
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+    }
+  }
+
+  Future<void> createStory(StoryEntity story) async {
+    try {
+      await _createStoryUseCase(story);
+      await _loadStories(); // 重新加载列表
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+    }
+  }
+
+  Future<void> updateStory(StoryEntity story) async {
+    try {
+      await _updateStoryUseCase(story);
+      await _loadStories(); // 重新加载列表
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+    }
+  }
+
+  Future<void> deleteStory(String storyId) async {
+    try {
+      await _deleteStoryUseCase(storyId);
+      await _loadStories(); // 重新加载列表
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+    }
   }
 
   Future<void> refresh() async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _fetchStories());
-  }
-
-  Future<void> likeStory(String storyId) async {
-    final likeStoryUseCase = ref.read(likeStoryUseCaseProvider);
-    final authState = ref.read(authStateProvider);
-
-    if (authState is Authenticated) {
-      final userId = authState.user.uid;
-      await likeStoryUseCase(storyId, userId);
-
-      final previousState = state.valueOrNull ?? [];
-      final newState = previousState.map((story) {
-        if (story.id == storyId) {
-          final newLikedBy = List<String>.from(story.likedBy);
-          if (newLikedBy.contains(userId)) {
-            newLikedBy.remove(userId);
-          } else {
-            newLikedBy.add(userId);
-          }
-          return story.copyWith(likedBy: newLikedBy);
-        }
-        return story;
-      }).toList();
-      state = AsyncValue.data(newState);
-    }
+    await _loadStories();
   }
 }
 
+final storyListProvider = StateNotifierProvider.family<StoryListNotifier, AsyncValue<List<StoryEntity>>, String>((ref, userId) {
+  return StoryListNotifier(
+    ref.read(getUserStoriesUseCaseProvider),
+    ref.read(createStoryUseCaseProvider),
+    ref.read(updateStoryUseCaseProvider),
+    ref.read(deleteStoryUseCaseProvider),
+    userId,
+  );
+});
+
+// 公开故事提供者
+final publicStoriesProvider = FutureProvider<List<StoryEntity>>((ref) async {
+  final getPublicStoriesUseCase = ref.read(getPublicStoriesUseCaseProvider);
+  return await getPublicStoriesUseCase();
+});
+
 // 故事详情提供者
-final storyDetailProvider =
-    FutureProvider.family<StoryEntity, String>((ref, storyId) async {
+final storyDetailProvider = FutureProvider.family<StoryEntity, String>((ref, storyId) async {
   final getStoryByIdUseCase = ref.read(getStoryByIdUseCaseProvider);
   return await getStoryByIdUseCase(storyId);
 });
-
-// class UserStoriesNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
-//   final GetUserStoriesUseCase _getUserStoriesUseCase;
-//   final String _userId;
-//
-//   UserStoriesNotifier(this._getUserStoriesUseCase, this._userId) : super(const AsyncValue.loading()) {
-//     loadStories();
-//   }
-//
-//   Future<void> loadStories() async {
-//     state = const AsyncValue.loading();
-//     try {
-//       final stories = await _getUserStoriesUseCase(_userId);
-//       state = AsyncValue.data(stories);
-//     } catch (e, stackTrace) {
-//       state = AsyncValue.error(e, stackTrace);
-//     }
-//   }
-//
-//   Future<void> refresh() async {
-//     await loadStories();
-//   }
-// }
-
-// class PublicStoriesNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
-//   final GetPublicStoriesUseCase _getPublicStoriesUseCase;
-//   List<StoryEntity> _stories = [];
-//   String? _lastStoryId;
-//   bool _hasMore = true;
-//
-//   PublicStoriesNotifier(this._getPublicStoriesUseCase) : super(const AsyncValue.loading()) {
-//     loadStories();
-//   }
-//
-//   Future<void> loadStories() async {
-//     if (state.isLoading) return;
-//
-//     state = const AsyncValue.loading();
-//     try {
-//       final stories = await _getPublicStoriesUseCase();
-//       _stories = stories;
-//       _lastStoryId = stories.isNotEmpty ? stories.last.id : null;
-//       _hasMore = stories.length >= 20;
-//       state = AsyncValue.data(_stories);
-//     } catch (e, stackTrace) {
-//       state = AsyncValue.error(e, stackTrace);
-//     }
-//   }
-//
-//   Future<void> loadMore() async {
-//     if (!_hasMore || state.isLoading) return;
-//
-//     try {
-//       final newStories = await _getPublicStoriesUseCase(lastStoryId: _lastStoryId);
-//       if (newStories.isNotEmpty) {
-//         _stories.addAll(newStories);
-//         _lastStoryId = newStories.last.id;
-//         _hasMore = newStories.length >= 20;
-//         state = AsyncValue.data(_stories);
-//       } else {
-//         _hasMore = false;
-//       }
-//     } catch (e, stackTrace) {
-//       state = AsyncValue.error(e, stackTrace);
-//     }
-//   }
-//
-//   Future<void> refresh() async {
-//     _stories.clear();
-//     _lastStoryId = null;
-//     _hasMore = true;
-//     await loadStories();
-//   }
-// }

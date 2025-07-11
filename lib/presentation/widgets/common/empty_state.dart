@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class EmptyState extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final Widget? action;
+  final String message;
+  final String? actionText;
+  final VoidCallback? onAction;
+  final IconData? icon;
 
   const EmptyState({
     super.key,
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    this.action,
+    required this.message,
+    this.actionText,
+    this.onAction,
+    this.icon,
   });
 
   @override
@@ -23,27 +23,24 @@ class EmptyState extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              icon,
+              icon ?? Icons.inbox_outlined,
               size: 64,
               color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
             ),
             const SizedBox(height: 16),
             Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              subtitle,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              message,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
               ),
               textAlign: TextAlign.center,
             ),
-            if (action != null) ...[
+            if (actionText != null && onAction != null) ...[
               const SizedBox(height: 24),
-              action!,
+              ElevatedButton(
+                onPressed: onAction,
+                child: Text(actionText!),
+              ),
             ],
           ],
         ),

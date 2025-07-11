@@ -5,9 +5,6 @@ class WarmCard extends StatelessWidget {
   final VoidCallback? onTap;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
-  final double? elevation;
-  final Color? color;
-  final BorderRadius? borderRadius;
 
   const WarmCard({
     super.key,
@@ -15,34 +12,25 @@ class WarmCard extends StatelessWidget {
     this.onTap,
     this.padding,
     this.margin,
-    this.elevation,
-    this.color,
-    this.borderRadius,
   });
 
   @override
   Widget build(BuildContext context) {
-    final card = Card(
-      elevation: elevation ?? 2,
-      color: color ?? Theme.of(context).colorScheme.surface,
-      margin: margin ?? EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-        borderRadius: borderRadius ?? BorderRadius.circular(16),
-      ),
-      child: Container(
-        padding: padding,
-        child: child,
+    return Container(
+      margin: margin ?? const EdgeInsets.all(8.0),
+      child: Material(
+        elevation: 2,
+        borderRadius: BorderRadius.circular(12),
+        color: Theme.of(context).colorScheme.surface,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: padding ?? const EdgeInsets.all(16.0),
+            child: child,
+          ),
+        ),
       ),
     );
-
-    if (onTap != null) {
-      return InkWell(
-        onTap: onTap,
-        borderRadius: borderRadius ?? BorderRadius.circular(16),
-        child: card,
-      );
-    }
-
-    return card;
   }
 }

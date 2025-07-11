@@ -3,11 +3,4 @@ abstract class ChatMessageEntity {
   String get content;
   bool get isUser;
   DateTime get timestamp;
-
-  ChatMessageEntity copyWith({
-    String? id,
-    String? content,
-    bool? isUser,
-    DateTime? timestamp,
-  });
 }
