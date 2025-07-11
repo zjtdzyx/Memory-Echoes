@@ -1,39 +1,27 @@
 class UserEntity {
-  final String id;
+  final String uid;
   final String email;
   final String displayName;
-  final String? avatarUrl;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final Map<String, dynamic> preferences;
+  final String? photoURL;
 
   const UserEntity({
-    required this.id,
+    required this.uid,
     required this.email,
     required this.displayName,
-    this.avatarUrl,
-    required this.createdAt,
-    required this.updatedAt,
-    this.preferences = const {},
+    this.photoURL,
   });
 
   UserEntity copyWith({
-    String? id,
+    String? uid,
     String? email,
     String? displayName,
-    String? avatarUrl,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    Map<String, dynamic>? preferences,
+    String? photoURL,
   }) {
     return UserEntity(
-      id: id ?? this.id,
+      uid: uid ?? this.uid,
       email: email ?? this.email,
       displayName: displayName ?? this.displayName,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      preferences: preferences ?? this.preferences,
+      photoURL: photoURL ?? this.photoURL,
     );
   }
 }

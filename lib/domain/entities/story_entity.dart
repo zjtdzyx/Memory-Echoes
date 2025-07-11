@@ -1,32 +1,30 @@
+import '../enums/story_mood.dart';
+
 class StoryEntity {
-  final String id;
+  final String? id;
   final String userId;
   final String title;
   final String content;
   final List<String> tags;
-  final List<String> imageUrls;
-  final String? audioUrl;
+  final List<String>? imageUrls;
+  final StoryMood? mood;
   final DateTime createdAt;
   final DateTime updatedAt;
   final bool isPublic;
-  final int likesCount;
-  final int commentsCount;
-  final StoryMood mood;
+  final List<String> likedBy;
 
   const StoryEntity({
-    required this.id,
+    this.id,
     required this.userId,
     required this.title,
     required this.content,
     this.tags = const [],
-    this.imageUrls = const [],
-    this.audioUrl,
+    this.imageUrls,
+    this.mood,
     required this.createdAt,
     required this.updatedAt,
     this.isPublic = false,
-    this.likesCount = 0,
-    this.commentsCount = 0,
-    this.mood = StoryMood.neutral,
+    this.likedBy = const [],
   });
 
   StoryEntity copyWith({
@@ -36,13 +34,11 @@ class StoryEntity {
     String? content,
     List<String>? tags,
     List<String>? imageUrls,
-    String? audioUrl,
+    StoryMood? mood,
     DateTime? createdAt,
     DateTime? updatedAt,
     bool? isPublic,
-    int? likesCount,
-    int? commentsCount,
-    StoryMood? mood,
+    List<String>? likedBy,
   }) {
     return StoryEntity(
       id: id ?? this.id,
@@ -51,22 +47,11 @@ class StoryEntity {
       content: content ?? this.content,
       tags: tags ?? this.tags,
       imageUrls: imageUrls ?? this.imageUrls,
-      audioUrl: audioUrl ?? this.audioUrl,
+      mood: mood ?? this.mood,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       isPublic: isPublic ?? this.isPublic,
-      likesCount: likesCount ?? this.likesCount,
-      commentsCount: commentsCount ?? this.commentsCount,
-      mood: mood ?? this.mood,
+      likedBy: likedBy ?? this.likedBy,
     );
   }
-}
-
-enum StoryMood {
-  happy,
-  sad,
-  nostalgic,
-  peaceful,
-  excited,
-  neutral,
 }

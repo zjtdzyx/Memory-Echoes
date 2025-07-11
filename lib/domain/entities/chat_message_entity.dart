@@ -1,46 +1,32 @@
 class ChatMessageEntity {
-  final String id;
-  final String userId;
-  final String content;
-  final bool isUser;
-  final DateTime timestamp;
-  final MessageType type;
-  final Map<String, dynamic>? metadata;
+  final String? id;
+  final String text;
+  final MessageSender sender;
+  final DateTime createdAt;
 
   const ChatMessageEntity({
-    required this.id,
-    required this.userId,
-    required this.content,
-    required this.isUser,
-    required this.timestamp,
-    this.type = MessageType.text,
-    this.metadata,
+    this.id,
+    required this.text,
+    required this.sender,
+    required this.createdAt,
   });
 
   ChatMessageEntity copyWith({
     String? id,
-    String? userId,
-    String? content,
-    bool? isUser,
-    DateTime? timestamp,
-    MessageType? type,
-    Map<String, dynamic>? metadata,
+    String? text,
+    MessageSender? sender,
+    DateTime? createdAt,
   }) {
     return ChatMessageEntity(
       id: id ?? this.id,
-      userId: userId ?? this.userId,
-      content: content ?? this.content,
-      isUser: isUser ?? this.isUser,
-      timestamp: timestamp ?? this.timestamp,
-      type: type ?? this.type,
-      metadata: metadata ?? this.metadata,
+      text: text ?? this.text,
+      sender: sender ?? this.sender,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 }
 
-enum MessageType {
-  text,
-  image,
-  audio,
-  storyGenerated,
+enum MessageSender {
+  user,
+  ai,
 }

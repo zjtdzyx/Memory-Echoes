@@ -1,26 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../domain/entities/user_entity.dart';
 import '../../domain/usecases/auth_usecases.dart';
 import '../../dependency_injection.dart';
 
+part 'auth_provider.freezed.dart';
+
 // 认证状态
-abstract class AuthState {}
-
-class Initial extends AuthState {}
-
-class Loading extends AuthState {}
-
-class Authenticated extends AuthState {
-  final UserEntity user;
-  Authenticated(this.user);
-}
-
-class Unauthenticated extends AuthState {}
-
-class AuthError extends AuthState {
-  final String message;
-  AuthError(this.message);
+@freezed
+abstract class AuthState with _$AuthState {
+  const factory AuthState.initial() = Initial;
+  const factory AuthState.loading() = Loading;
+  const factory AuthState.authenticated(UserEntity user) = Authenticated;
+  const factory AuthState.unauthenticated() = Unauthenticated;
+  const factory AuthState.error(String message) = AuthError;
 }
 
 // 认证状态通知器
@@ -35,7 +29,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     this._signUpUseCase,
     this._signOutUseCase,
     this._getCurrentUserUseCase,
-  ) : super(Initial()) {
+  ) : super(const AuthState.initial()) {
     _checkCurrentUser();
   }
 
@@ -43,41 +37,41 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     try {
       final user = await _getCurrentUserUseCase();
       if (user != null) {
-        state = Authenticated(user);
+        state = AuthState.authenticated(user);
       } else {
-        state = Unauthenticated();
+        state = const AuthState.unauthenticated();
       }
     } catch (e) {
-      state = Unauthenticated();
+      state = const AuthState.unauthenticated();
     }
   }
 
   Future<void> signIn(String email, String password) async {
-    state = Loading();
+    state = const AuthState.loading();
     try {
       final user = await _signInUseCase(email, password);
-      state = Authenticated(user);
+      state = AuthState.authenticated(user);
     } catch (e) {
-      state = AuthError(e.toString());
+      state = AuthState.error(e.toString());
     }
   }
 
   Future<void> signUp(String email, String password, String displayName) async {
-    state = Loading();
+    state = const AuthState.loading();
     try {
       final user = await _signUpUseCase(email, password, displayName);
-      state = Authenticated(user);
+      state = AuthState.authenticated(user);
     } catch (e) {
-      state = AuthError(e.toString());
+      state = AuthState.error(e.toString());
     }
   }
 
   Future<void> signOut() async {
     try {
       await _signOutUseCase();
-      state = Unauthenticated();
+      state = const AuthState.unauthenticated();
     } catch (e) {
-      state = AuthError(e.toString());
+      state = AuthState.error(e.toString());
     }
   }
 }
