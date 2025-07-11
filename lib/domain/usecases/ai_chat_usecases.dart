@@ -1,7 +1,9 @@
 import '../entities/chat_message_entity.dart';
 import '../entities/story_entity.dart';
+import 'package:memory_echoes/data/models/story_model.dart';
 import '../repositories/ai_repository.dart';
 import '../repositories/story_repository.dart';
+import '../enums/story_mood.dart';
 
 class SendChatMessageUseCase {
   final AiRepository _aiRepository;
@@ -23,7 +25,7 @@ class GenerateStoryFromChatUseCase {
 
   GenerateStoryFromChatUseCase(this._aiRepository, this._storyRepository);
 
-  Future<StoryEntity> call({
+  Future<void> call({
     required String userId,
     required List<ChatMessageEntity> messages,
     required String title,
@@ -40,18 +42,17 @@ class GenerateStoryFromChatUseCase {
     // 生成标签
     final tags = await _aiRepository.generateStoryTags(storyContent);
 
-    final story = StoryEntity(
-      id: '',
+    final story = StoryModel(
       userId: userId,
       title: title,
       content: storyContent,
       tags: tags,
       createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      mood: StoryMood.neutral,
       isPublic: isPublic,
     );
 
-    return await _storyRepository.createStory(story);
+    await _storyRepository.createStory(story);
   }
 }
 

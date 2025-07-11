@@ -63,6 +63,10 @@ final deleteStoryUseCaseProvider = Provider<DeleteStoryUseCase>(
 final searchStoriesUseCaseProvider = Provider<SearchStoriesUseCase>(
     (ref) => SearchStoriesUseCase(ref.watch(storyRepositoryProvider)));
 
+// 添加公开故事用例
+final getPublicStoriesUseCaseProvider = Provider<GetPublicStoriesUseCase>(
+    (ref) => GetPublicStoriesUseCase(ref.watch(storyRepositoryProvider)));
+
 // UseCases - AI
 final postChatMessageUseCaseProvider = Provider<PostChatMessageUseCase>(
     (ref) => PostChatMessageUseCase(ref.watch(aiRepositoryProvider)));

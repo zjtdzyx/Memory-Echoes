@@ -7,9 +7,22 @@ class StoryRepositoryImpl implements StoryRepository {
 
   StoryRepositoryImpl(this._remoteDataSource);
 
-  @override
-  Stream<List<StoryEntity>> getStories(String userId) {
+  // 保留流式获取以供内部使用
+  Stream<List<StoryEntity>> _getStoriesStream(String userId) {
     return _remoteDataSource.getStories(userId);
+  }
+
+  @override
+  Future<List<StoryEntity>> getUserStories(String userId) async {
+    // 将流转换为一次性列表
+    return await _remoteDataSource.getStories(userId).first;
+  }
+
+  @override
+  Future<List<StoryEntity>> getPublicStories() async {
+    // 公开故事：查询公共且最新的故事
+    return await _remoteDataSource.searchStories(
+        query: '', mood: null, tag: null);
   }
 
   @override
@@ -35,8 +48,11 @@ class StoryRepositoryImpl implements StoryRepository {
   }
 
   @override
-  Future<List<StoryEntity>> searchStories(
-      {required String query, String? mood, String? tag}) {
+  Future<List<StoryEntity>> searchStories({
+    required String query,
+    String? mood,
+    String? tag,
+  }) {
     return _remoteDataSource.searchStories(query: query, mood: mood, tag: tag);
   }
 }

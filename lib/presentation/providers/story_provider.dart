@@ -6,7 +6,8 @@ import 'auth_state.dart';
 import 'auth_provider.dart';
 
 // 用户故事提供者
-final userStoriesProvider = FutureProvider.family<List<StoryEntity>, String>((ref, userId) async {
+final userStoriesProvider =
+    FutureProvider.family<List<StoryEntity>, String>((ref, userId) async {
   final getUserStoriesUseCase = ref.read(getUserStoriesUseCaseProvider);
   return getUserStoriesUseCase(userId);
 });
@@ -32,7 +33,7 @@ class StoryListNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
   Future<void> _loadStories() async {
     state = const AsyncValue.loading();
     try {
-      final stories = _getUserStoriesUseCase(_userId);
+      final stories = await _getUserStoriesUseCase(_userId);
       state = AsyncValue.data(stories);
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
@@ -71,7 +72,8 @@ class StoryListNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
   }
 }
 
-final storyListProvider = StateNotifierProvider.family<StoryListNotifier, AsyncValue<List<StoryEntity>>, String>((ref, userId) {
+final storyListProvider = StateNotifierProvider.family<StoryListNotifier,
+    AsyncValue<List<StoryEntity>>, String>((ref, userId) {
   return StoryListNotifier(
     ref.read(getUserStoriesUseCaseProvider),
     ref.read(createStoryUseCaseProvider),
@@ -88,7 +90,8 @@ final publicStoriesProvider = FutureProvider<List<StoryEntity>>((ref) async {
 });
 
 // 故事详情提供者
-final storyDetailProvider = FutureProvider.family<StoryEntity, String>((ref, storyId) async {
+final storyDetailProvider =
+    FutureProvider.family<StoryEntity, String>((ref, storyId) async {
   final getStoryByIdUseCase = ref.read(getStoryByIdUseCaseProvider);
   return await getStoryByIdUseCase(storyId);
 });

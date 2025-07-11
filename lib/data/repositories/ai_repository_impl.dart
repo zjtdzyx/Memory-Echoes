@@ -22,4 +22,21 @@ class AiRepositoryImpl implements AiRepository {
     await Future.delayed(const Duration(seconds: 1));
     return ['dummy', 'ai-generated', 'tag'];
   }
+
+  @override
+  Future<String> getChatResponse(
+      String message, List<ChatMessageEntity> context) async {
+    // Dummy implementation that simply echoes the last user message
+    await Future.delayed(const Duration(milliseconds: 500));
+    return 'AI 回复: $message';
+  }
+
+  @override
+  Future<String> generateStoryFromConversation(
+      List<ChatMessageEntity> messages) async {
+    // Dummy implementation that combines messages into a simple story
+    await Future.delayed(const Duration(milliseconds: 500));
+    final combined = messages.map((e) => e.content).join(' ');
+    return '从聊天生成的故事: $combined';
+  }
 }
