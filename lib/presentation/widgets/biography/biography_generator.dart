@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/entities/story_entity.dart';
 import '../../../domain/entities/biography_entity.dart';
 import '../common/warm_card.dart';
+import '../../providers/gemini_api_provider.dart';
+import '../../services/share_service.dart';
+import '../../providers/biography_repository_provider.dart';
 
 class BiographyGenerator extends ConsumerStatefulWidget {
   final List<StoryEntity> stories;
@@ -239,15 +242,21 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
     });
 
     try {
-      // 模拟AI生成传记
-      await Future.delayed(const Duration(seconds: 3));
-
       final selectedStories = widget.stories
           .where((story) => _selectedStoryIds.contains(story.id ?? ''))
           .toList();
 
+      final storyContents =
+          selectedStories.map((story) => story.content).toList();
+      final theme = _selectedTheme.name;
+
+      // 使用Gemini API生成传记
+      final geminiApiService = ref.read(geminiApiServiceProvider);
+      final generatedContent =
+          await geminiApiService.generateBiography(storyContents, theme);
+
       setState(() {
-        _generatedContent = _createMockBiography(selectedStories);
+        _generatedContent = generatedContent;
         _isGenerating = false;
       });
     } catch (e) {
@@ -263,42 +272,47 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
     }
   }
 
-  String _createMockBiography(List<StoryEntity> stories) {
-    final buffer = StringBuffer();
+  void _shareContent() {
+    if (_generatedContent != null) {
+      ShareService.shareText(
+        _generatedContent!,
+        subject: '我的人生传记',
+      );
+    }
+  }
 
-    buffer.writeln('这是一个关于温暖回忆的故事集。');
-    buffer.writeln();
+  void _saveContent() async {
+    if (_generatedContent == null) return;
 
-    for (int i = 0; i < stories.length; i++) {
-      final story = stories[i];
-      buffer.writeln('${i + 1}. ${story.title}');
-      buffer.writeln();
-      buffer.writeln(
-          '${story.content.substring(0, story.content.length > 100 ? 100 : story.content.length)}...');
-      buffer.writeln();
+    try {
+      final selectedStories = widget.stories
+          .where((story) => _selectedStoryIds.contains(story.id ?? ''))
+          .toList();
 
-      if (i < stories.length - 1) {
-        buffer.writeln('---');
-        buffer.writeln();
+      final biography = BiographyModel(
+        userId: widget.userId,
+        title: '我的人生传记',
+        content: _generatedContent!,
+        storyIds: _selectedStoryIds,
+        theme: _selectedTheme,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      final biographyRepository = ref.read(biographyRepositoryProvider);
+      await biographyRepository.createBiography(biography);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('传记保存成功！')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('保存失败: $e')),
+        );
       }
     }
-
-    buffer.writeln('这些珍贵的回忆，构成了生命中最温暖的篇章。每一个故事都是时光的馈赠，值得被永远珍藏。');
-
-    return buffer.toString();
-  }
-
-  void _shareContent() {
-    // TODO: 实现分享功能
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('分享功能开发中')),
-    );
-  }
-
-  void _saveContent() {
-    // TODO: 实现保存功能
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('传记已保存')),
-    );
   }
 }
