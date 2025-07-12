@@ -85,6 +85,24 @@
    cd memory-echoes
    \`\`\`
 
+2. **配置环境变量**
+
+   \`\`\`bash
+   # 复制环境变量模板
+   cp .env.example .env
+   
+   # 编辑 .env 文件，填入你的 Gemini API Key
+   # 获取 API Key: https://makersuite.google.com/app/apikey
+   nano .env
+   \`\`\`
+
+3. **Firebase 配置**
+
+   - 创建 Firebase 项目: https://console.firebase.google.com/
+   - 启用 Authentication、Firestore、Storage 服务
+   - 下载配置文件并替换项目中的配置文件
+   - 部署 Firestore 安全规则（见下文）
+
 2. **安装依赖**
 
    \`\`\`bash
