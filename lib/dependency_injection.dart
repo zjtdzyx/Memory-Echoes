@@ -1,23 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:memory_echoes/data/datasources/remote/firebase_auth_datasource.dart';
 import 'package:memory_echoes/data/datasources/remote/firestore_story_datasource.dart';
+import 'package:memory_echoes/data/datasources/remote/firestore_biography_datasource.dart';
+import 'package:memory_echoes/data/datasources/remote/firebase_storage_datasource.dart';
+import 'package:memory_echoes/data/datasources/remote/gemini_api_service.dart';
 import 'package:memory_echoes/data/repositories/auth_repository_impl.dart';
 import 'package:memory_echoes/data/repositories/story_repository_impl.dart';
+import 'package:memory_echoes/data/repositories/biography_repository_impl.dart';
 import 'package:memory_echoes/data/repositories/ai_repository_impl.dart';
 import 'package:memory_echoes/domain/repositories/auth_repository.dart';
 import 'package:memory_echoes/domain/repositories/story_repository.dart';
+import 'package:memory_echoes/domain/repositories/biography_repository.dart';
 import 'package:memory_echoes/domain/repositories/ai_repository.dart';
 import 'package:memory_echoes/domain/usecases/auth_usecases.dart';
 import 'package:memory_echoes/domain/usecases/story_usecases.dart';
 import 'package:memory_echoes/domain/usecases/ai_chat_usecases.dart';
+import 'package:memory_echoes/core/services/file_upload_service.dart';
 
 // Firebase
 final firebaseAuthProvider =
     Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
 final firestoreProvider =
     Provider<FirebaseFirestore>((ref) => FirebaseFirestore.instance);
+final firebaseStorageProvider =
+    Provider<FirebaseStorage>((ref) => FirebaseStorage.instance);
+
+// HTTP Client
+final dioProvider = Provider<Dio>((ref) => Dio());
 
 // DataSources
 final firebaseAuthDataSourceProvider = Provider<FirebaseAuthDataSource>((ref) =>
@@ -27,6 +40,20 @@ final firebaseAuthDataSourceProvider = Provider<FirebaseAuthDataSource>((ref) =>
 final firestoreStoryDataSourceProvider = Provider<FirestoreStoryDataSource>(
     (ref) => FirestoreStoryDataSource(ref.watch(firestoreProvider)));
 
+final firestoreBiographyDataSourceProvider =
+    Provider<FirestoreBiographyDataSource>(
+        (ref) => FirestoreBiographyDataSource(ref.watch(firestoreProvider)));
+
+final firebaseStorageDataSourceProvider = Provider<FirebaseStorageDataSource>(
+    (ref) => FirebaseStorageDataSourceImpl(ref.watch(firebaseStorageProvider)));
+
+final geminiApiServiceProvider = Provider<GeminiApiService>(
+    (ref) => GeminiApiServiceImpl(ref.watch(dioProvider)));
+
+// Services
+final fileUploadServiceProvider = Provider<FileUploadService>(
+    (ref) => FileUploadService(ref.watch(firebaseStorageDataSourceProvider)));
+
 // Repositories
 final authRepositoryProvider = Provider<AuthRepository>(
     (ref) => AuthRepositoryImpl(ref.watch(firebaseAuthDataSourceProvider)));
@@ -34,8 +61,11 @@ final authRepositoryProvider = Provider<AuthRepository>(
 final storyRepositoryProvider = Provider<StoryRepository>(
     (ref) => StoryRepositoryImpl(ref.watch(firestoreStoryDataSourceProvider)));
 
-final aiRepositoryProvider =
-    Provider<AiRepository>((ref) => AiRepositoryImpl());
+final biographyRepositoryProvider = Provider<BiographyRepository>((ref) =>
+    BiographyRepositoryImpl(ref.watch(firestoreBiographyDataSourceProvider)));
+
+final aiRepositoryProvider = Provider<AiRepository>(
+    (ref) => AiRepositoryImpl(ref.watch(geminiApiServiceProvider)));
 
 // UseCases - Auth
 final getAuthStatusUseCaseProvider = Provider<GetAuthStatusUseCase>(
@@ -67,13 +97,12 @@ final searchStoriesUseCaseProvider = Provider<SearchStoriesUseCase>(
 final getPublicStoriesUseCaseProvider = Provider<GetPublicStoriesUseCase>(
     (ref) => GetPublicStoriesUseCase(ref.watch(storyRepositoryProvider)));
 
-// UseCases - AI
+// UseCases - AI Chat
+final sendChatMessageUseCaseProvider = Provider<SendChatMessageUseCase>(
+    (ref) => SendChatMessageUseCase(ref.watch(aiRepositoryProvider)));
+final generateStoryFromChatUseCaseProvider =
+    Provider<GenerateStoryFromChatUseCase>((ref) =>
+        GenerateStoryFromChatUseCase(ref.watch(aiRepositoryProvider),
+            ref.watch(storyRepositoryProvider)));
 final postChatMessageUseCaseProvider = Provider<PostChatMessageUseCase>(
     (ref) => PostChatMessageUseCase(ref.watch(aiRepositoryProvider)));
-
-final generateStoryFromChatUseCaseProvider =
-    Provider<GenerateStoryFromChatUseCase>(
-        (ref) => GenerateStoryFromChatUseCase(
-              ref.watch(aiRepositoryProvider),
-              ref.watch(storyRepositoryProvider),
-            ));
