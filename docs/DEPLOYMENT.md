@@ -4,9 +4,9 @@
 
 你的工作流程：
 
-```
+\`\`\`
 本地开发 → GitHub 推送 → Vercel 自动部署 → v0 UI 设计 → 继续迭代
-```
+\`\`\`
 
 ## 📋 部署前检查清单
 
@@ -45,7 +45,7 @@
    - 点击 "Import"
 
 3. **项目配置**
-   ```json
+   \`\`\`json
    {
      "name": "memory-echoes",
      "framework": "flutter",
@@ -53,7 +53,7 @@
      "outputDirectory": "build/web",
      "installCommand": "flutter pub get"
    }
-   ```
+   \`\`\`
 
 ### 2. 配置环境变量
 
@@ -61,7 +61,7 @@
 
 #### 必需的环境变量
 
-```bash
+\`\`\`bash
 # AI 功能
 GEMINI_API_KEY=your_actual_gemini_api_key_here
 
@@ -78,7 +78,7 @@ LOG_LEVEL=info
 # 网络配置
 API_TIMEOUT_SECONDS=30
 MAX_RETRY_ATTEMPTS=3
-```
+\`\`\`
 
 #### 配置步骤
 
@@ -90,7 +90,7 @@ MAX_RETRY_ATTEMPTS=3
 
 #### vercel.json 配置
 
-```json
+\`\`\`json
 {
   "github": {
     "silent": true
@@ -109,7 +109,7 @@ MAX_RETRY_ATTEMPTS=3
     }
   }
 }
-```
+\`\`\`
 
 ### 4. 自动部署配置
 
@@ -121,13 +121,13 @@ MAX_RETRY_ATTEMPTS=3
 
 #### 部署触发器
 
-```bash
+\`\`\`bash
 # 推送到 main 分支时自动部署
 git push origin main
 
 # 创建 Pull Request 时创建预览
 git push origin feature/new-feature
-```
+\`\`\`
 
 ## 🎨 v0 集成工作流
 
@@ -141,7 +141,7 @@ git push origin feature/new-feature
 
 2. **集成到项目**
 
-   ```bash
+   \`\`\`bash
    # 创建新的功能分支
    git checkout -b feature/ui-update
 
@@ -152,7 +152,7 @@ git push origin feature/new-feature
    git add .
    git commit -m "ui: update component design from v0"
    git push origin feature/ui-update
-   ```
+   \`\`\`
 
 3. **预览和测试**
    - Vercel 会自动为分支创建预览部署
@@ -161,7 +161,7 @@ git push origin feature/new-feature
 
 ### 2. 持续集成流程
 
-```mermaid
+\`\`\`mermaid
 graph LR
     A[本地开发] --> B[推送到 GitHub]
     B --> C[Vercel 自动构建]
@@ -171,19 +171,19 @@ graph LR
     F --> G[生产部署]
     G --> H[v0 UI 设计]
     H --> A
-```
+\`\`\`
 
 ## 🔍 部署监控
 
 ### 1. 部署状态检查
 
-```bash
+\`\`\`bash
 # 检查部署状态
 vercel --prod
 
 # 查看部署日志
 vercel logs
-```
+\`\`\`
 
 ### 2. 性能监控
 
@@ -203,14 +203,14 @@ vercel logs
 
 1. **构建失败**
 
-   ```bash
+   \`\`\`bash
    # 检查 Flutter 版本
    flutter --version
 
    # 清理缓存
    flutter clean
    flutter pub get
-   ```
+   \`\`\`
 
 2. **环境变量未生效**
 
@@ -225,7 +225,7 @@ vercel logs
 
 ### 调试命令
 
-```bash
+\`\`\`bash
 # 本地模拟生产环境
 vercel dev
 
@@ -234,7 +234,7 @@ vercel env ls
 
 # 查看部署详情
 vercel inspect [deployment-url]
-```
+\`\`\`
 
 ## 📈 优化建议
 
@@ -262,29 +262,29 @@ vercel inspect [deployment-url]
 
 1. **本地开发**
 
-   ```bash
+   \`\`\`bash
    git checkout -b feature/new-feature
    # 开发新功能
    git commit -m "feat: add new feature"
-   ```
+   \`\`\`
 
 2. **推送和预览**
 
-   ```bash
+   \`\`\`bash
    git push origin feature/new-feature
    # Vercel 自动创建预览部署
-   ```
+   \`\`\`
 
 3. **测试和合并**
 
-   ```bash
+   \`\`\`bash
    # 在预览环境测试
    # 创建 Pull Request
    # 合并到 main 分支
    git checkout main
    git merge feature/new-feature
    git push origin main
-   ```
+   \`\`\`
 
 4. **生产部署**
    - Vercel 自动部署到生产环境

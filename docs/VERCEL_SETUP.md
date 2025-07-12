@@ -29,19 +29,19 @@
 
 1. **添加 GEMINI_API_KEY**
 
-   ```
+   \`\`\`
    Name: GEMINI_API_KEY
    Value: [粘贴你的 Gemini API Key]
    Environment: ✅ Production ✅ Preview ✅ Development
-   ```
+   \`\`\`
 
 2. **添加功能开关**
 
-   ```
+   \`\`\`
    Name: ENABLE_AI_FEATURES
    Value: true
    Environment: ✅ Production ✅ Preview ✅ Development
-   ```
+   \`\`\`
 
 3. **重复添加其他变量**
 
@@ -73,10 +73,10 @@
 
 ### 部署状态检查
 
-```bash
+\`\`\`bash
 # 检查部署状态
 git log --oneline -5  # 查看最近的提交
-```
+\`\`\`
 
 ### 常见问题排查
 
@@ -116,25 +116,25 @@ git log --oneline -5  # 查看最近的提交
 
 1. **本地开发**
 
-   ```bash
+   \`\`\`bash
    # 确保本地有 .env 文件
    cp .env.example .env
    # 编辑 .env 文件，添加你的 API Key
-   ```
+   \`\`\`
 
 2. **测试功能**
 
-   ```bash
+   \`\`\`bash
    flutter run -d chrome
-   ```
+   \`\`\`
 
 3. **推送到 GitHub**
 
-   ```bash
+   \`\`\`bash
    git add .
    git commit -m "feat: add new feature"
    git push origin main
-   ```
+   \`\`\`
 
 4. **自动部署**
    - Vercel 自动检测到 GitHub 推送
@@ -151,7 +151,7 @@ git log --oneline -5  # 查看最近的提交
 
 2. **集成到项目**
 
-   ```bash
+   \`\`\`bash
    # 创建功能分支
    git checkout -b feature/ui-update
 
@@ -162,7 +162,7 @@ git log --oneline -5  # 查看最近的提交
    git add .
    git commit -m "ui: update design from v0"
    git push origin feature/ui-update
-   ```
+   \`\`\`
 
 3. **预览和测试**
    - Vercel 自动为分支创建预览部署

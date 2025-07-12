@@ -10,16 +10,16 @@
 
 1. **创建 .env 文件**
 
-   ```bash
+   \`\`\`bash
    cp .env.example .env
-   ```
+   \`\`\`
 
 2. **配置 Gemini API Key**
 
-   ```bash
+   \`\`\`bash
    # 在 .env 文件中添加
    GEMINI_API_KEY=your_actual_api_key_here
-   ```
+   \`\`\`
 
 3. **获取 API Key**
    - 访问 [Google AI Studio](https://makersuite.google.com/app/apikey)
@@ -68,21 +68,21 @@ Firebase 配置文件中的 API Key 是公开的，用于客户端身份验证�
 
 1. **立即撤销 API Key**
 
-   ```bash
+   \`\`\`bash
    # 在 Google AI Studio 中撤销旧的 API Key
-   ```
+   \`\`\`
 
 2. **生成新的 API Key**
 
-   ```bash
+   \`\`\`bash
    # 创建新的 API Key 并更新配置
-   ```
+   \`\`\`
 
 3. **清理 Git 历史**
-   ```bash
+   \`\`\`bash
    # 使用 git filter-branch 或 BFG Repo-Cleaner
    # 从所有历史记录中移除敏感信息
-   ```
+   \`\`\`
 
 ## 🛡️ 最佳实践
 

@@ -14,6 +14,7 @@ import '../pages/social/social_square_page.dart';
 import '../pages/biography/biography_page.dart';
 import '../pages/search/search_page.dart';
 import '../pages/settings/settings_page.dart';
+import '../pages/profile/profile_page.dart';
 import '../providers/auth_provider.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -107,6 +108,44 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsPage(),
+      ),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) => const ProfilePage(),
+      ),
+      
+      // 其他页面路由
+      GoRoute(
+        path: '/timeline',
+        builder: (context, state) => const Scaffold(
+          body: Center(
+            child: Text('连续功能即将推出'),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/favorites',
+        builder: (context, state) => const Scaffold(
+          body: Center(
+            child: Text('收藏夹功能即将推出'),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/help',
+        builder: (context, state) => const Scaffold(
+          body: Center(
+            child: Text('帮助页面即将推出'),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/about',
+        builder: (context, state) => const Scaffold(
+          body: Center(
+            child: Text('关于页面即将推出'),
+          ),
+        ),
       ),
     ],
   );
