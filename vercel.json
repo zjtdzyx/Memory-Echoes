@@ -1,0 +1,13 @@
+{
+  "github": {
+    "silent": true
+  },
+  "build": {
+    "env": {
+      "GEMINI_API_KEY": "@gemini-api-key",
+      "ENABLE_AI_FEATURES": "true",
+      "ENABLE_VOICE_RECORDING": "true",
+      "ENABLE_SOCIAL_FEATURES": "true"
+    }
+  }
+}
