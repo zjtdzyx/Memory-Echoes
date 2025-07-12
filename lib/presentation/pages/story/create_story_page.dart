@@ -6,6 +6,7 @@ import '../../../domain/enums/story_mood.dart';
 import 'package:memory_echoes/presentation/providers/story_provider.dart';
 import 'package:memory_echoes/presentation/providers/auth_provider.dart';
 import '../../../core/constants/app_theme.dart';
+import 'package:memory_echoes/presentation/providers/file_upload_provider.dart';
 
 class CreateStoryPage extends ConsumerStatefulWidget {
   const CreateStoryPage({super.key});
@@ -19,10 +20,11 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   final _tagsController = TextEditingController();
-  
+
   StoryMood _mood = StoryMood.neutral;
   final List<String> _tags = [];
   final List<String> _imageUrls = [];
+  bool _isUploading = false;
 
   @override
   void dispose() {
@@ -30,6 +32,56 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
     _contentController.dispose();
     _tagsController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImages() async {
+    final authState = ref.read(authProvider);
+    final userId = authState.whenOrNull(authenticated: (user) => user.id);
+
+    if (userId == null) return;
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    try {
+      final fileUploadService = ref.read(fileUploadServiceProvider);
+      final newImageUrls =
+          await fileUploadService.pickAndUploadMultipleImages(userId);
+
+      setState(() {
+        _imageUrls.addAll(newImageUrls);
+        _isUploading = false;
+      });
+
+      if (newImageUrls.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('成功上传 ${newImageUrls.length} 张图片'),
+            backgroundColor: AppTheme.successGreen,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        _isUploading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('图片上传失败: $e'),
+          backgroundColor: AppTheme.errorRed,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
+  void _removeImage(int index) {
+    setState(() {
+      _imageUrls.removeAt(index);
+    });
   }
 
   Future<void> _submit() async {
@@ -54,7 +106,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
           createdAt: DateTime.now(),
           isPublic: false,
         );
-        
+
         try {
           await ref
               .read(storyListProvider(userId).notifier)
@@ -209,7 +261,8 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                                 Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: AppTheme.primaryOrange.withOpacity(0.1),
+                                    color:
+                                        AppTheme.primaryOrange.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Icon(
@@ -221,10 +274,13 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                                 const SizedBox(width: 12),
                                 Text(
                                   '记录你的美好回忆',
-                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppTheme.darkBrown,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppTheme.darkBrown,
+                                      ),
                                 ),
                               ],
                             ),
@@ -241,7 +297,8 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                                   margin: const EdgeInsets.all(12),
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: AppTheme.primaryOrange.withOpacity(0.1),
+                                    color:
+                                        AppTheme.primaryOrange.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Icon(
@@ -251,7 +308,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                                   ),
                                 ),
                               ),
-                              validator: (value) => 
+                              validator: (value) =>
                                   value?.isEmpty == true ? '请输入记忆标题' : null,
                             ),
 
@@ -268,7 +325,8 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                                   margin: const EdgeInsets.all(12),
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: AppTheme.primaryOrange.withOpacity(0.1),
+                                    color:
+                                        AppTheme.primaryOrange.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Icon(
@@ -280,7 +338,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                               ),
                               maxLines: 8,
                               minLines: 4,
-                              validator: (value) => 
+                              validator: (value) =>
                                   value?.isEmpty == true ? '请输入记忆内容' : null,
                             ),
 
@@ -289,10 +347,13 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                             // 心情选择
                             Text(
                               '当时的心情',
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.darkBrown,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: AppTheme.darkBrown,
+                                  ),
                             ),
                             const SizedBox(height: 12),
                             Container(
@@ -301,7 +362,8 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                                 color: AppTheme.primaryOrange.withOpacity(0.05),
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: AppTheme.primaryOrange.withOpacity(0.2),
+                                  color:
+                                      AppTheme.primaryOrange.withOpacity(0.2),
                                   width: 1,
                                 ),
                               ),
@@ -345,6 +407,122 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
 
                             const SizedBox(height: 24),
 
+                            // 图片上传区域
+                            Container(
+                              decoration: BoxDecoration(
+                                color: AppTheme.primaryOrange.withOpacity(0.05),
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color:
+                                      AppTheme.primaryOrange.withOpacity(0.2),
+                                  width: 1,
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.primaryOrange
+                                                .withOpacity(0.1),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          child: Icon(
+                                            Icons.photo_library,
+                                            color: AppTheme.primaryOrange,
+                                            size: 20,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: Text(
+                                            '添加图片',
+                                            style: TextStyle(
+                                              color: AppTheme.darkBrown,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Georgia',
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: _pickImages,
+                                          icon: Icon(
+                                            Icons.add_photo_alternate,
+                                            color: AppTheme.primaryOrange,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (_imageUrls.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: Wrap(
+                                        spacing: 8,
+                                        runSpacing: 8,
+                                        children: _imageUrls
+                                            .asMap()
+                                            .entries
+                                            .map((entry) {
+                                          final index = entry.key;
+                                          final imageUrl = entry.value;
+                                          return Stack(
+                                            children: [
+                                              Container(
+                                                width: 80,
+                                                height: 80,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  image: DecorationImage(
+                                                    image:
+                                                        NetworkImage(imageUrl),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                right: 4,
+                                                top: 4,
+                                                child: GestureDetector(
+                                                  onTap: () =>
+                                                      _removeImage(index),
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(4),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.red,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.close,
+                                                      color: Colors.white,
+                                                      size: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  const SizedBox(height: 16),
+                                ],
+                              ),
+                            ),
+
+                            const SizedBox(height: 24),
+
                             // 标签输入框
                             TextFormField(
                               controller: _tagsController,
@@ -355,7 +533,8 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                                   margin: const EdgeInsets.all(12),
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: AppTheme.primaryOrange.withOpacity(0.1),
+                                    color:
+                                        AppTheme.primaryOrange.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Icon(
@@ -388,7 +567,8 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                                   backgroundColor: AppTheme.primaryOrange,
                                   foregroundColor: Colors.white,
                                   elevation: 6,
-                                  shadowColor: AppTheme.primaryOrange.withOpacity(0.4),
+                                  shadowColor:
+                                      AppTheme.primaryOrange.withOpacity(0.4),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
