@@ -10,6 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
+  # 权限管理
+  permission_handler: ^11.0.1
 
   # 状态管理
   flutter_riverpod: ^2.4.9
