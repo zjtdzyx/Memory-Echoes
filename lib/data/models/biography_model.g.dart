@@ -8,7 +8,7 @@ part of 'biography_model.dart';
 
 _$BiographyModelImpl _$$BiographyModelImplFromJson(Map<String, dynamic> json) =>
     _$BiographyModelImpl(
-      id: json['id'] as String?,
+      id: json['id'] as String,
       userId: json['userId'] as String,
       title: json['title'] as String,
       content: json['content'] as String,

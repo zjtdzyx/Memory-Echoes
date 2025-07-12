@@ -13,6 +13,11 @@ class BiographyRepositoryImpl implements BiographyRepository {
   }
 
   @override
+  Future<List<BiographyEntity>> getBiographies(String userId) {
+    return getUserBiographies(userId);
+  }
+
+  @override
   Future<BiographyEntity> getBiographyById(String biographyId) {
     return _remoteDataSource.getBiographyById(biographyId);
   }

@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/entities/story_entity.dart';
 import '../../../domain/entities/biography_entity.dart';
+import '../../../data/models/biography_model.dart';
 import '../common/warm_card.dart';
-import '../../providers/gemini_api_provider.dart';
 import '../../services/share_service.dart';
-import '../../providers/biography_repository_provider.dart';
+import '../../../dependency_injection.dart';
 
 class BiographyGenerator extends ConsumerStatefulWidget {
   final List<StoryEntity> stories;
@@ -53,7 +53,7 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
                         color: Theme.of(context)
                             .colorScheme
                             .onSurface
-                            .withOpacity(0.7),
+                            .withValues(alpha: 0.7),
                       ),
                 ),
                 const SizedBox(height: 16),
@@ -210,6 +210,86 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
     );
   }
 
+  Future<void> _generateBiography() async {
+    if (_selectedStoryIds.isEmpty) return;
+
+    setState(() {
+      _isGenerating = true;
+    });
+
+    try {
+      // 获取选中的故事内容
+      final selectedStories = widget.stories
+          .where((story) => _selectedStoryIds.contains(story.id))
+          .toList();
+
+      // 使用 Gemini API 生成传记
+      final geminiService = ref.read(geminiApiServiceProvider);
+      final storyContents = selectedStories.map((s) => s.content).toList();
+      final themeString = _getThemeString(_selectedTheme);
+
+      final content = await geminiService.generateBiography(
+        storyContents,
+        themeString,
+      );
+
+      setState(() {
+        _generatedContent = content;
+        _isGenerating = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isGenerating = false;
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('传记生成失败: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _shareContent() async {
+    if (_generatedContent != null) {
+      await ShareService.shareBiography('我的人生传记', _generatedContent!);
+    }
+  }
+
+  Future<void> _saveContent() async {
+    if (_generatedContent == null) return;
+
+    try {
+      // 创建传记模型
+      final biography = BiographyModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        userId: widget.userId,
+        title: '我的人生传记',
+        content: _generatedContent!,
+        theme: _selectedTheme,
+        storyIds: _selectedStoryIds,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      // 保存到数据库
+      final repository = ref.read(biographyRepositoryProvider);
+      await repository.createBiography(biography);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('传记已保存')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('保存失败: $e')),
+        );
+      }
+    }
+  }
+
   String _getThemeTitle(BiographyTheme theme) {
     switch (theme) {
       case BiographyTheme.classic:
@@ -226,93 +306,26 @@ class _BiographyGeneratorState extends ConsumerState<BiographyGenerator> {
   String _getThemeDescription(BiographyTheme theme) {
     switch (theme) {
       case BiographyTheme.classic:
-        return '传统的叙述方式，温暖而正式';
+        return '传统的传记写作风格，正式而庄重';
       case BiographyTheme.modern:
-        return '现代化的表达，简洁而生动';
+        return '现代化的表达方式，简洁明了';
       case BiographyTheme.vintage:
-        return '怀旧的语调，充满诗意';
+        return '怀旧的文学风格，富有诗意';
       case BiographyTheme.elegant:
-        return '优雅的文笔，富有文学性';
+        return '优雅的散文风格，温暖感人';
     }
   }
 
-  Future<void> _generateBiography() async {
-    setState(() {
-      _isGenerating = true;
-    });
-
-    try {
-      final selectedStories = widget.stories
-          .where((story) => _selectedStoryIds.contains(story.id ?? ''))
-          .toList();
-
-      final storyContents =
-          selectedStories.map((story) => story.content).toList();
-      final theme = _selectedTheme.name;
-
-      // 使用Gemini API生成传记
-      final geminiApiService = ref.read(geminiApiServiceProvider);
-      final generatedContent =
-          await geminiApiService.generateBiography(storyContents, theme);
-
-      setState(() {
-        _generatedContent = generatedContent;
-        _isGenerating = false;
-      });
-    } catch (e) {
-      setState(() {
-        _isGenerating = false;
-      });
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('生成失败: $e')),
-        );
-      }
-    }
-  }
-
-  void _shareContent() {
-    if (_generatedContent != null) {
-      ShareService.shareText(
-        _generatedContent!,
-        subject: '我的人生传记',
-      );
-    }
-  }
-
-  void _saveContent() async {
-    if (_generatedContent == null) return;
-
-    try {
-      final selectedStories = widget.stories
-          .where((story) => _selectedStoryIds.contains(story.id ?? ''))
-          .toList();
-
-      final biography = BiographyModel(
-        userId: widget.userId,
-        title: '我的人生传记',
-        content: _generatedContent!,
-        storyIds: _selectedStoryIds,
-        theme: _selectedTheme,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-      );
-
-      final biographyRepository = ref.read(biographyRepositoryProvider);
-      await biographyRepository.createBiography(biography);
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('传记保存成功！')),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('保存失败: $e')),
-        );
-      }
+  String _getThemeString(BiographyTheme theme) {
+    switch (theme) {
+      case BiographyTheme.classic:
+        return 'classic';
+      case BiographyTheme.modern:
+        return 'modern';
+      case BiographyTheme.vintage:
+        return 'vintage';
+      case BiographyTheme.elegant:
+        return 'elegant';
     }
   }
 }

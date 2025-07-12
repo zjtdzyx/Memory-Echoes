@@ -20,7 +20,7 @@ BiographyModel _$BiographyModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BiographyModel {
-  String? get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $BiographyModelCopyWith<$Res> {
       _$BiographyModelCopyWithImpl<$Res, BiographyModel>;
   @useResult
   $Res call(
-      {String? id,
+      {String id,
       String userId,
       String title,
       String content,
@@ -75,7 +75,7 @@ class _$BiographyModelCopyWithImpl<$Res, $Val extends BiographyModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? userId = null,
     Object? title = null,
     Object? content = null,
@@ -87,10 +87,10 @@ class _$BiographyModelCopyWithImpl<$Res, $Val extends BiographyModel>
     Object? theme = null,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -140,7 +140,7 @@ abstract class _$$BiographyModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
+      {String id,
       String userId,
       String title,
       String content,
@@ -165,7 +165,7 @@ class __$$BiographyModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? userId = null,
     Object? title = null,
     Object? content = null,
@@ -177,10 +177,10 @@ class __$$BiographyModelImplCopyWithImpl<$Res>
     Object? theme = null,
   }) {
     return _then(_$BiographyModelImpl(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -225,7 +225,7 @@ class __$$BiographyModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BiographyModelImpl implements _BiographyModel {
   const _$BiographyModelImpl(
-      {this.id,
+      {required this.id,
       required this.userId,
       required this.title,
       required this.content,
@@ -241,7 +241,7 @@ class _$BiographyModelImpl implements _BiographyModel {
       _$$BiographyModelImplFromJson(json);
 
   @override
-  final String? id;
+  final String id;
   @override
   final String userId;
   @override
@@ -331,7 +331,7 @@ class _$BiographyModelImpl implements _BiographyModel {
 
 abstract class _BiographyModel implements BiographyModel {
   const factory _BiographyModel(
-      {final String? id,
+      {required final String id,
       required final String userId,
       required final String title,
       required final String content,
@@ -346,7 +346,7 @@ abstract class _BiographyModel implements BiographyModel {
       _$BiographyModelImpl.fromJson;
 
   @override
-  String? get id;
+  String get id;
   @override
   String get userId;
   @override

@@ -1,41 +1,29 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // 用户集合规则
+    // 用户只能访问自己的数据
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
     
-    // 故事集合规则
+    // 故事数据访问规则
     match /stories/{storyId} {
-      allow read: if request.auth != null && 
-        (resource.data.userId == request.auth.uid || resource.data.isPublic == true);
-      allow write: if request.auth != null && 
-        (resource == null || resource.data.userId == request.auth.uid);
-      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == resource.data.authorId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.authorId;
     }
     
-    // 传记集合规则
+    // 传记数据访问规则
     match /biographies/{biographyId} {
-      allow read: if request.auth != null && 
-        (resource.data.userId == request.auth.uid || resource.data.isPublic == true);
-      allow write: if request.auth != null && 
-        (resource == null || resource.data.userId == request.auth.uid);
-      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
-    }
-    
-    // 评论集合规则（如果需要）
-    match /comments/{commentId} {
       allow read: if request.auth != null;
       allow write: if request.auth != null && request.auth.uid == resource.data.userId;
-      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
     }
     
-    // 点赞集合规则（如果需要）
-    match /likes/{likeId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && request.auth.uid == resource.data.userId;
-      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    // 聊天消息访问规则
+    match /chat_messages/{messageId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
     }
   }
 }

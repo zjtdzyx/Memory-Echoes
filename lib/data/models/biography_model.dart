@@ -7,7 +7,7 @@ part 'biography_model.g.dart';
 @freezed
 class BiographyModel with _$BiographyModel implements BiographyEntity {
   const factory BiographyModel({
-    String? id,
+    required String id,
     required String userId,
     required String title,
     required String content,

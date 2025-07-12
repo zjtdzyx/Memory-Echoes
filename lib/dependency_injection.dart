@@ -50,6 +50,10 @@ final firebaseStorageDataSourceProvider = Provider<FirebaseStorageDataSource>(
 final geminiApiServiceProvider = Provider<GeminiApiService>(
     (ref) => GeminiApiServiceImpl(ref.watch(dioProvider)));
 
+// 添加 Impl Provider
+final geminiApiServiceImplProvider = Provider<GeminiApiServiceImpl>(
+    (ref) => GeminiApiServiceImpl(ref.watch(dioProvider)));
+
 // Services
 final fileUploadServiceProvider = Provider<FileUploadService>(
     (ref) => FileUploadService(ref.watch(firebaseStorageDataSourceProvider)));
@@ -63,6 +67,10 @@ final storyRepositoryProvider = Provider<StoryRepository>(
 
 final biographyRepositoryProvider = Provider<BiographyRepository>((ref) =>
     BiographyRepositoryImpl(ref.watch(firestoreBiographyDataSourceProvider)));
+
+final biographyRepositoryImplProvider = Provider<BiographyRepositoryImpl>(
+    (ref) => BiographyRepositoryImpl(
+        ref.watch(firestoreBiographyDataSourceProvider)));
 
 final aiRepositoryProvider = Provider<AiRepository>(
     (ref) => AiRepositoryImpl(ref.watch(geminiApiServiceProvider)));

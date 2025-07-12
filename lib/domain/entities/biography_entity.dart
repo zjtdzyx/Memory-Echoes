@@ -22,32 +22,6 @@ class BiographyEntity {
     this.isPublic = false,
     this.theme = BiographyTheme.classic,
   });
-
-  BiographyEntity copyWith({
-    String? id,
-    String? userId,
-    String? title,
-    String? content,
-    List<String>? storyIds,
-    String? coverImageUrl,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    bool? isPublic,
-    BiographyTheme? theme,
-  }) {
-    return BiographyEntity(
-      id: id ?? this.id,
-      userId: userId ?? this.userId,
-      title: title ?? this.title,
-      content: content ?? this.content,
-      storyIds: storyIds ?? this.storyIds,
-      coverImageUrl: coverImageUrl ?? this.coverImageUrl,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      isPublic: isPublic ?? this.isPublic,
-      theme: theme ?? this.theme,
-    );
-  }
 }
 
 enum BiographyTheme {

@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:record/record.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../core/constants/app_theme.dart';
-import '../../../core/services/file_upload_service.dart';
-import '../../../dependency_injection.dart';
 
 class ChatInput extends ConsumerStatefulWidget {
   final Function(String) onSendMessage;
@@ -38,24 +36,39 @@ class _ChatInputState extends ConsumerState<ChatInput> {
       // 请求录音权限
       final permission = await Permission.microphone.request();
       if (!permission.isGranted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('需要录音权限才能使用语音功能')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('需要录音权限才能使用语音功能')),
+          );
+        }
         return;
       }
 
       // 开始录音
       final hasPermission = await _audioRecorder.hasPermission();
       if (hasPermission) {
-        await _audioRecorder.start();
+        // 生成临时文件路径
+        final String tempPath =
+            '/tmp/recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
+
+        await _audioRecorder.start(
+          const RecordConfig(
+            encoder: AudioEncoder.aacLc,
+            bitRate: 128000,
+            sampleRate: 44100,
+          ),
+          path: tempPath,
+        );
         setState(() {
           _isRecording = true;
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('录音启动失败: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('录音启动失败: $e')),
+        );
+      }
     }
   }
 
@@ -67,7 +80,7 @@ class _ChatInputState extends ConsumerState<ChatInput> {
         _audioPath = path;
       });
 
-      if (path != null) {
+      if (path != null && mounted) {
         // TODO: 实现语音转文字功能
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('语音录制完成，语音转文字功能开发中')),
@@ -77,9 +90,11 @@ class _ChatInputState extends ConsumerState<ChatInput> {
       setState(() {
         _isRecording = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('录音停止失败: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('录音停止失败: $e')),
+        );
+      }
     }
   }
 
@@ -99,7 +114,7 @@ class _ChatInputState extends ConsumerState<ChatInput> {
         color: AppTheme.lightCream,
         border: Border(
           top: BorderSide(
-            color: AppTheme.primaryOrange.withOpacity(0.2),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.2),
             width: 1,
           ),
         ),
@@ -137,7 +152,7 @@ class _ChatInputState extends ConsumerState<ChatInput> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: AppTheme.primaryOrange.withOpacity(0.3),
+                  color: AppTheme.primaryOrange.withValues(alpha: 0.3),
                   width: 1,
                 ),
               ),
@@ -166,7 +181,7 @@ class _ChatInputState extends ConsumerState<ChatInput> {
               height: 48,
               decoration: BoxDecoration(
                 color: widget.isLoading
-                    ? AppTheme.primaryOrange.withOpacity(0.5)
+                    ? AppTheme.primaryOrange.withValues(alpha: 0.5)
                     : AppTheme.primaryOrange,
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: AppTheme.warmShadow,
