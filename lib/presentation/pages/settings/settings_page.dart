@@ -64,40 +64,40 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           }
 
           return SingleChildScrollView(
-            padding: const const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 用户头像和基本信息卡片
                 _buildProfileCard(user),
 
-                const const SizedBox(height: 24),
+                const SizedBox(height: 24),
 
                 // 账户设置
                 _buildSectionTitle('账户设置'),
-                const const SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildAccountSettings(user),
 
-                const const SizedBox(height: 32),
+                const SizedBox(height: 32),
 
                 // 安全设置
                 _buildSectionTitle('安全设置'),
-                const const SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildSecuritySettings(),
 
-                const const SizedBox(height: 32),
+                const SizedBox(height: 32),
 
                 // 应用设置
                 _buildSectionTitle('应用设置'),
-                const const SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildAppSettings(),
 
-                const const SizedBox(height: 32),
+                const SizedBox(height: 32),
 
                 // 退出登录
                 _buildSignOutSection(),
 
-                const const SizedBox(height: 40),
+                const SizedBox(height: 40),
               ],
             ),
           );
@@ -119,14 +119,14 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ),
           );
         },
-        orElse: () => const const SizedBox(),
+        orElse: () => const SizedBox(),
       ),
     );
   }
 
   Widget _buildProfileCard(user) {
     return Container(
-      padding: const const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -184,7 +184,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ],
           ),
 
-          const const SizedBox(height: 16),
+          const SizedBox(height: 16),
 
           // 用户名显示/编辑
           if (_isEditingDisplayName)
@@ -204,7 +204,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      contentPadding: const const EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 8,
                       ),
@@ -254,12 +254,12 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               ],
             ),
 
-          const const SizedBox(height: 8),
+          const SizedBox(height: 8),
 
           Text(
             user.email,
             style: TextStyle(
-              color: AppTheme.richBrown.withOpacity(0.8),
+              color: AppTheme.richBrown.withValues(alpha: 0.8),
               fontFamily: 'Georgia',
             ),
           ),
@@ -411,10 +411,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppTheme.errorRed.withOpacity(0.1),
+        color: AppTheme.errorRed.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppTheme.errorRed.withOpacity(0.3),
+          color: AppTheme.errorRed.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -439,11 +439,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     Color? iconColor,
   }) {
     return ListTile(
-      contentPadding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       leading: Container(
-        padding: const const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: (iconColor ?? AppTheme.primaryOrange).withOpacity(0.1),
+          color: (iconColor ?? AppTheme.primaryOrange).withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(
@@ -463,7 +463,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       subtitle: Text(
         subtitle,
         style: TextStyle(
-          color: AppTheme.richBrown.withOpacity(0.7),
+          color: AppTheme.richBrown.withValues(alpha: 0.7),
           fontFamily: 'Georgia',
         ),
       ),
@@ -481,7 +481,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) => Container(
-        padding: const const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -493,7 +493,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            const const SizedBox(height: 20),
+            const SizedBox(height: 20),
             const Text(
               '选择头像',
               style: TextStyle(
@@ -503,7 +503,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 fontFamily: 'Georgia',
               ),
             ),
-            const const SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -524,7 +524,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 ),
               ],
             ),
-            const const SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -544,7 +544,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             width: 60,
             height: 60,
             decoration: BoxDecoration(
-              color: AppTheme.primaryOrange.withOpacity(0.1),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -553,7 +553,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               size: 24,
             ),
           ),
-          const const SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             label,
             style: const TextStyle(
@@ -636,7 +636,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const const SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               controller: _currentPasswordController,
               obscureText: true,
@@ -690,7 +690,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const const SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               controller: _newPasswordController,
               obscureText: true,
@@ -699,7 +699,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const const SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               controller: _confirmPasswordController,
               obscureText: true,
@@ -752,9 +752,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('缓存大小: 约 5.2 MB'),
-            const const SizedBox(height: 8),
+            const SizedBox(height: 8),
             const Text('本地数据: 约 12.8 MB'),
-            const const SizedBox(height: 16),
+            const SizedBox(height: 16),
             const Text(
               '清除数据后，您需要重新登录，但云端数据不会丢失。',
               style: TextStyle(

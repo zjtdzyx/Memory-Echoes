@@ -32,7 +32,7 @@ class StoryCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: AppTheme.warmShadow,
         border: Border.all(
-          color: AppTheme.primaryOrange.withOpacity(0.1),
+          color: AppTheme.primaryOrange.withValues(alpha: 0.1),
           width: 1,
         ),
       ),
@@ -63,8 +63,8 @@ class StoryCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                AppTheme.primaryOrange.withOpacity(0.1),
-                                AppTheme.accentOrange.withOpacity(0.1),
+                                AppTheme.primaryOrange.withValues(alpha: 0.1),
+                                AppTheme.accentOrange.withValues(alpha: 0.1),
                               ],
                             ),
                           ),
@@ -81,8 +81,8 @@ class StoryCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                AppTheme.primaryOrange.withOpacity(0.1),
-                                AppTheme.accentOrange.withOpacity(0.1),
+                                AppTheme.primaryOrange.withValues(alpha: 0.1),
+                                AppTheme.accentOrange.withValues(alpha: 0.1),
                               ],
                             ),
                           ),
@@ -108,7 +108,7 @@ class StoryCard extends StatelessWidget {
                               end: Alignment.bottomCenter,
                               colors: [
                                 Colors.transparent,
-                                Colors.black.withOpacity(0.3),
+                                Colors.black.withValues(alpha: 0.3),
                               ],
                             ),
                           ),
@@ -140,7 +140,7 @@ class StoryCard extends StatelessWidget {
                         if (onEdit != null || onDelete != null)
                           Container(
                             decoration: BoxDecoration(
-                              color: AppTheme.primaryOrange.withOpacity(0.1),
+                              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: PopupMenuButton<String>(
@@ -196,7 +196,7 @@ class StoryCard extends StatelessWidget {
                       story.content,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         height: 1.6,
-                        color: AppTheme.richBrown.withOpacity(0.9),
+                        color: AppTheme.richBrown.withValues(alpha: 0.9),
                       ),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
@@ -214,10 +214,10 @@ class StoryCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: AppTheme.primaryOrange.withOpacity(0.1),
+                              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: AppTheme.primaryOrange.withOpacity(0.2),
+                                color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                                 width: 1,
                               ),
                             ),
@@ -242,10 +242,10 @@ class StoryCard extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 8),
                           decoration: BoxDecoration(
-                            color: _getMoodColor(story.mood).withOpacity(0.1),
+                            color: _getMoodColor(story.mood).withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: _getMoodColor(story.mood).withOpacity(0.3),
+                              color: _getMoodColor(story.mood).withValues(alpha: 0.3),
                               width: 1,
                             ),
                           ),
@@ -275,7 +275,7 @@ class StoryCard extends StatelessWidget {
                         if (onLike != null)
                           Container(
                             decoration: BoxDecoration(
-                              color: AppTheme.primaryOrange.withOpacity(0.1),
+                              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: InkWell(
@@ -312,7 +312,7 @@ class StoryCard extends StatelessWidget {
                         Text(
                           formatDate(story.createdAt),
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppTheme.richBrown.withOpacity(0.6),
+                            color: AppTheme.richBrown.withValues(alpha: 0.6),
                           ),
                         ),
                       ],

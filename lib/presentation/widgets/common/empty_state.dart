@@ -32,8 +32,8 @@ class EmptyState extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    AppTheme.primaryOrange.withOpacity(0.1),
-                    AppTheme.accentOrange.withOpacity(0.1),
+                    AppTheme.primaryOrange.withValues(alpha: 0.1),
+                    AppTheme.accentOrange.withValues(alpha: 0.1),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(60),
@@ -41,7 +41,7 @@ class EmptyState extends StatelessWidget {
               child: Icon(
                 icon ?? Icons.auto_stories,
                 size: 60,
-                color: AppTheme.primaryOrange.withOpacity(0.6),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.6),
               ),
             ),
             
@@ -50,7 +50,7 @@ class EmptyState extends StatelessWidget {
             Text(
               message,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppTheme.richBrown.withOpacity(0.8),
+                color: AppTheme.richBrown.withValues(alpha: 0.8),
                 fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,

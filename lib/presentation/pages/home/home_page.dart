@@ -47,7 +47,7 @@ class HomePage extends ConsumerWidget {
                     _buildRecentStoriesSection(context, recentStoriesState),
 
                     // 底部间距
-                    const const const SizedBox(height: 100),
+                    const SizedBox(height: 100),
                   ],
                 ),
               ),
@@ -61,7 +61,7 @@ class HomePage extends ConsumerWidget {
 
   Widget _buildTopNavigation(BuildContext context, WidgetRef ref, authState) {
     return Container(
-      padding: const const const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: const Color(0xFFFAF7F2),
         boxShadow: [
@@ -76,7 +76,7 @@ class HomePage extends ConsumerWidget {
         children: [
           // Logo区域
           Container(
-            padding: const const const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
               color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
@@ -93,7 +93,7 @@ class HomePage extends ConsumerWidget {
                   color: AppTheme.primaryOrange,
                   size: 20,
                 ),
-                const const const SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
                   '记忆回响',
                   style: TextStyle(
@@ -139,7 +139,7 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
             ),
-            orElse: () => const const const SizedBox(),
+            orElse: () => const SizedBox(),
           ),
         ],
       ),
@@ -148,11 +148,11 @@ class HomePage extends ConsumerWidget {
 
   Widget _buildSearchBar(BuildContext context) {
     return Container(
-      margin: const const const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: GestureDetector(
         onTap: () => context.go('/search'),
         child: Container(
-          padding: const const const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           decoration: BoxDecoration(
             color: const Color(0xFFFAF7F2),
             borderRadius: BorderRadius.circular(16),
@@ -175,7 +175,7 @@ class HomePage extends ConsumerWidget {
                 color: AppTheme.richBrown.withValues(alpha: 0.5),
                 size: 20,
               ),
-              const const const SizedBox(width: 12),
+              const SizedBox(width: 12),
               Text(
                 '搜索故事、传记...',
                 style: TextStyle(
@@ -193,7 +193,7 @@ class HomePage extends ConsumerWidget {
 
   Widget _buildBiographySection(BuildContext context) {
     return Container(
-      margin: const const const EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -206,7 +206,7 @@ class HomePage extends ConsumerWidget {
               fontFamily: 'Georgia',
             ),
           ),
-          const const const SizedBox(height: 16),
+          const SizedBox(height: 16),
           Row(
             children: [
               // 第一个传记卡片
@@ -215,7 +215,7 @@ class HomePage extends ConsumerWidget {
                   onTap: () => context.go('/biography/create'),
                   child: Container(
                     height: 200,
-                    padding: const const const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
@@ -239,7 +239,7 @@ class HomePage extends ConsumerWidget {
                           color: AppTheme.primaryOrange,
                           size: 32,
                         ),
-                        const const const SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         Text(
                           '这是传记卡片，具体UI没想好',
                           style: TextStyle(
@@ -251,7 +251,7 @@ class HomePage extends ConsumerWidget {
                         ),
                         const Spacer(),
                         Container(
-                          padding: const const const EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 12,
                             vertical: 6,
                           ),
@@ -275,7 +275,7 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
 
-              const const const SizedBox(width: 16),
+              const SizedBox(width: 16),
 
               // 第二个传记卡片
               Expanded(
@@ -283,7 +283,7 @@ class HomePage extends ConsumerWidget {
                   onTap: () => context.go('/biography'),
                   child: Container(
                     height: 200,
-                    padding: const const const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
@@ -307,7 +307,7 @@ class HomePage extends ConsumerWidget {
                           color: AppTheme.primaryOrange,
                           size: 32,
                         ),
-                        const const const SizedBox(height: 12),
+                        const SizedBox(height: 12),
                         Text(
                           '点击传记卡片会进入传记详情页',
                           style: TextStyle(
@@ -319,7 +319,7 @@ class HomePage extends ConsumerWidget {
                         ),
                         const Spacer(),
                         Container(
-                          padding: const const const EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 12,
                             vertical: 6,
                           ),
@@ -351,7 +351,7 @@ class HomePage extends ConsumerWidget {
 
   Widget _buildQuickActionsSection(BuildContext context) {
     return Container(
-      margin: const const const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -364,7 +364,7 @@ class HomePage extends ConsumerWidget {
               fontFamily: 'Georgia',
             ),
           ),
-          const const const SizedBox(height: 16),
+          const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
@@ -375,7 +375,7 @@ class HomePage extends ConsumerWidget {
                   onTap: () => context.go('/chat'),
                 ),
               ),
-              const const const SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: FeatureCard(
                   title: '创建故事',
@@ -393,7 +393,7 @@ class HomePage extends ConsumerWidget {
 
   Widget _buildRecentStoriesSection(BuildContext context, recentStoriesState) {
     return Container(
-      margin: const const const EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -422,12 +422,12 @@ class HomePage extends ConsumerWidget {
               ),
             ],
           ),
-          const const const SizedBox(height: 16),
+          const SizedBox(height: 16),
           recentStoriesState.when(
             data: (stories) {
               if (stories.isEmpty) {
                 return Container(
-                  padding: const const const EdgeInsets.all(32),
+                  padding: const EdgeInsets.all(32),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFAF7F2),
                     borderRadius: BorderRadius.circular(16),
@@ -443,7 +443,7 @@ class HomePage extends ConsumerWidget {
                         size: 48,
                         color: AppTheme.primaryOrange.withValues(alpha: 0.6),
                       ),
-                      const const const SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Text(
                         '还没有故事\n开始创建您的第一个故事吧！',
                         textAlign: TextAlign.center,
@@ -471,7 +471,7 @@ class HomePage extends ConsumerWidget {
             },
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stack) => Container(
-              padding: const const const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: AppTheme.errorRed.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
@@ -504,7 +504,7 @@ class HomePage extends ConsumerWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const const const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -566,7 +566,7 @@ class HomePage extends ConsumerWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const const const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
               ? AppTheme.primaryOrange.withValues(alpha: 0.15)
@@ -583,7 +583,7 @@ class HomePage extends ConsumerWidget {
                   : AppTheme.richBrown.withValues(alpha: 0.6),
               size: 24,
             ),
-            const const const SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(

@@ -22,18 +22,18 @@ class ProfilePage extends ConsumerWidget {
             // 个人信息区域
             Expanded(
               child: SingleChildScrollView(
-                padding: const const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
                     // 用户信息卡片
                     _buildUserInfoCard(context, authState),
 
-                    const const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
                     // 功能菜单
                     _buildMenuSection(context),
 
-                    const const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
                     // 设置区域
                     _buildSettingsSection(context, ref),
@@ -50,7 +50,7 @@ class ProfilePage extends ConsumerWidget {
 
   Widget _buildTopNavigation(BuildContext context, WidgetRef ref, authState) {
     return Container(
-      padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: AppTheme.lightCream,
         boxShadow: [
@@ -67,7 +67,7 @@ class ProfilePage extends ConsumerWidget {
           GestureDetector(
             onTap: () => context.go('/home'),
             child: Container(
-              padding: const const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
@@ -84,7 +84,7 @@ class ProfilePage extends ConsumerWidget {
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const const SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(
@@ -118,7 +118,7 @@ class ProfilePage extends ConsumerWidget {
   Widget _buildUserInfoCard(BuildContext context, authState) {
     return authState.maybeWhen(
       authenticated: (user) => Container(
-        padding: const const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -165,7 +165,7 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
 
-            const const SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             // 用户名
             Text(
@@ -178,7 +178,7 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
 
-            const const SizedBox(height: 8),
+            const SizedBox(height: 8),
 
             // 邮箱
             Text(
@@ -190,7 +190,7 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
 
-            const const SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // 统计信息
             Row(
@@ -205,7 +205,7 @@ class ProfilePage extends ConsumerWidget {
         ),
       ),
       orElse: () => Container(
-        padding: const const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: AppTheme.lightCream,
           borderRadius: BorderRadius.circular(20),
@@ -218,7 +218,7 @@ class ProfilePage extends ConsumerWidget {
               size: 64,
               color: AppTheme.primaryOrange.withValues(alpha: 0.6),
             ),
-            const const SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               '未登录',
               style: TextStyle(
@@ -228,7 +228,7 @@ class ProfilePage extends ConsumerWidget {
                 fontFamily: 'Georgia',
               ),
             ),
-            const const SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               '登录后体验完整功能',
               style: TextStyle(
@@ -237,7 +237,7 @@ class ProfilePage extends ConsumerWidget {
                 fontFamily: 'Georgia',
               ),
             ),
-            const const SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => context.go('/login'),
               child: const Text('立即登录'),
@@ -260,7 +260,7 @@ class ProfilePage extends ConsumerWidget {
             fontFamily: 'Georgia',
           ),
         ),
-        const const SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
           label,
           style: TextStyle(
@@ -375,9 +375,9 @@ class ProfilePage extends ConsumerWidget {
     Color? textColor,
   }) {
     return ListTile(
-      contentPadding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       leading: Container(
-        padding: const const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: (textColor ?? AppTheme.primaryOrange).withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
@@ -434,7 +434,7 @@ class ProfilePage extends ConsumerWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -496,7 +496,7 @@ class ProfilePage extends ConsumerWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
               ? AppTheme.primaryOrange.withValues(alpha: 0.1)
@@ -513,7 +513,7 @@ class ProfilePage extends ConsumerWidget {
                   : AppTheme.richBrown.withValues(alpha: 0.6),
               size: 24,
             ),
-            const const SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(

@@ -41,7 +41,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
             // 聊天内容区域
             Expanded(
               child: Container(
-                margin: const const EdgeInsets.all(20),
+                margin: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFAF7F2), // 更浅的奶油色
                   borderRadius: BorderRadius.circular(24),
@@ -61,7 +61,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                           ? _buildWelcomeMessage()
                           : ListView.builder(
                               controller: _scrollController,
-                              padding: const const EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
                               itemCount: chatState.messages.length,
                               itemBuilder: (context, index) {
                                 final message = chatState.messages[index];
@@ -76,7 +76,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                     // 加载指示器
                     if (chatState.isLoading)
                       Container(
-                        padding: const const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: Row(
                           children: [
                             const SizedBox(
@@ -89,7 +89,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                                 ),
                               ),
                             ),
-                            const const SizedBox(width: 12),
+                            const SizedBox(width: 12),
                             Text(
                               'AI 正在思考...',
                               style: TextStyle(
@@ -116,7 +116,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
 
   Widget _buildTopNavigation(BuildContext context, WidgetRef ref, authState) {
     return Container(
-      padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: const Color(0xFFFAF7F2),
         boxShadow: [
@@ -133,7 +133,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
           GestureDetector(
             onTap: () => context.go('/home'),
             child: Container(
-              padding: const const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
@@ -150,7 +150,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const const SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(
@@ -197,7 +197,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                 ),
               ),
             ),
-            orElse: () => const const SizedBox(),
+            orElse: () => const SizedBox(),
           ),
         ],
       ),
@@ -211,7 +211,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
         children: [
           // AI 图标
           Container(
-            padding: const const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               shape: BoxShape.circle,
@@ -222,12 +222,12 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               color: AppTheme.primaryOrange,
             ),
           ),
-          const const SizedBox(height: 32),
+          const SizedBox(height: 32),
 
           // 欢迎消息气泡
           Container(
-            margin: const const EdgeInsets.symmetric(horizontal: 40),
-            padding: const const EdgeInsets.all(24),
+            margin: const EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: const Color(0xFFF5F1EB),
               borderRadius: BorderRadius.circular(20),
@@ -247,7 +247,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               ),
             ),
           ),
-          const const SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             '与AI分享你的记忆，让它帮你记录美好时光',
             textAlign: TextAlign.center,
@@ -264,7 +264,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
 
   Widget _buildEnhancedChatInput() {
     return Container(
-      padding: const const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: const Color(0xFFF5F1EB),
         borderRadius: const BorderRadius.only(
@@ -297,7 +297,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                         fontFamily: 'Georgia',
                       ),
                       border: InputBorder.none,
-                      contentPadding: const const EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 16,
                       ),
@@ -348,7 +348,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
             ),
           ),
 
-          const const SizedBox(height: 12),
+          const SizedBox(height: 12),
 
           // 功能按钮行
           Row(
@@ -362,7 +362,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                 },
               ),
 
-              const const SizedBox(width: 12),
+              const SizedBox(width: 12),
 
               // 图片上传
               _buildActionButton(
@@ -403,7 +403,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                     backgroundColor: Colors.transparent,
                     foregroundColor: Colors.white,
                     shadowColor: Colors.transparent,
-                    padding: const const EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 12,
                     ),
@@ -428,7 +428,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: AppTheme.primaryOrange.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(16),
@@ -445,7 +445,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               color: AppTheme.primaryOrange,
               size: 18,
             ),
-            const const SizedBox(width: 6),
+            const SizedBox(width: 6),
             Text(
               label,
               style: TextStyle(
@@ -475,7 +475,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -537,7 +537,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
               ? AppTheme.primaryOrange.withValues(alpha: 0.15)
@@ -554,7 +554,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                   : AppTheme.richBrown.withValues(alpha: 0.6),
               size: 24,
             ),
-            const const SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
@@ -626,7 +626,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                 fontFamily: 'Georgia',
               ),
             ),
-            const const SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               controller: titleController,
               decoration: InputDecoration(

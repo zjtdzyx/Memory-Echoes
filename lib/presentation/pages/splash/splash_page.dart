@@ -102,7 +102,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 20,
                         offset: const Offset(0, 10),
                       ),
@@ -115,7 +115,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
                   ),
                 ),
 
-                const const SizedBox(height: 32),
+                const SizedBox(height: 32),
 
                 // 应用名称
                 Text(
@@ -126,16 +126,16 @@ class _SplashPageState extends ConsumerState<SplashPage>
                       ),
                 ),
 
-                const const SizedBox(height: 8),
+                const SizedBox(height: 8),
 
                 Text(
                   'Memory Echoes',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withValues(alpha: 0.8),
                       ),
                 ),
 
-                const const SizedBox(height: 48),
+                const SizedBox(height: 48),
 
                 // 加载指示器
                 const CircularProgressIndicator(

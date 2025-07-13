@@ -67,7 +67,7 @@ class StoryListPage extends ConsumerWidget {
                         error.toString(),
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppTheme.richBrown.withOpacity(0.8),
+                          color: AppTheme.richBrown.withValues(alpha: 0.8),
                           fontFamily: 'Georgia',
                         ),
                         textAlign: TextAlign.center,
@@ -92,7 +92,7 @@ class StoryListPage extends ConsumerWidget {
         color: AppTheme.lightCream,
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.1),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -106,10 +106,10 @@ class StoryListPage extends ConsumerWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: AppTheme.primaryOrange.withOpacity(0.1),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: AppTheme.primaryOrange.withOpacity(0.3),
+                  color: AppTheme.primaryOrange.withValues(alpha: 0.3),
                   width: 1,
                 ),
               ),
@@ -148,13 +148,13 @@ class StoryListPage extends ConsumerWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: AppTheme.primaryOrange.withOpacity(0.3),
+                    color: AppTheme.primaryOrange.withValues(alpha: 0.3),
                     width: 2,
                   ),
                   boxShadow: AppTheme.softShadow,
                 ),
                 child: CircleAvatar(
-                  backgroundColor: AppTheme.primaryOrange.withOpacity(0.1),
+                  backgroundColor: AppTheme.primaryOrange.withValues(alpha: 0.1),
                   backgroundImage: user.photoURL != null
                       ? NetworkImage(user.photoURL!)
                       : null,
@@ -183,7 +183,7 @@ class StoryListPage extends ConsumerWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: AppTheme.softShadow,
         border: Border.all(
-          color: AppTheme.primaryOrange.withOpacity(0.2),
+          color: AppTheme.primaryOrange.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -191,7 +191,7 @@ class StoryListPage extends ConsumerWidget {
         decoration: InputDecoration(
           hintText: '搜索你的故事...',
           hintStyle: TextStyle(
-            color: AppTheme.richBrown.withOpacity(0.6),
+            color: AppTheme.richBrown.withValues(alpha: 0.6),
             fontFamily: 'Georgia',
           ),
           prefixIcon: Icon(
@@ -233,7 +233,7 @@ class StoryListPage extends ConsumerWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryOrange.withOpacity(0.1),
+                  color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -258,7 +258,7 @@ class StoryListPage extends ConsumerWidget {
             '点击故事卡片查看详情，长按可以编辑或删除',
             style: TextStyle(
               fontSize: 14,
-              color: AppTheme.richBrown.withOpacity(0.8),
+              color: AppTheme.richBrown.withValues(alpha: 0.8),
               fontFamily: 'Georgia',
             ),
           ),
@@ -286,10 +286,10 @@ class StoryListPage extends ConsumerWidget {
           margin: const EdgeInsets.all(20),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppTheme.primaryOrange.withOpacity(0.1),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: AppTheme.primaryOrange.withOpacity(0.2),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.2),
               width: 1,
             ),
           ),
@@ -326,7 +326,7 @@ class StoryListPage extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: AppTheme.warmShadow,
         border: Border.all(
-          color: AppTheme.primaryOrange.withOpacity(0.1),
+          color: AppTheme.primaryOrange.withValues(alpha: 0.1),
           width: 1,
         ),
       ),
@@ -366,7 +366,7 @@ class StoryListPage extends ConsumerWidget {
                         story.content,
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppTheme.richBrown.withOpacity(0.9),
+                          color: AppTheme.richBrown.withValues(alpha: 0.9),
                           height: 1.5,
                           fontFamily: 'Georgia',
                         ),
@@ -383,7 +383,7 @@ class StoryListPage extends ConsumerWidget {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryOrange.withOpacity(0.1),
+                          color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -407,10 +407,10 @@ class StoryListPage extends ConsumerWidget {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryOrange.withOpacity(0.1),
+                    color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: AppTheme.primaryOrange.withOpacity(0.2),
+                      color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                       width: 1,
                     ),
                   ),
@@ -437,7 +437,7 @@ class StoryListPage extends ConsumerWidget {
   Widget _buildPlaceholderImage() {
     return Icon(
       Icons.image_outlined,
-      color: AppTheme.primaryOrange.withOpacity(0.6),
+      color: AppTheme.primaryOrange.withValues(alpha: 0.6),
       size: 32,
     );
   }
@@ -450,7 +450,7 @@ class StoryListPage extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: AppTheme.primaryOrange.withOpacity(0.1),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -474,7 +474,7 @@ class StoryListPage extends ConsumerWidget {
             '开始记录你的第一个美好回忆吧！',
             style: TextStyle(
               fontSize: 16,
-              color: AppTheme.richBrown.withOpacity(0.8),
+              color: AppTheme.richBrown.withValues(alpha: 0.8),
               fontFamily: 'Georgia',
             ),
             textAlign: TextAlign.center,
@@ -512,7 +512,7 @@ class StoryListPage extends ConsumerWidget {
         color: AppTheme.lightCream,
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.1),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
@@ -585,7 +585,7 @@ class StoryListPage extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
-              ? AppTheme.primaryOrange.withOpacity(0.1)
+              ? AppTheme.primaryOrange.withValues(alpha: 0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -596,7 +596,7 @@ class StoryListPage extends ConsumerWidget {
               isActive ? activeIcon : icon,
               color: isActive
                   ? AppTheme.primaryOrange
-                  : AppTheme.richBrown.withOpacity(0.6),
+                  : AppTheme.richBrown.withValues(alpha: 0.6),
               size: 24,
             ),
             const SizedBox(height: 4),
@@ -606,7 +606,7 @@ class StoryListPage extends ConsumerWidget {
                 fontSize: 12,
                 color: isActive
                     ? AppTheme.primaryOrange
-                    : AppTheme.richBrown.withOpacity(0.6),
+                    : AppTheme.richBrown.withValues(alpha: 0.6),
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                 fontFamily: 'Georgia',
               ),

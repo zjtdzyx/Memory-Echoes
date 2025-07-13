@@ -36,7 +36,7 @@ class FirestoreBiographyDataSource {
   }
 
   Future<BiographyModel> updateBiography(BiographyModel biography) async {
-    if (biography.id == null) {
+    if (biography.id.isEmpty) {
       throw Exception('传记ID不能为空');
     }
 

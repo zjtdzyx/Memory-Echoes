@@ -52,12 +52,12 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: AppTheme.primaryOrange.withOpacity(0.2),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: AppTheme.primaryOrange.withOpacity(0.05),
+                  color: AppTheme.primaryOrange.withValues(alpha: 0.05),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -72,7 +72,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
                     decoration: InputDecoration(
                       hintText: '输入你的故事...',
                       hintStyle: TextStyle(
-                        color: AppTheme.richBrown.withOpacity(0.5),
+                        color: AppTheme.richBrown.withValues(alpha: 0.5),
                         fontFamily: 'Georgia',
                       ),
                       border: InputBorder.none,
@@ -104,7 +104,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
                       decoration: BoxDecoration(
                         color: _isRecording 
                             ? AppTheme.primaryOrange
-                            : AppTheme.primaryOrange.withOpacity(0.1),
+                            : AppTheme.primaryOrange.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(22),
                       ),
                       child: Icon(
@@ -136,7 +136,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
                         borderRadius: BorderRadius.circular(22),
                         boxShadow: [
                           BoxShadow(
-                            color: AppTheme.primaryOrange.withOpacity(0.3),
+                            color: AppTheme.primaryOrange.withValues(alpha: 0.3),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -190,7 +190,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: AppTheme.primaryOrange.withOpacity(0.3),
+                        color: AppTheme.primaryOrange.withValues(alpha: 0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -231,10 +231,10 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: AppTheme.primaryOrange.withOpacity(0.1),
+          color: AppTheme.primaryOrange.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: AppTheme.primaryOrange.withOpacity(0.2),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.2),
             width: 1,
           ),
         ),

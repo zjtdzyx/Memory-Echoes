@@ -26,7 +26,7 @@ class ErrorPage extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Padding(
-                  padding: const const EdgeInsets.all(40),
+                  padding: const EdgeInsets.all(40),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -45,40 +45,40 @@ class ErrorPage extends StatelessWidget {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    AppTheme.primaryOrange.withOpacity(0.1),
-                                    AppTheme.accentOrange.withOpacity(0.1),
+                                    AppTheme.primaryOrange.withValues(alpha: 0.1),
+                                    AppTheme.accentOrange.withValues(alpha: 0.1),
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(60),
                                 border: Border.all(
-                                  color: AppTheme.primaryOrange.withOpacity(0.2),
+                                  color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                                   width: 2,
                                 ),
                               ),
                               child: Icon(
                                 Icons.sentiment_dissatisfied,
                                 size: 60,
-                                color: AppTheme.primaryOrange.withOpacity(0.8),
+                                color: AppTheme.primaryOrange.withValues(alpha: 0.8),
                               ),
                             ),
                           );
                         },
                       ),
                       
-                      const const SizedBox(height: 32),
+                      const SizedBox(height: 32),
                       
                       // 错误代码
                       if (errorCode != null)
                         Container(
-                          padding: const const EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 16,
                             vertical: 8,
                           ),
                           decoration: BoxDecoration(
-                            color: AppTheme.primaryOrange.withOpacity(0.1),
+                            color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: AppTheme.primaryOrange.withOpacity(0.2),
+                              color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                               width: 1,
                             ),
                           ),
@@ -93,7 +93,7 @@ class ErrorPage extends StatelessWidget {
                           ),
                         ),
                       
-                      const const SizedBox(height: 24),
+                      const SizedBox(height: 24),
                       
                       // 主要错误信息
                       Text(
@@ -107,16 +107,16 @@ class ErrorPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       
-                      const const SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       
                       // 错误描述
                       Container(
-                        padding: const const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: const Color(0xFFFAF7F2),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: AppTheme.primaryOrange.withOpacity(0.1),
+                            color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                             width: 1,
                           ),
                         ),
@@ -124,7 +124,7 @@ class ErrorPage extends StatelessWidget {
                           errorMessage ?? _getDefaultErrorMessage(),
                           style: TextStyle(
                             fontSize: 16,
-                            color: AppTheme.richBrown.withOpacity(0.8),
+                            color: AppTheme.richBrown.withValues(alpha: 0.8),
                             height: 1.5,
                             fontFamily: 'Georgia',
                           ),
@@ -132,7 +132,7 @@ class ErrorPage extends StatelessWidget {
                         ),
                       ),
                       
-                      const const SizedBox(height: 40),
+                      const SizedBox(height: 40),
                       
                       // 操作按钮
                       Column(
@@ -150,7 +150,7 @@ class ErrorPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppTheme.primaryOrange.withOpacity(0.3),
+                                  color: AppTheme.primaryOrange.withValues(alpha: 0.3),
                                   blurRadius: 8,
                                   offset: const Offset(0, 4),
                                 ),
@@ -171,7 +171,7 @@ class ErrorPage extends StatelessWidget {
                                 backgroundColor: Colors.transparent,
                                 foregroundColor: Colors.white,
                                 shadowColor: Colors.transparent,
-                                padding: const const EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                   vertical: 16,
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -181,7 +181,7 @@ class ErrorPage extends StatelessWidget {
                             ),
                           ),
                           
-                          const const SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           
                           // 重试按钮
                           Container(
@@ -210,7 +210,7 @@ class ErrorPage extends StatelessWidget {
                                   color: AppTheme.primaryOrange,
                                   width: 2,
                                 ),
-                                padding: const const EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                   vertical: 16,
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -222,14 +222,14 @@ class ErrorPage extends StatelessWidget {
                         ],
                       ),
                       
-                      const const SizedBox(height: 32),
+                      const SizedBox(height: 32),
                       
                       // 帮助文本
                       Text(
                         '如果问题持续存在，请联系我们的客服团队',
                         style: TextStyle(
                           fontSize: 12,
-                          color: AppTheme.richBrown.withOpacity(0.6),
+                          color: AppTheme.richBrown.withValues(alpha: 0.6),
                           fontFamily: 'Georgia',
                         ),
                         textAlign: TextAlign.center,
@@ -247,12 +247,12 @@ class ErrorPage extends StatelessWidget {
 
   Widget _buildTopNavigation(BuildContext context) {
     return Container(
-      padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: const Color(0xFFFAF7F2),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.08),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -264,12 +264,12 @@ class ErrorPage extends StatelessWidget {
           GestureDetector(
             onTap: () => context.go('/home'),
             child: Container(
-              padding: const const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: AppTheme.primaryOrange.withOpacity(0.1),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: AppTheme.primaryOrange.withOpacity(0.2),
+                  color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                   width: 1,
                 ),
               ),
@@ -281,7 +281,7 @@ class ErrorPage extends StatelessWidget {
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const const SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(
@@ -301,7 +301,7 @@ class ErrorPage extends StatelessWidget {
           // 返回按钮
           Container(
             decoration: BoxDecoration(
-              color: AppTheme.primaryOrange.withOpacity(0.1),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(

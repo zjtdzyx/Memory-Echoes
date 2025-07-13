@@ -98,12 +98,12 @@ class ErrorHandler {
         return const StorageException('用户未认证');
       case 'storage/retry-limit-exceeded':
         return const StorageException('重试次数超出限制');
-      case 'storage/invalid-checksum':
-        return const StorageException('文件校验失败');
-      case 'storage/canceled':
-        return const StorageException('操作已取消');
       default:
         return StorageException(
+          "存储操作失败: ${error.message}",
+          code: error.code,
+          originalError: error,
+        );        return StorageException(
           '存储操作失败: ${error.message}',
           code: error.code,
           originalError: error,
