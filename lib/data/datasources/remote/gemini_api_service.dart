@@ -14,6 +14,7 @@ abstract class GeminiApiService {
 class GeminiApiServiceImpl implements GeminiApiService {
   final Dio _dio;
   late final String _apiKey;
+  static const String _modelName = 'gemini-1.5-flash';
 
   GeminiApiServiceImpl(this._dio) {
     _apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
@@ -33,7 +34,7 @@ class GeminiApiServiceImpl implements GeminiApiService {
 
     try {
       final response = await _dio.post(
-        'gemini-pro:generateContent?key=$_apiKey',
+        '$_modelName:generateContent?key=$_apiKey',
         data: {
           'contents': [
             {
@@ -66,7 +67,7 @@ class GeminiApiServiceImpl implements GeminiApiService {
 
     try {
       final response = await _dio.post(
-        'gemini-pro:generateContent?key=$_apiKey',
+        '$_modelName:generateContent?key=$_apiKey',
         data: {
           'contents': [
             {
@@ -104,7 +105,7 @@ $content
 
     try {
       final response = await _dio.post(
-        'gemini-pro:generateContent?key=$_apiKey',
+        '$_modelName:generateContent?key=$_apiKey',
         data: {
           'contents': [
             {
@@ -140,7 +141,7 @@ $content
 
     try {
       final response = await _dio.post(
-        'gemini-pro:generateContent?key=$_apiKey',
+        '$_modelName:generateContent?key=$_apiKey',
         data: {
           'contents': [
             {
@@ -165,12 +166,13 @@ $content
   }
 
   @override
-  Future<String> generateBiography(List<String> storyContents, String theme) async {
+  Future<String> generateBiography(
+      List<String> storyContents, String theme) async {
     final prompt = _buildBiographyPrompt(storyContents, theme);
-    
+
     try {
       final response = await _dio.post(
-        'gemini-pro:generateContent?key=$_apiKey',
+        '$_modelName:generateContent?key=$_apiKey',
         data: {
           'contents': [
             {
@@ -188,7 +190,8 @@ $content
         },
       );
 
-      final content = response.data['candidates'][0]['content']['parts'][0]['text'];
+      final content =
+          response.data['candidates'][0]['content']['parts'][0]['text'];
       return content ?? '传记生成时出现错误';
     } on DioException catch (e) {
       throw Exception('传记生成失败: ${e.message}');
@@ -248,7 +251,7 @@ $contextStr
 
   String _buildBiographyPrompt(List<String> storyContents, String theme) {
     final stories = storyContents.join('\n\n---\n\n');
-    
+
     String themeDescription;
     switch (theme) {
       case 'classic':
