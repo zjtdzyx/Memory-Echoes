@@ -23,8 +23,8 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
   final _tagsController = TextEditingController();
 
   StoryMood _mood = StoryMood.happy;
-  List<String> _tags = [];
-  List<String> _imageUrls = [];
+  final List<String> _tags = [];
+  final List<String> _imageUrls = [];
   bool _isUploading = false;
 
   @override

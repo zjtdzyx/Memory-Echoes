@@ -6,6 +6,7 @@ import 'package:memory_echoes/presentation/providers/story_provider.dart';
 import 'package:memory_echoes/presentation/widgets/home/feature_card.dart';
 import 'package:memory_echoes/presentation/widgets/story/story_card.dart';
 import 'package:memory_echoes/core/constants/app_theme.dart';
+import 'package:memory_echoes/domain/entities/story_entity.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -15,7 +16,8 @@ class HomePage extends ConsumerWidget {
     final authState = ref.watch(authStateProvider);
 
     // 根据认证状态选择合适的 provider
-    final recentStoriesState = authState.maybeWhen(
+    final AsyncValue<List<StoryEntity>> recentStoriesState =
+        authState.maybeWhen(
       authenticated: (user) => ref.watch(userRecentStoriesProvider(user.id)),
       orElse: () => ref.watch(recentStoriesProvider),
     );
@@ -391,7 +393,8 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildRecentStoriesSection(BuildContext context, recentStoriesState) {
+  Widget _buildRecentStoriesSection(
+      BuildContext context, AsyncValue<List<StoryEntity>> recentStoriesState) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(

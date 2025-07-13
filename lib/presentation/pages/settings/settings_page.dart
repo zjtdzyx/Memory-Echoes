@@ -20,10 +20,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   final _confirmPasswordController = TextEditingController();
 
   bool _isEditingDisplayName = false;
-  final bool _isEditingEmail = false;
-  final bool _isChangingPassword = false;
   bool _isLoading = false;
-
   @override
   void dispose() {
     _displayNameController.dispose();
@@ -35,7 +32,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
 
     return Scaffold(

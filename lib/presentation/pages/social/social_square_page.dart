@@ -146,7 +146,7 @@ class SocialSquarePage extends ConsumerWidget {
                                       _buildActionButton(
                                         icon: Icons.favorite_border,
                                         label: '0',
-                                        onTap: () => _likeStory(story.id),
+                                        onTap: () => _likeStory(story.id ?? ""),
                                       ),
 
                                       const SizedBox(width: 20),
@@ -155,7 +155,7 @@ class SocialSquarePage extends ConsumerWidget {
                                       _buildActionButton(
                                         icon: Icons.comment_outlined,
                                         label: '0',
-                                        onTap: () => _commentStory(story.id),
+                                        onTap: () => _commentStory(story.id ?? ""),
                                       ),
 
                                       const Spacer(),

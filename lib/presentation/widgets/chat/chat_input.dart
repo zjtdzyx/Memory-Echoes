@@ -23,7 +23,6 @@ class _ChatInputState extends ConsumerState<ChatInput> {
   final AudioRecorder _audioRecorder = AudioRecorder();
   bool _isRecording = false;
   String? _audioPath;
-
   @override
   void dispose() {
     _controller.dispose();
