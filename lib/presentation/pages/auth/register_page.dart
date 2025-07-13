@@ -41,14 +41,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       appBar: AppBar(title: const Text('注册')),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const const EdgeInsets.all(16.0),
           child: Card(
             elevation: 4,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const const EdgeInsets.all(24.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -58,7 +58,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       '创建您的记忆回响账户',
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    const SizedBox(height: 24),
+                    const const SizedBox(height: 24),
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: '用户名',
@@ -72,7 +72,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       },
                       onSaved: (value) => _displayName = value!,
                     ),
-                    const SizedBox(height: 16),
+                    const const SizedBox(height: 16),
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: '邮箱',
@@ -87,7 +87,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       },
                       onSaved: (value) => _email = value!,
                     ),
-                    const SizedBox(height: 16),
+                    const const SizedBox(height: 16),
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: '密码',
@@ -102,8 +102,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       },
                       onSaved: (value) => _password = value!,
                     ),
-                    const SizedBox(height: 24),
-                    SizedBox(
+                    const const SizedBox(height: 24),
+                    const SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: authState.maybeWhen(
@@ -121,7 +121,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const const SizedBox(height: 16),
                     TextButton(
                       onPressed: () => context.go('/login'),
                       child: const Text('已经有账户了？登录'),

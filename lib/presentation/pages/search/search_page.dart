@@ -104,12 +104,12 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                         size: 64,
                         color: Theme.of(context).colorScheme.error,
                       ),
-                      const SizedBox(height: 16),
+                      const const SizedBox(height: 16),
                       Text(
                         '搜索失败',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
-                      const SizedBox(height: 8),
+                      const const SizedBox(height: 8),
                       Text(
                         searchState.error!,
                         style: Theme.of(context).textTheme.bodyMedium,
@@ -134,7 +134,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               }
 
               return ListView.builder(
-                padding: const EdgeInsets.all(16),
+                padding: const const EdgeInsets.all(16),
                 itemCount: results.length,
                 itemBuilder: (context, index) {
                   final story = results[index];
@@ -167,7 +167,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -177,7 +177,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                   fontWeight: FontWeight.w600,
                 ),
           ),
-          const SizedBox(height: 12),
+          const const SizedBox(height: 12),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -211,7 +211,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
+        padding: const const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,14 +222,14 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                     fontWeight: FontWeight.w600,
                   ),
             ),
-            const SizedBox(height: 20),
+            const const SizedBox(height: 20),
 
             // 时间筛选
             Text(
               '时间范围',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: 8),
+            const const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               children: [
@@ -253,14 +253,14 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               ],
             ),
 
-            const SizedBox(height: 20),
+            const const SizedBox(height: 20),
 
             // 情感筛选
             Text(
               '情感类型',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: 8),
+            const const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               children: StoryMood.values.map((mood) {
@@ -274,7 +274,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               }).toList(),
             ),
 
-            const SizedBox(height: 20),
+            const const SizedBox(height: 20),
 
             Row(
               children: [
@@ -284,7 +284,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                     child: const Text('重置'),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {

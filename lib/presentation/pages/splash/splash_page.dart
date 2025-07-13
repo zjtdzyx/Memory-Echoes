@@ -115,7 +115,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
                   ),
                 ),
 
-                const SizedBox(height: 32),
+                const const SizedBox(height: 32),
 
                 // 应用名称
                 Text(
@@ -126,7 +126,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
                       ),
                 ),
 
-                const SizedBox(height: 8),
+                const const SizedBox(height: 8),
 
                 Text(
                   'Memory Echoes',
@@ -135,7 +135,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
                       ),
                 ),
 
-                const SizedBox(height: 48),
+                const const SizedBox(height: 48),
 
                 // 加载指示器
                 const CircularProgressIndicator(

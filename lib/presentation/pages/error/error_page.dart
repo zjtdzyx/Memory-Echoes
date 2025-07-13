@@ -26,7 +26,7 @@ class ErrorPage extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(40),
+                  padding: const const EdgeInsets.all(40),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -65,12 +65,12 @@ class ErrorPage extends StatelessWidget {
                         },
                       ),
                       
-                      const SizedBox(height: 32),
+                      const const SizedBox(height: 32),
                       
                       // 错误代码
                       if (errorCode != null)
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: const const EdgeInsets.symmetric(
                             horizontal: 16,
                             vertical: 8,
                           ),
@@ -93,7 +93,7 @@ class ErrorPage extends StatelessWidget {
                           ),
                         ),
                       
-                      const SizedBox(height: 24),
+                      const const SizedBox(height: 24),
                       
                       // 主要错误信息
                       Text(
@@ -107,11 +107,11 @@ class ErrorPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       
-                      const SizedBox(height: 16),
+                      const const SizedBox(height: 16),
                       
                       // 错误描述
                       Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: const const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: const Color(0xFFFAF7F2),
                           borderRadius: BorderRadius.circular(16),
@@ -132,7 +132,7 @@ class ErrorPage extends StatelessWidget {
                         ),
                       ),
                       
-                      const SizedBox(height: 40),
+                      const const SizedBox(height: 40),
                       
                       // 操作按钮
                       Column(
@@ -171,7 +171,7 @@ class ErrorPage extends StatelessWidget {
                                 backgroundColor: Colors.transparent,
                                 foregroundColor: Colors.white,
                                 shadowColor: Colors.transparent,
-                                padding: const EdgeInsets.symmetric(
+                                padding: const const EdgeInsets.symmetric(
                                   vertical: 16,
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -181,7 +181,7 @@ class ErrorPage extends StatelessWidget {
                             ),
                           ),
                           
-                          const SizedBox(height: 12),
+                          const const SizedBox(height: 12),
                           
                           // 重试按钮
                           Container(
@@ -210,7 +210,7 @@ class ErrorPage extends StatelessWidget {
                                   color: AppTheme.primaryOrange,
                                   width: 2,
                                 ),
-                                padding: const EdgeInsets.symmetric(
+                                padding: const const EdgeInsets.symmetric(
                                   vertical: 16,
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -222,7 +222,7 @@ class ErrorPage extends StatelessWidget {
                         ],
                       ),
                       
-                      const SizedBox(height: 32),
+                      const const SizedBox(height: 32),
                       
                       // 帮助文本
                       Text(
@@ -247,7 +247,7 @@ class ErrorPage extends StatelessWidget {
 
   Widget _buildTopNavigation(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: const Color(0xFFFAF7F2),
         boxShadow: [
@@ -264,7 +264,7 @@ class ErrorPage extends StatelessWidget {
           GestureDetector(
             onTap: () => context.go('/home'),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 color: AppTheme.primaryOrange.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(20),
@@ -281,7 +281,7 @@ class ErrorPage extends StatelessWidget {
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  const const SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(

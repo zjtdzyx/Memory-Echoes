@@ -20,8 +20,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   final _confirmPasswordController = TextEditingController();
 
   bool _isEditingDisplayName = false;
-  bool _isEditingEmail = false;
-  bool _isChangingPassword = false;
+  final bool _isEditingEmail = false;
+  final bool _isChangingPassword = false;
   bool _isLoading = false;
 
   @override
@@ -64,40 +64,40 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           }
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: const const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 用户头像和基本信息卡片
                 _buildProfileCard(user),
 
-                const SizedBox(height: 24),
+                const const SizedBox(height: 24),
 
                 // 账户设置
                 _buildSectionTitle('账户设置'),
-                const SizedBox(height: 16),
+                const const SizedBox(height: 16),
                 _buildAccountSettings(user),
 
-                const SizedBox(height: 32),
+                const const SizedBox(height: 32),
 
                 // 安全设置
                 _buildSectionTitle('安全设置'),
-                const SizedBox(height: 16),
+                const const SizedBox(height: 16),
                 _buildSecuritySettings(),
 
-                const SizedBox(height: 32),
+                const const SizedBox(height: 32),
 
                 // 应用设置
                 _buildSectionTitle('应用设置'),
-                const SizedBox(height: 16),
+                const const SizedBox(height: 16),
                 _buildAppSettings(),
 
-                const SizedBox(height: 32),
+                const const SizedBox(height: 32),
 
                 // 退出登录
                 _buildSignOutSection(),
 
-                const SizedBox(height: 40),
+                const const SizedBox(height: 40),
               ],
             ),
           );
@@ -119,14 +119,14 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ),
           );
         },
-        orElse: () => const SizedBox(),
+        orElse: () => const const SizedBox(),
       ),
     );
   }
 
   Widget _buildProfileCard(user) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -184,7 +184,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ],
           ),
 
-          const SizedBox(height: 16),
+          const const SizedBox(height: 16),
 
           // 用户名显示/编辑
           if (_isEditingDisplayName)
@@ -204,7 +204,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
+                      contentPadding: const const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 8,
                       ),
@@ -254,7 +254,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               ],
             ),
 
-          const SizedBox(height: 8),
+          const const SizedBox(height: 8),
 
           Text(
             user.email,
@@ -439,9 +439,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     Color? iconColor,
   }) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      contentPadding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       leading: Container(
-        padding: const EdgeInsets.all(8),
+        padding: const const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: (iconColor ?? AppTheme.primaryOrange).withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),
@@ -481,7 +481,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
+        padding: const const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -493,7 +493,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            const SizedBox(height: 20),
+            const const SizedBox(height: 20),
             const Text(
               '选择头像',
               style: TextStyle(
@@ -503,7 +503,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 fontFamily: 'Georgia',
               ),
             ),
-            const SizedBox(height: 20),
+            const const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -524,7 +524,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const const SizedBox(height: 20),
           ],
         ),
       ),
@@ -553,7 +553,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               size: 24,
             ),
           ),
-          const SizedBox(height: 8),
+          const const SizedBox(height: 8),
           Text(
             label,
             style: const TextStyle(
@@ -636,7 +636,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
+            const const SizedBox(height: 16),
             TextField(
               controller: _currentPasswordController,
               obscureText: true,
@@ -690,7 +690,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
+            const const SizedBox(height: 16),
             TextField(
               controller: _newPasswordController,
               obscureText: true,
@@ -699,7 +699,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
+            const const SizedBox(height: 16),
             TextField(
               controller: _confirmPasswordController,
               obscureText: true,
@@ -752,9 +752,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('缓存大小: 约 5.2 MB'),
-            const SizedBox(height: 8),
+            const const SizedBox(height: 8),
             const Text('本地数据: 约 12.8 MB'),
-            const SizedBox(height: 16),
+            const const SizedBox(height: 16),
             const Text(
               '清除数据后，您需要重新登录，但云端数据不会丢失。',
               style: TextStyle(
@@ -876,7 +876,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         title: const Row(
           children: [
             Icon(Icons.check_circle, color: AppTheme.successGreen),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               '成功',
               style: TextStyle(
@@ -914,7 +914,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         title: const Row(
           children: [
             Icon(Icons.error, color: AppTheme.errorRed),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               '错误',
               style: TextStyle(

@@ -39,7 +39,11 @@ class BiographyPage extends ConsumerWidget {
           );
         },
         orElse: () {
-          Future.microtask(() => context.go('/login'));
+          Future.microtask(() {
+            if (context.mounted) {
+              context.go('/login');
+            }
+          });
           return const Center(child: CircularProgressIndicator());
         },
       ),

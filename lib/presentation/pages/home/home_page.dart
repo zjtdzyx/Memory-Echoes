@@ -47,7 +47,7 @@ class HomePage extends ConsumerWidget {
                     _buildRecentStoriesSection(context, recentStoriesState),
 
                     // 底部间距
-                    const SizedBox(height: 100),
+                    const const const SizedBox(height: 100),
                   ],
                 ),
               ),
@@ -61,12 +61,12 @@ class HomePage extends ConsumerWidget {
 
   Widget _buildTopNavigation(BuildContext context, WidgetRef ref, authState) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const const const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: const Color(0xFFFAF7F2),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.08),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -76,12 +76,12 @@ class HomePage extends ConsumerWidget {
         children: [
           // Logo区域
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const const const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
-              color: AppTheme.primaryOrange.withOpacity(0.1),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: AppTheme.primaryOrange.withOpacity(0.2),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                 width: 1,
               ),
             ),
@@ -93,7 +93,7 @@ class HomePage extends ConsumerWidget {
                   color: AppTheme.primaryOrange,
                   size: 20,
                 ),
-                const SizedBox(width: 8),
+                const const const SizedBox(width: 8),
                 Text(
                   '记忆回响',
                   style: TextStyle(
@@ -118,9 +118,9 @@ class HomePage extends ConsumerWidget {
                 height: 48,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppTheme.primaryOrange.withOpacity(0.1),
+                  color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                   border: Border.all(
-                    color: AppTheme.primaryOrange.withOpacity(0.2),
+                    color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                     width: 2,
                   ),
                 ),
@@ -130,7 +130,7 @@ class HomePage extends ConsumerWidget {
                       ? NetworkImage(user.photoURL!)
                       : null,
                   child: user.photoURL == null
-                      ? Icon(
+                      ? const Icon(
                           Icons.person,
                           color: AppTheme.primaryOrange,
                           size: 24,
@@ -139,7 +139,7 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
             ),
-            orElse: () => const SizedBox(),
+            orElse: () => const const const SizedBox(),
           ),
         ],
       ),
@@ -148,21 +148,21 @@ class HomePage extends ConsumerWidget {
 
   Widget _buildSearchBar(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(20),
+      margin: const const const EdgeInsets.all(20),
       child: GestureDetector(
         onTap: () => context.go('/search'),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          padding: const const const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           decoration: BoxDecoration(
             color: const Color(0xFFFAF7F2),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: AppTheme.primaryOrange.withOpacity(0.2),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.2),
               width: 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: AppTheme.primaryOrange.withOpacity(0.08),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.08),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -172,14 +172,14 @@ class HomePage extends ConsumerWidget {
             children: [
               Icon(
                 Icons.search,
-                color: AppTheme.richBrown.withOpacity(0.5),
+                color: AppTheme.richBrown.withValues(alpha: 0.5),
                 size: 20,
               ),
-              const SizedBox(width: 12),
+              const const const SizedBox(width: 12),
               Text(
                 '搜索故事、传记...',
                 style: TextStyle(
-                  color: AppTheme.richBrown.withOpacity(0.5),
+                  color: AppTheme.richBrown.withValues(alpha: 0.5),
                   fontSize: 16,
                   fontFamily: 'Georgia',
                 ),
@@ -193,7 +193,7 @@ class HomePage extends ConsumerWidget {
 
   Widget _buildBiographySection(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      margin: const const const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -206,7 +206,7 @@ class HomePage extends ConsumerWidget {
               fontFamily: 'Georgia',
             ),
           ),
-          const SizedBox(height: 16),
+          const const const SizedBox(height: 16),
           Row(
             children: [
               // 第一个传记卡片
@@ -215,19 +215,19 @@ class HomePage extends ConsumerWidget {
                   onTap: () => context.go('/biography/create'),
                   child: Container(
                     height: 200,
-                    padding: const EdgeInsets.all(20),
+                    padding: const const const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          AppTheme.primaryOrange.withOpacity(0.1),
-                          AppTheme.accentOrange.withOpacity(0.1),
+                          AppTheme.primaryOrange.withValues(alpha: 0.1),
+                          AppTheme.accentOrange.withValues(alpha: 0.1),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: AppTheme.primaryOrange.withOpacity(0.2),
+                        color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                         width: 1,
                       ),
                     ),
@@ -239,7 +239,7 @@ class HomePage extends ConsumerWidget {
                           color: AppTheme.primaryOrange,
                           size: 32,
                         ),
-                        const SizedBox(height: 12),
+                        const const const SizedBox(height: 12),
                         Text(
                           '这是传记卡片，具体UI没想好',
                           style: TextStyle(
@@ -251,12 +251,13 @@ class HomePage extends ConsumerWidget {
                         ),
                         const Spacer(),
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: const const const EdgeInsets.symmetric(
                             horizontal: 12,
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: AppTheme.primaryOrange.withOpacity(0.2),
+                            color:
+                                AppTheme.primaryOrange.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -274,7 +275,7 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
 
-              const SizedBox(width: 16),
+              const const const SizedBox(width: 16),
 
               // 第二个传记卡片
               Expanded(
@@ -282,19 +283,19 @@ class HomePage extends ConsumerWidget {
                   onTap: () => context.go('/biography'),
                   child: Container(
                     height: 200,
-                    padding: const EdgeInsets.all(20),
+                    padding: const const const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          AppTheme.accentOrange.withOpacity(0.1),
-                          AppTheme.primaryOrange.withOpacity(0.1),
+                          AppTheme.accentOrange.withValues(alpha: 0.1),
+                          AppTheme.primaryOrange.withValues(alpha: 0.1),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: AppTheme.primaryOrange.withOpacity(0.2),
+                        color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                         width: 1,
                       ),
                     ),
@@ -306,7 +307,7 @@ class HomePage extends ConsumerWidget {
                           color: AppTheme.primaryOrange,
                           size: 32,
                         ),
-                        const SizedBox(height: 12),
+                        const const const SizedBox(height: 12),
                         Text(
                           '点击传记卡片会进入传记详情页',
                           style: TextStyle(
@@ -318,12 +319,13 @@ class HomePage extends ConsumerWidget {
                         ),
                         const Spacer(),
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: const const const EdgeInsets.symmetric(
                             horizontal: 12,
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: AppTheme.primaryOrange.withOpacity(0.2),
+                            color:
+                                AppTheme.primaryOrange.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -349,7 +351,7 @@ class HomePage extends ConsumerWidget {
 
   Widget _buildQuickActionsSection(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(20),
+      margin: const const const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -362,7 +364,7 @@ class HomePage extends ConsumerWidget {
               fontFamily: 'Georgia',
             ),
           ),
-          const SizedBox(height: 16),
+          const const const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
@@ -373,7 +375,7 @@ class HomePage extends ConsumerWidget {
                   onTap: () => context.go('/chat'),
                 ),
               ),
-              const SizedBox(width: 12),
+              const const const SizedBox(width: 12),
               Expanded(
                 child: FeatureCard(
                   title: '创建故事',
@@ -391,7 +393,7 @@ class HomePage extends ConsumerWidget {
 
   Widget _buildRecentStoriesSection(BuildContext context, recentStoriesState) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      margin: const const const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -420,17 +422,17 @@ class HomePage extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const const const SizedBox(height: 16),
           recentStoriesState.when(
             data: (stories) {
               if (stories.isEmpty) {
                 return Container(
-                  padding: const EdgeInsets.all(32),
+                  padding: const const const EdgeInsets.all(32),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFAF7F2),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: AppTheme.primaryOrange.withOpacity(0.1),
+                      color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                       width: 1,
                     ),
                   ),
@@ -439,14 +441,14 @@ class HomePage extends ConsumerWidget {
                       Icon(
                         Icons.auto_stories_outlined,
                         size: 48,
-                        color: AppTheme.primaryOrange.withOpacity(0.6),
+                        color: AppTheme.primaryOrange.withValues(alpha: 0.6),
                       ),
-                      const SizedBox(height: 16),
+                      const const const SizedBox(height: 16),
                       Text(
                         '还没有故事\n开始创建您的第一个故事吧！',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: AppTheme.richBrown.withOpacity(0.7),
+                          color: AppTheme.richBrown.withValues(alpha: 0.7),
                           fontFamily: 'Georgia',
                         ),
                       ),
@@ -469,9 +471,9 @@ class HomePage extends ConsumerWidget {
             },
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stack) => Container(
-              padding: const EdgeInsets.all(20),
+              padding: const const const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppTheme.errorRed.withOpacity(0.1),
+                color: AppTheme.errorRed.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -494,7 +496,7 @@ class HomePage extends ConsumerWidget {
         color: const Color(0xFFFAF7F2),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.08),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.08),
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
@@ -502,7 +504,7 @@ class HomePage extends ConsumerWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const const const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -564,10 +566,10 @@ class HomePage extends ConsumerWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const const const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
-              ? AppTheme.primaryOrange.withOpacity(0.15)
+              ? AppTheme.primaryOrange.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -578,17 +580,17 @@ class HomePage extends ConsumerWidget {
               isActive ? activeIcon : icon,
               color: isActive
                   ? AppTheme.primaryOrange
-                  : AppTheme.richBrown.withOpacity(0.6),
+                  : AppTheme.richBrown.withValues(alpha: 0.6),
               size: 24,
             ),
-            const SizedBox(height: 4),
+            const const const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
                 fontSize: 12,
                 color: isActive
                     ? AppTheme.primaryOrange
-                    : AppTheme.richBrown.withOpacity(0.6),
+                    : AppTheme.richBrown.withValues(alpha: 0.6),
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                 fontFamily: 'Georgia',
               ),

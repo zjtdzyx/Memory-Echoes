@@ -22,18 +22,18 @@ class ProfilePage extends ConsumerWidget {
             // 个人信息区域
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
+                padding: const const EdgeInsets.all(20),
                 child: Column(
                   children: [
                     // 用户信息卡片
                     _buildUserInfoCard(context, authState),
 
-                    const SizedBox(height: 24),
+                    const const SizedBox(height: 24),
 
                     // 功能菜单
                     _buildMenuSection(context),
 
-                    const SizedBox(height: 24),
+                    const const SizedBox(height: 24),
 
                     // 设置区域
                     _buildSettingsSection(context, ref),
@@ -50,12 +50,12 @@ class ProfilePage extends ConsumerWidget {
 
   Widget _buildTopNavigation(BuildContext context, WidgetRef ref, authState) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: AppTheme.lightCream,
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.1),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -67,12 +67,12 @@ class ProfilePage extends ConsumerWidget {
           GestureDetector(
             onTap: () => context.go('/home'),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: AppTheme.primaryOrange.withOpacity(0.1),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: AppTheme.primaryOrange.withOpacity(0.3),
+                  color: AppTheme.primaryOrange.withValues(alpha: 0.3),
                   width: 1,
                 ),
               ),
@@ -84,7 +84,7 @@ class ProfilePage extends ConsumerWidget {
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  const const SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(
@@ -118,7 +118,7 @@ class ProfilePage extends ConsumerWidget {
   Widget _buildUserInfoCard(BuildContext context, authState) {
     return authState.maybeWhen(
       authenticated: (user) => Container(
-        padding: const EdgeInsets.all(24),
+        padding: const const EdgeInsets.all(24),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -140,19 +140,19 @@ class ProfilePage extends ConsumerWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.3),
+                  color: Colors.white.withValues(alpha: 0.3),
                   width: 3,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: CircleAvatar(
-                backgroundColor: Colors.white.withOpacity(0.2),
+                backgroundColor: Colors.white.withValues(alpha: 0.2),
                 backgroundImage:
                     user.photoURL != null ? NetworkImage(user.photoURL!) : null,
                 child: user.photoURL == null
@@ -165,7 +165,7 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
 
-            const SizedBox(height: 16),
+            const const SizedBox(height: 16),
 
             // 用户名
             Text(
@@ -178,19 +178,19 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
 
-            const SizedBox(height: 8),
+            const const SizedBox(height: 8),
 
             // 邮箱
             Text(
               user.email ?? '',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withValues(alpha: 0.9),
                 fontFamily: 'Georgia',
               ),
             ),
 
-            const SizedBox(height: 20),
+            const const SizedBox(height: 20),
 
             // 统计信息
             Row(
@@ -205,7 +205,7 @@ class ProfilePage extends ConsumerWidget {
         ),
       ),
       orElse: () => Container(
-        padding: const EdgeInsets.all(24),
+        padding: const const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: AppTheme.lightCream,
           borderRadius: BorderRadius.circular(20),
@@ -216,9 +216,9 @@ class ProfilePage extends ConsumerWidget {
             Icon(
               Icons.person_outline,
               size: 64,
-              color: AppTheme.primaryOrange.withOpacity(0.6),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.6),
             ),
-            const SizedBox(height: 16),
+            const const SizedBox(height: 16),
             Text(
               '未登录',
               style: TextStyle(
@@ -228,16 +228,16 @@ class ProfilePage extends ConsumerWidget {
                 fontFamily: 'Georgia',
               ),
             ),
-            const SizedBox(height: 8),
+            const const SizedBox(height: 8),
             Text(
               '登录后体验完整功能',
               style: TextStyle(
                 fontSize: 14,
-                color: AppTheme.richBrown.withOpacity(0.8),
+                color: AppTheme.richBrown.withValues(alpha: 0.8),
                 fontFamily: 'Georgia',
               ),
             ),
-            const SizedBox(height: 20),
+            const const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => context.go('/login'),
               child: const Text('立即登录'),
@@ -260,12 +260,12 @@ class ProfilePage extends ConsumerWidget {
             fontFamily: 'Georgia',
           ),
         ),
-        const SizedBox(height: 4),
+        const const SizedBox(height: 4),
         Text(
           label,
           style: TextStyle(
             fontSize: 14,
-            color: Colors.white.withOpacity(0.9),
+            color: Colors.white.withValues(alpha: 0.9),
             fontFamily: 'Georgia',
           ),
         ),
@@ -375,11 +375,11 @@ class ProfilePage extends ConsumerWidget {
     Color? textColor,
   }) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      contentPadding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       leading: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: (textColor ?? AppTheme.primaryOrange).withOpacity(0.1),
+          color: (textColor ?? AppTheme.primaryOrange).withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Icon(
@@ -399,7 +399,7 @@ class ProfilePage extends ConsumerWidget {
       subtitle: Text(
         subtitle,
         style: TextStyle(
-          color: AppTheme.richBrown.withOpacity(0.8),
+          color: AppTheme.richBrown.withValues(alpha: 0.8),
           fontFamily: 'Georgia',
         ),
       ),
@@ -414,7 +414,7 @@ class ProfilePage extends ConsumerWidget {
   Widget _buildDivider() {
     return Divider(
       height: 1,
-      color: AppTheme.primaryOrange.withOpacity(0.1),
+      color: AppTheme.primaryOrange.withValues(alpha: 0.1),
       indent: 20,
       endIndent: 20,
     );
@@ -426,7 +426,7 @@ class ProfilePage extends ConsumerWidget {
         color: AppTheme.lightCream,
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.1),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
@@ -434,7 +434,7 @@ class ProfilePage extends ConsumerWidget {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -496,10 +496,10 @@ class ProfilePage extends ConsumerWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
-              ? AppTheme.primaryOrange.withOpacity(0.1)
+              ? AppTheme.primaryOrange.withValues(alpha: 0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -510,17 +510,17 @@ class ProfilePage extends ConsumerWidget {
               isActive ? activeIcon : icon,
               color: isActive
                   ? AppTheme.primaryOrange
-                  : AppTheme.richBrown.withOpacity(0.6),
+                  : AppTheme.richBrown.withValues(alpha: 0.6),
               size: 24,
             ),
-            const SizedBox(height: 4),
+            const const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
                 fontSize: 12,
                 color: isActive
                     ? AppTheme.primaryOrange
-                    : AppTheme.richBrown.withOpacity(0.6),
+                    : AppTheme.richBrown.withValues(alpha: 0.6),
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                 fontFamily: 'Georgia',
               ),

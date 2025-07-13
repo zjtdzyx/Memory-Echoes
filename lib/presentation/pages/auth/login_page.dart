@@ -40,11 +40,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         decoration: AppTheme.subtleGradientDecoration,
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: const const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 40),
+                const const SizedBox(height: 40),
 
                 // 应用图标和标题
                 Center(
@@ -81,13 +81,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               child: Icon(
                                 Icons.extension,
                                 size: 20,
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withValues(alpha: 0.7),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const const SizedBox(height: 24),
                       Text(
                         '记忆回响',
                         style:
@@ -96,12 +96,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                       ),
-                      const SizedBox(height: 8),
+                      const const SizedBox(height: 8),
                       Text(
                         'Memory Echoes',
                         style: TextStyle(
                           fontSize: 16,
-                          color: AppTheme.richBrown.withOpacity(0.8),
+                          color: AppTheme.richBrown.withValues(alpha: 0.8),
                           fontStyle: FontStyle.italic,
                           fontFamily: 'Georgia',
                         ),
@@ -110,7 +110,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
 
-                const SizedBox(height: 60),
+                const const SizedBox(height: 60),
 
                 // 欢迎文字
                 Text(
@@ -122,17 +122,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: 8),
+                const const SizedBox(height: 8),
 
                 Text(
                   '继续你的记忆之旅',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppTheme.richBrown.withOpacity(0.8),
+                        color: AppTheme.richBrown.withValues(alpha: 0.8),
                       ),
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: 48),
+                const const SizedBox(height: 48),
 
                 // 登录表单卡片
                 Container(
@@ -141,12 +141,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: AppTheme.warmShadow,
                     border: Border.all(
-                      color: AppTheme.primaryOrange.withOpacity(0.2),
+                      color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                       width: 1,
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(32),
+                    padding: const const EdgeInsets.all(32),
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -157,11 +157,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               labelText: '邮箱地址',
                               hintText: '请输入您的邮箱',
                               prefixIcon: Container(
-                                margin: const EdgeInsets.all(12),
-                                padding: const EdgeInsets.all(8),
+                                margin: const const EdgeInsets.all(12),
+                                padding: const const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   color:
-                                      AppTheme.primaryOrange.withOpacity(0.1),
+                                      AppTheme.primaryOrange.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Icon(
@@ -181,7 +181,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             onSaved: (value) => _email = value!,
                           ),
 
-                          const SizedBox(height: 24),
+                          const const SizedBox(height: 24),
 
                           // 密码输入框
                           TextFormField(
@@ -189,11 +189,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               labelText: '密码',
                               hintText: '请输入您的密码',
                               prefixIcon: Container(
-                                margin: const EdgeInsets.all(12),
-                                padding: const EdgeInsets.all(8),
+                                margin: const const EdgeInsets.all(12),
+                                padding: const const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   color:
-                                      AppTheme.primaryOrange.withOpacity(0.1),
+                                      AppTheme.primaryOrange.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Icon(
@@ -213,10 +213,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             onSaved: (value) => _password = value!,
                           ),
 
-                          const SizedBox(height: 32),
+                          const const SizedBox(height: 32),
 
                           // 登录按钮
-                          SizedBox(
+                          const SizedBox(
                             width: double.infinity,
                             height: 56,
                             child: ElevatedButton(
@@ -230,13 +230,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 foregroundColor: Colors.white,
                                 elevation: 6,
                                 shadowColor:
-                                    AppTheme.primaryOrange.withOpacity(0.4),
+                                    AppTheme.primaryOrange.withValues(alpha: 0.4),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
                               child: authState.maybeWhen(
-                                loading: () => const SizedBox(
+                                loading: () => const const SizedBox(
                                   width: 24,
                                   height: 24,
                                   child: CircularProgressIndicator(
@@ -251,7 +251,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(Icons.login, size: 20),
-                                    const SizedBox(width: 8),
+                                    const const SizedBox(width: 8),
                                     const Text(
                                       '登录',
                                       style: TextStyle(
@@ -266,7 +266,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ),
                           ),
 
-                          const SizedBox(height: 20),
+                          const const SizedBox(height: 20),
 
                           // 忘记密码
                           TextButton(
@@ -287,16 +287,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
 
-                const SizedBox(height: 32),
+                const const SizedBox(height: 32),
 
                 // 注册链接
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryOrange.withOpacity(0.05),
+                    color: AppTheme.primaryOrange.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: AppTheme.primaryOrange.withOpacity(0.1),
+                      color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                       width: 1,
                     ),
                   ),
@@ -324,7 +324,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                const const SizedBox(height: 40),
               ],
             ),
           ),

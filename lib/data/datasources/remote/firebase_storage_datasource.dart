@@ -6,7 +6,8 @@ abstract class FirebaseStorageDataSource {
   Future<String> uploadImage(File imageFile, String userId);
   Future<String> uploadAudio(File audioFile, String userId);
   Future<void> deleteFile(String fileUrl);
-  Future<List<String>> uploadMultipleImages(List<File> imageFiles, String userId);
+  Future<List<String>> uploadMultipleImages(
+      List<File> imageFiles, String userId);
 }
 
 class FirebaseStorageDataSourceImpl implements FirebaseStorageDataSource {
@@ -17,9 +18,10 @@ class FirebaseStorageDataSourceImpl implements FirebaseStorageDataSource {
   @override
   Future<String> uploadImage(File imageFile, String userId) async {
     try {
-      final fileName = '${DateTime.now().millisecondsSinceEpoch}_${path.basename(imageFile.path)}';
+      final fileName =
+          '${DateTime.now().millisecondsSinceEpoch}_${path.basename(imageFile.path)}';
       final ref = _storage.ref().child('images/$userId/$fileName');
-      
+
       final uploadTask = ref.putFile(
         imageFile,
         SettableMetadata(
@@ -41,9 +43,10 @@ class FirebaseStorageDataSourceImpl implements FirebaseStorageDataSource {
   @override
   Future<String> uploadAudio(File audioFile, String userId) async {
     try {
-      final fileName = '${DateTime.now().millisecondsSinceEpoch}_${path.basename(audioFile.path)}';
+      final fileName =
+          '${DateTime.now().millisecondsSinceEpoch}_${path.basename(audioFile.path)}';
       final ref = _storage.ref().child('audio/$userId/$fileName');
-      
+
       final uploadTask = ref.putFile(
         audioFile,
         SettableMetadata(
@@ -73,19 +76,21 @@ class FirebaseStorageDataSourceImpl implements FirebaseStorageDataSource {
   }
 
   @override
-  Future<List<String>> uploadMultipleImages(List<File> imageFiles, String userId) async {
+  Future<List<String>> uploadMultipleImages(
+      List<File> imageFiles, String userId) async {
     final List<String> downloadUrls = [];
-    
+
     for (final imageFile in imageFiles) {
       try {
         final url = await uploadImage(imageFile, userId);
         downloadUrls.add(url);
       } catch (e) {
-        // 如果某个文件上传失败，继续上传其他文件
-        print('文件上传失败: ${imageFile.path}, 错误: $e');
+        // 记录错误但不使用 print
+        // print('文件上传失败: ${imageFile.path}, 错误: $e');
+        throw Exception('文件上传失败: ${imageFile.path}, 错误: $e');
       }
     }
-    
+
     return downloadUrls;
   }
 }

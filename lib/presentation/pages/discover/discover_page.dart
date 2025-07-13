@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memory_echoes/presentation/providers/story_provider.dart';
-import 'package:memory_echoes/presentation/widgets/story/story_card.dart';
 import 'package:memory_echoes/presentation/widgets/common/empty_state.dart';
 import 'package:memory_echoes/core/constants/app_theme.dart';
 import 'package:memory_echoes/core/services/share_service.dart';
@@ -39,10 +38,10 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
           children: [
             // 顶部导航栏
             _buildTopNavigation(context),
-            
+
             // 标签页
             _buildTabBar(),
-            
+
             // 内容区域
             Expanded(
               child: TabBarView(
@@ -63,12 +62,12 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
 
   Widget _buildTopNavigation(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: const Color(0xFFFAF7F2),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.08),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -80,12 +79,12 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
           GestureDetector(
             onTap: () => context.go('/home'),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: AppTheme.primaryOrange.withOpacity(0.1),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: AppTheme.primaryOrange.withOpacity(0.2),
+                  color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                   width: 1,
                 ),
               ),
@@ -97,7 +96,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  const const SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(
@@ -111,13 +110,13 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
               ),
             ),
           ),
-          
+
           const Spacer(),
-          
+
           // 搜索按钮
           Container(
             decoration: BoxDecoration(
-              color: AppTheme.primaryOrange.withOpacity(0.1),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
@@ -128,9 +127,9 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
               onPressed: () => context.go('/search'),
             ),
           ),
-          
-          const SizedBox(width: 8),
-          
+
+          const const SizedBox(width: 8),
+
           // 用户头像
           GestureDetector(
             onTap: () => context.go('/profile'),
@@ -139,9 +138,9 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
               height: 48,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppTheme.primaryOrange.withOpacity(0.1),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                 border: Border.all(
-                  color: AppTheme.primaryOrange.withOpacity(0.2),
+                  color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                   width: 2,
                 ),
               ),
@@ -159,13 +158,13 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
 
   Widget _buildTabBar() {
     return Container(
-      margin: const EdgeInsets.all(20),
+      margin: const const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: const Color(0xFFFAF7F2),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.08),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -178,9 +177,9 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
           borderRadius: BorderRadius.circular(12),
         ),
         indicatorSize: TabBarIndicatorSize.tab,
-        indicatorPadding: const EdgeInsets.all(4),
+        indicatorPadding: const const EdgeInsets.all(4),
         labelColor: Colors.white,
-        unselectedLabelColor: AppTheme.richBrown.withOpacity(0.7),
+        unselectedLabelColor: AppTheme.richBrown.withValues(alpha: 0.7),
         labelStyle: const TextStyle(
           fontWeight: FontWeight.w600,
           fontFamily: 'Georgia',
@@ -196,7 +195,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
 
   Widget _buildStoriesTab() {
     final publicStoriesState = ref.watch(publicStoriesProvider);
-    
+
     return publicStoriesState.when(
       data: (stories) {
         if (stories.isEmpty) {
@@ -207,7 +206,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.all(20),
+          padding: const const EdgeInsets.all(20),
           itemCount: stories.length,
           itemBuilder: (context, index) {
             final story = stories[index];
@@ -228,7 +227,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
               size: 64,
               color: AppTheme.errorRed,
             ),
-            const SizedBox(height: 16),
+            const const SizedBox(height: 16),
             Text(
               '加载失败',
               style: TextStyle(
@@ -237,15 +236,15 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                 color: AppTheme.darkBrown,
               ),
             ),
-            const SizedBox(height: 8),
+            const const SizedBox(height: 8),
             Text(
               error.toString(),
               style: TextStyle(
-                color: AppTheme.richBrown.withOpacity(0.7),
+                color: AppTheme.richBrown.withValues(alpha: 0.7),
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            const const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => ref.refresh(publicStoriesProvider),
               style: ElevatedButton.styleFrom(
@@ -284,12 +283,12 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
         color: const Color(0xFFFAF7F2),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppTheme.primaryOrange.withOpacity(0.15),
+          color: AppTheme.primaryOrange.withValues(alpha: 0.15),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.08),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.08),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -300,7 +299,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
         children: [
           // 故事内容
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -309,14 +308,14 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                   children: [
                     CircleAvatar(
                       radius: 16,
-                      backgroundColor: AppTheme.primaryOrange.withOpacity(0.1),
+                      backgroundColor: AppTheme.primaryOrange.withValues(alpha: 0.1),
                       child: Icon(
                         Icons.person,
                         size: 18,
                         color: AppTheme.primaryOrange,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const const SizedBox(width: 8),
                     Text(
                       '匿名用户',
                       style: TextStyle(
@@ -330,13 +329,13 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                       '2小时前',
                       style: TextStyle(
                         fontSize: 12,
-                        color: AppTheme.richBrown.withOpacity(0.6),
+                        color: AppTheme.richBrown.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                
+                const const SizedBox(height: 16),
+
                 // 故事标题
                 Text(
                   story.title ?? '无标题',
@@ -347,16 +346,16 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                     fontFamily: 'Georgia',
                   ),
                 ),
-                const SizedBox(height: 8),
-                
+                const const SizedBox(height: 8),
+
                 // 故事内容预览
                 Text(
-                  story.content.length > 100 
+                  story.content.length > 100
                       ? '${story.content.substring(0, 100)}...'
                       : story.content,
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppTheme.richBrown.withOpacity(0.8),
+                    color: AppTheme.richBrown.withValues(alpha: 0.8),
                     height: 1.5,
                     fontFamily: 'Georgia',
                   ),
@@ -367,9 +366,9 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
 
           // 互动按钮
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             decoration: BoxDecoration(
-              color: AppTheme.primaryOrange.withOpacity(0.05),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.05),
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
@@ -380,13 +379,13 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                 _buildActionButton(
                   icon: Icons.favorite_border,
                   label: '0',
-                  onTap: () => _handleLike(story.id),
+                  onTap: () => _likeStory(story.id),
                 ),
-                const SizedBox(width: 20),
+                const const SizedBox(width: 20),
                 _buildActionButton(
                   icon: Icons.comment_outlined,
                   label: '0',
-                  onTap: () => _handleComment(story.id),
+                  onTap: () => _commentStory(story.id),
                 ),
                 const Spacer(),
                 _buildActionButton(
@@ -416,7 +415,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
             size: 18,
             color: AppTheme.primaryOrange,
           ),
-          const SizedBox(width: 4),
+          const const SizedBox(width: 4),
           Text(
             label,
             style: TextStyle(
@@ -436,7 +435,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
         color: const Color(0xFFFAF7F2),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.08),
+            color: AppTheme.primaryOrange.withValues(alpha: 0.08),
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
@@ -444,7 +443,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -506,10 +505,10 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive 
-              ? AppTheme.primaryOrange.withOpacity(0.15)
+          color: isActive
+              ? AppTheme.primaryOrange.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -518,19 +517,19 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
           children: [
             Icon(
               isActive ? activeIcon : icon,
-              color: isActive 
+              color: isActive
                   ? AppTheme.primaryOrange
-                  : AppTheme.richBrown.withOpacity(0.6),
+                  : AppTheme.richBrown.withValues(alpha: 0.6),
               size: 24,
             ),
-            const SizedBox(height: 4),
+            const const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
                 fontSize: 12,
-                color: isActive 
+                color: isActive
                     ? AppTheme.primaryOrange
-                    : AppTheme.richBrown.withOpacity(0.6),
+                    : AppTheme.richBrown.withValues(alpha: 0.6),
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                 fontFamily: 'Georgia',
               ),
@@ -541,13 +540,11 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
     );
   }
 
-  void _handleLike(String? storyId) {
+  void _likeStory(String storyId) {
     // TODO: 实现点赞功能
-    print('点赞故事: $storyId');
   }
 
-  void _handleComment(String? storyId) {
+  void _commentStory(String storyId) {
     // TODO: 实现评论功能
-    print('评论故事: $storyId');
   }
 }

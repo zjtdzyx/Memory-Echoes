@@ -72,7 +72,7 @@ class SocialSquarePage extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 16),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IconButton(
@@ -97,7 +97,7 @@ class SocialSquarePage extends ConsumerWidget {
                 }
 
                 return SliverPadding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const const EdgeInsets.all(16),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
@@ -110,7 +110,7 @@ class SocialSquarePage extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: AppTheme.warmShadow,
                               border: Border.all(
-                                color: AppTheme.primaryOrange.withOpacity(0.2),
+                                color: AppTheme.primaryOrange.withValues(alpha: 0.2),
                                 width: 1,
                               ),
                             ),
@@ -119,7 +119,7 @@ class SocialSquarePage extends ConsumerWidget {
                               children: [
                                 // 故事内容
                                 Padding(
-                                  padding: const EdgeInsets.all(20),
+                                  padding: const const EdgeInsets.all(20),
                                   child: StoryCard(
                                     story: story,
                                     showAuthor: true,
@@ -130,11 +130,11 @@ class SocialSquarePage extends ConsumerWidget {
 
                                 // 互动按钮
                                 Container(
-                                  padding: const EdgeInsets.symmetric(
+                                  padding: const const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 12),
                                   decoration: BoxDecoration(
                                     color: AppTheme.primaryOrange
-                                        .withOpacity(0.05),
+                                        .withValues(alpha: 0.05),
                                     borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(20),
                                       bottomRight: Radius.circular(20),
@@ -146,16 +146,16 @@ class SocialSquarePage extends ConsumerWidget {
                                       _buildActionButton(
                                         icon: Icons.favorite_border,
                                         label: '0',
-                                        onTap: () => _handleLike(story.id),
+                                        onTap: () => _likeStory(story.id),
                                       ),
 
-                                      const SizedBox(width: 20),
+                                      const const SizedBox(width: 20),
 
                                       // 评论按钮
                                       _buildActionButton(
                                         icon: Icons.comment_outlined,
                                         label: '0',
-                                        onTap: () => _handleComment(story.id),
+                                        onTap: () => _commentStory(story.id),
                                       ),
 
                                       const Spacer(),
@@ -193,18 +193,18 @@ class SocialSquarePage extends ConsumerWidget {
                         size: 64,
                         color: AppTheme.errorRed,
                       ),
-                      const SizedBox(height: 16),
+                      const const SizedBox(height: 16),
                       Text(
                         '加载失败',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
-                      const SizedBox(height: 8),
+                      const const SizedBox(height: 8),
                       Text(
                         error.toString(),
                         style: Theme.of(context).textTheme.bodyMedium,
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 16),
+                      const const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () => ref.refresh(publicStoriesProvider),
                         child: const Text('重试'),
@@ -234,7 +234,7 @@ class SocialSquarePage extends ConsumerWidget {
             size: 20,
             color: AppTheme.primaryOrange,
           ),
-          const SizedBox(width: 4),
+          const const SizedBox(width: 4),
           Text(
             label,
             style: TextStyle(
@@ -248,13 +248,11 @@ class SocialSquarePage extends ConsumerWidget {
     );
   }
 
-  void _handleLike(String? storyId) {
+  void _likeStory(String storyId) {
     // TODO: 实现点赞功能
-    print('点赞故事: $storyId');
   }
 
-  void _handleComment(String? storyId) {
+  void _commentStory(String storyId) {
     // TODO: 实现评论功能
-    print('评论故事: $storyId');
   }
 }
