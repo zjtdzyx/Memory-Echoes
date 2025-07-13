@@ -25,23 +25,25 @@ class StoryListNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
     this._deleteStoryUseCase,
     this._userId,
   ) : super(const AsyncValue.loading()) {
-    _loadStories();
+    _listenToStories();
   }
 
-  Future<void> _loadStories() async {
-    state = const AsyncValue.loading();
-    try {
-      final stories = await _getUserStoriesUseCase(_userId);
-      state = AsyncValue.data(stories);
-    } catch (e, stackTrace) {
-      state = AsyncValue.error(e, stackTrace);
-    }
+  void _listenToStories() {
+    // 监听故事流的变化
+    _getUserStoriesUseCase(_userId).listen(
+      (stories) {
+        state = AsyncValue.data(stories);
+      },
+      onError: (error, stackTrace) {
+        state = AsyncValue.error(error, stackTrace);
+      },
+    );
   }
 
   Future<void> createStory(StoryEntity story) async {
     try {
       await _createStoryUseCase(story);
-      await _loadStories(); // 重新加载列表
+      // 不需要手动刷新，流会自动更新
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
     }
@@ -50,7 +52,7 @@ class StoryListNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
   Future<void> updateStory(StoryEntity story) async {
     try {
       await _updateStoryUseCase(story);
-      await _loadStories(); // 重新加载列表
+      // 不需要手动刷新，流会自动更新
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
     }
@@ -59,14 +61,14 @@ class StoryListNotifier extends StateNotifier<AsyncValue<List<StoryEntity>>> {
   Future<void> deleteStory(String storyId) async {
     try {
       await _deleteStoryUseCase(storyId);
-      await _loadStories(); // 重新加载列表
+      // 不需要手动刷新，流会自动更新
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
     }
   }
 
   Future<void> refresh() async {
-    await _loadStories();
+    // 流会自动刷新，这里不需要做任何事情
   }
 }
 

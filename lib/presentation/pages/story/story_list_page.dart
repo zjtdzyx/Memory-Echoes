@@ -482,9 +482,9 @@ class StoryListPage extends ConsumerWidget {
           ),
           const SizedBox(height: 32),
           ElevatedButton.icon(
-            onPressed: () => context.go('/story/create'),
-            icon: const Icon(Icons.add),
-            label: const Text('创建故事'),
+            onPressed: () => context.go('/chat'),
+            icon: const Icon(Icons.chat),
+            label: const Text('AI对话创建'),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(
                 horizontal: 24,
@@ -499,9 +499,9 @@ class StoryListPage extends ConsumerWidget {
 
   Widget _buildCreateStoryFAB(BuildContext context) {
     return FloatingActionButton.extended(
-      onPressed: () => context.go('/story/create'),
-      icon: const Icon(Icons.add),
-      label: const Text('创建故事'),
+      onPressed: () => context.go('/chat'),
+      icon: const Icon(Icons.chat),
+      label: const Text('AI对话创建'),
       backgroundColor: AppTheme.primaryOrange,
       foregroundColor: Colors.white,
     );

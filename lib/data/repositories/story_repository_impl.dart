@@ -15,9 +15,9 @@ class StoryRepositoryImpl implements StoryRepository {
   }
 
   @override
-  Future<List<StoryEntity>> getUserStories(String userId) async {
-    // 将流转换为一次性列表
-    return await _remoteDataSource.getStories(userId).first;
+  Stream<List<StoryEntity>> getUserStories(String userId) {
+    // 返回实时流，而不是一次性的Future
+    return _remoteDataSource.getStories(userId);
   }
 
   @override
@@ -54,8 +54,7 @@ class StoryRepositoryImpl implements StoryRepository {
   @override
   Future<List<StoryEntity>> searchStories(
       {required String query, String? mood, String? tag}) {
-    return _remoteDataSource.searchStories(
-        query: query, mood: mood, tag: tag);
+    return _remoteDataSource.searchStories(query: query, mood: mood, tag: tag);
   }
 
   // 私有方法：将 StoryEntity 转换为 StoryModel
@@ -63,7 +62,7 @@ class StoryRepositoryImpl implements StoryRepository {
     if (story is StoryModel) {
       return story;
     }
-    
+
     return StoryModel(
       id: story.id,
       userId: story.userId,

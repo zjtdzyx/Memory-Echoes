@@ -5,7 +5,7 @@ class GetUserStoriesUseCase {
   final StoryRepository _repository;
   GetUserStoriesUseCase(this._repository);
 
-  Future<List<StoryEntity>> call(String userId) {
+  Stream<List<StoryEntity>> call(String userId) {
     return _repository.getUserStories(userId);
   }
 }

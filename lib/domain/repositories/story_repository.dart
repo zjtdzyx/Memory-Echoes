@@ -1,7 +1,7 @@
 import '../entities/story_entity.dart';
 
 abstract class StoryRepository {
-  Future<List<StoryEntity>> getUserStories(String userId);
+  Stream<List<StoryEntity>> getUserStories(String userId);
   Future<List<StoryEntity>> getPublicStories();
   Future<StoryEntity> getStoryById(String storyId);
   Future<void> createStory(StoryEntity story);

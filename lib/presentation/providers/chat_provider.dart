@@ -4,6 +4,7 @@ import '../../domain/entities/chat_message_entity.dart';
 import '../../domain/usecases/ai_chat_usecases.dart';
 import '../../dependency_injection.dart';
 import '../../data/models/chat_message_model.dart';
+import 'story_provider.dart';
 
 part 'chat_provider.freezed.dart';
 
@@ -79,6 +80,8 @@ class ChatNotifier extends StateNotifier<ChatState> {
         isLoading: false,
         error: null,
       );
+
+      // 不需要手动刷新，Stream会自动更新故事列表
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
