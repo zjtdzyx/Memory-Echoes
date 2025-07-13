@@ -2,9 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/chat_message_entity.dart';
 import '../../domain/usecases/ai_chat_usecases.dart';
+import '../../domain/usecases/chat_usecases.dart';
 import '../../dependency_injection.dart';
 import '../../data/models/chat_message_model.dart';
-import 'story_provider.dart';
 
 part 'chat_provider.freezed.dart';
 
@@ -20,12 +20,36 @@ class ChatState with _$ChatState {
 class ChatNotifier extends StateNotifier<ChatState> {
   final PostChatMessageUseCase _postChatMessageUseCase;
   final GenerateStoryFromChatUseCase _generateStoryFromChatUseCase;
+  final GetChatMessagesUseCase _getChatMessagesUseCase;
+  final SaveChatMessageUseCase _saveChatMessageUseCase;
+  final ClearChatHistoryUseCase _clearChatHistoryUseCase;
 
-  ChatNotifier(this._postChatMessageUseCase, this._generateStoryFromChatUseCase)
-      : super(const ChatState());
+  ChatNotifier(
+    this._postChatMessageUseCase,
+    this._generateStoryFromChatUseCase,
+    this._getChatMessagesUseCase,
+    this._saveChatMessageUseCase,
+    this._clearChatHistoryUseCase,
+  ) : super(const ChatState());
 
-  void clearChat() {
-    state = state.copyWith(messages: []);
+  void loadChatHistory(String userId) {
+    _getChatMessagesUseCase(userId).listen(
+      (messages) {
+        state = state.copyWith(messages: messages);
+      },
+      onError: (error) {
+        state = state.copyWith(error: error.toString());
+      },
+    );
+  }
+
+  void clearChat(String userId) async {
+    try {
+      await _clearChatHistoryUseCase(userId);
+      state = state.copyWith(messages: []);
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+    }
   }
 
   Future<void> sendMessage(String content, String userId) async {
@@ -38,6 +62,9 @@ class ChatNotifier extends StateNotifier<ChatState> {
       timestamp: DateTime.now(),
     );
 
+    // 保存用户消息到数据库
+    await _saveChatMessageUseCase(userId, userMessage);
+
     state = state.copyWith(
       messages: [...state.messages, userMessage],
       isLoading: true,
@@ -46,6 +73,10 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
     try {
       final aiResponse = await _postChatMessageUseCase(state.messages);
+
+      // 保存AI回复到数据库
+      await _saveChatMessageUseCase(userId, aiResponse);
+
       state = state.copyWith(
         messages: [...state.messages, aiResponse],
         isLoading: false,
@@ -80,8 +111,6 @@ class ChatNotifier extends StateNotifier<ChatState> {
         isLoading: false,
         error: null,
       );
-
-      // 不需要手动刷新，Stream会自动更新故事列表
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
@@ -95,5 +124,8 @@ final chatProvider = StateNotifierProvider<ChatNotifier, ChatState>((ref) {
   return ChatNotifier(
     ref.read(postChatMessageUseCaseProvider),
     ref.read(generateStoryFromChatUseCaseProvider),
+    ref.read(getChatMessagesUseCaseProvider),
+    ref.read(saveChatMessageUseCaseProvider),
+    ref.read(clearChatHistoryUseCaseProvider),
   );
 });

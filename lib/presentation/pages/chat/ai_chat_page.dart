@@ -19,6 +19,21 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
   final TextEditingController _messageController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    // 在页面初始化时加载聊天历史
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final authState = ref.read(authStateProvider);
+      authState.maybeWhen(
+        authenticated: (user) {
+          ref.read(chatProvider.notifier).loadChatHistory(user.id);
+        },
+        orElse: () {},
+      );
+    });
+  }
+
+  @override
   void dispose() {
     _scrollController.dispose();
     _messageController.dispose();
@@ -167,6 +182,20 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
           ),
 
           const Spacer(),
+
+          // 清除聊天历史按钮
+          authState.maybeWhen(
+            authenticated: (user) => IconButton(
+              icon: Icon(
+                Icons.clear_all,
+                color: AppTheme.primaryOrange,
+                size: 24,
+              ),
+              onPressed: () => _showClearChatDialog(user.id),
+              tooltip: '清除聊天历史',
+            ),
+            orElse: () => const SizedBox(),
+          ),
 
           // 用户头像
           authState.maybeWhen(
@@ -768,6 +797,65 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
             ],
           );
         },
+      ),
+    );
+  }
+
+  void _showClearChatDialog(String userId) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFFFAF7F2),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: Text(
+          '确认清除聊天历史',
+          style: TextStyle(
+            color: AppTheme.darkBrown,
+            fontFamily: 'Georgia',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          '确定要清除与AI的聊天历史吗？这将删除所有与AI的对话。',
+          style: TextStyle(
+            color: AppTheme.richBrown.withValues(alpha: 0.8),
+            fontFamily: 'Georgia',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              '取消',
+              style: TextStyle(
+                color: AppTheme.richBrown.withValues(alpha: 0.7),
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              ref.read(chatProvider.notifier).clearChat(userId);
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('聊天历史已清除！'),
+                  backgroundColor: AppTheme.primaryOrange,
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryOrange,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: const Text('清除'),
+          ),
+        ],
       ),
     );
   }
