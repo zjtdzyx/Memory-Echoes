@@ -93,3 +93,28 @@ final storyDetailProvider =
   final getStoryByIdUseCase = ref.read(getStoryByIdUseCaseProvider);
   return await getStoryByIdUseCase(storyId);
 });
+
+// 最近故事提供者
+final recentStoriesProvider = FutureProvider<List<StoryEntity>>((ref) async {
+  try {
+    final getPublicStoriesUseCase = ref.read(getPublicStoriesUseCaseProvider);
+    final stories = await getPublicStoriesUseCase();
+    // 返回最近的5个故事
+    return stories.take(5).toList();
+  } catch (e) {
+    throw Exception('Failed to load recent stories: $e');
+  }
+});
+
+// 用户最近故事提供者
+final userRecentStoriesProvider =
+    FutureProvider.family<List<StoryEntity>, String>((ref, userId) async {
+  try {
+    final getUserStoriesUseCase = ref.read(getUserStoriesUseCaseProvider);
+    final stories = await getUserStoriesUseCase(userId);
+    // 返回最近的5个故事
+    return stories.take(5).toList();
+  } catch (e) {
+    throw Exception('Failed to load user recent stories: $e');
+  }
+});

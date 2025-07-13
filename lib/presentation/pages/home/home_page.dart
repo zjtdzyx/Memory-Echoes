@@ -12,8 +12,13 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authProvider);
-    final recentStoriesState = ref.watch(recentStoriesProvider);
+    final authState = ref.watch(authStateProvider);
+
+    // 根据认证状态选择合适的 provider
+    final recentStoriesState = authState.maybeWhen(
+      authenticated: (user) => ref.watch(userRecentStoriesProvider(user.id)),
+      orElse: () => ref.watch(recentStoriesProvider),
+    );
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F1EB),
@@ -22,10 +27,10 @@ class HomePage extends ConsumerWidget {
           children: [
             // 顶部导航栏
             _buildTopNavigation(context, ref, authState),
-            
+
             // 搜索框
             _buildSearchBar(context),
-            
+
             // 主要内容
             Expanded(
               child: SingleChildScrollView(
@@ -34,13 +39,13 @@ class HomePage extends ConsumerWidget {
                   children: [
                     // 传记卡片展示区域
                     _buildBiographySection(context),
-                    
+
                     // 快速功能区域
                     _buildQuickActionsSection(context),
-                    
+
                     // 最近故事
                     _buildRecentStoriesSection(context, recentStoriesState),
-                    
+
                     // 底部间距
                     const SizedBox(height: 100),
                   ],
@@ -101,9 +106,9 @@ class HomePage extends ConsumerWidget {
               ],
             ),
           ),
-          
+
           const Spacer(),
-          
+
           // 用户头像
           authState.maybeWhen(
             authenticated: (user) => GestureDetector(
@@ -268,9 +273,9 @@ class HomePage extends ConsumerWidget {
                   ),
                 ),
               ),
-              
+
               const SizedBox(width: 16),
-              
+
               // 第二个传记卡片
               Expanded(
                 child: GestureDetector(
@@ -363,14 +368,8 @@ class HomePage extends ConsumerWidget {
               Expanded(
                 child: FeatureCard(
                   title: '开始对话',
-                  subtitle: '与AI分享今天的故事',
+                  description: '与AI分享今天的故事',
                   icon: Icons.chat_bubble_outline,
-                  gradient: LinearGradient(
-                    colors: [
-                      AppTheme.primaryOrange.withOpacity(0.8),
-                      AppTheme.accentOrange.withOpacity(0.8),
-                    ],
-                  ),
                   onTap: () => context.go('/chat'),
                 ),
               ),
@@ -378,14 +377,8 @@ class HomePage extends ConsumerWidget {
               Expanded(
                 child: FeatureCard(
                   title: '创建故事',
-                  subtitle: '记录美好时光',
+                  description: '记录美好时光',
                   icon: Icons.edit_outlined,
-                  gradient: LinearGradient(
-                    colors: [
-                      AppTheme.accentOrange.withOpacity(0.8),
-                      AppTheme.primaryOrange.withOpacity(0.8),
-                    ],
-                  ),
                   onTap: () => context.go('/story/create'),
                 ),
               ),
@@ -573,7 +566,7 @@ class HomePage extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive 
+          color: isActive
               ? AppTheme.primaryOrange.withOpacity(0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
@@ -583,7 +576,7 @@ class HomePage extends ConsumerWidget {
           children: [
             Icon(
               isActive ? activeIcon : icon,
-              color: isActive 
+              color: isActive
                   ? AppTheme.primaryOrange
                   : AppTheme.richBrown.withOpacity(0.6),
               size: 24,
@@ -593,7 +586,7 @@ class HomePage extends ConsumerWidget {
               label,
               style: TextStyle(
                 fontSize: 12,
-                color: isActive 
+                color: isActive
                     ? AppTheme.primaryOrange
                     : AppTheme.richBrown.withOpacity(0.6),
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,

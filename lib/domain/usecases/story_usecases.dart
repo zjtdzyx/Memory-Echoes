@@ -59,8 +59,11 @@ class SearchStoriesUseCase {
   final StoryRepository _repository;
   SearchStoriesUseCase(this._repository);
 
-  Future<List<StoryEntity>> call(
-      {required String query, String? mood, String? tag}) {
+  Future<List<StoryEntity>> call({
+    required String query,
+    String? mood,
+    String? tag,
+  }) {
     return _repository.searchStories(query: query, mood: mood, tag: tag);
   }
 }
