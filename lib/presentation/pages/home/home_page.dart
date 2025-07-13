@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memory_echoes/presentation/providers/auth_provider.dart';
+import 'package:memory_echoes/presentation/providers/story_provider.dart';
+import 'package:memory_echoes/presentation/widgets/home/feature_card.dart';
+import 'package:memory_echoes/presentation/widgets/story/story_card.dart';
 import 'package:memory_echoes/core/constants/app_theme.dart';
 
 class HomePage extends ConsumerWidget {
@@ -10,9 +13,10 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authProvider);
+    final recentStoriesState = ref.watch(recentStoriesProvider);
 
     return Scaffold(
-      backgroundColor: AppTheme.warmCream,
+      backgroundColor: const Color(0xFFF5F1EB),
       body: SafeArea(
         child: Column(
           children: [
@@ -22,20 +26,23 @@ class HomePage extends ConsumerWidget {
             // 搜索框
             _buildSearchBar(context),
             
-            // 主要内容区域
+            // 主要内容
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 传记卡片展示区域
                     _buildBiographySection(context),
                     
-                    const SizedBox(height: 32),
+                    // 快速功能区域
+                    _buildQuickActionsSection(context),
                     
-                    // 推荐内容区域
-                    _buildRecommendedSection(context),
+                    // 最近故事
+                    _buildRecentStoriesSection(context, recentStoriesState),
+                    
+                    // 底部间距
+                    const SizedBox(height: 100),
                   ],
                 ),
               ),
@@ -51,10 +58,10 @@ class HomePage extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
-        color: AppTheme.lightCream,
+        color: const Color(0xFFFAF7F2),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.1),
+            color: AppTheme.primaryOrange.withOpacity(0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -63,38 +70,35 @@ class HomePage extends ConsumerWidget {
       child: Row(
         children: [
           // Logo区域
-          GestureDetector(
-            onTap: () => context.go('/home'),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppTheme.primaryOrange.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: AppTheme.primaryOrange.withOpacity(0.3),
-                  width: 1,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: BoxDecoration(
+              color: AppTheme.primaryOrange.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: AppTheme.primaryOrange.withOpacity(0.2),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.auto_stories,
+                  color: AppTheme.primaryOrange,
+                  size: 20,
                 ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.auto_stories,
-                    color: AppTheme.primaryOrange,
-                    size: 20,
+                const SizedBox(width: 8),
+                Text(
+                  '记忆回响',
+                  style: TextStyle(
+                    color: AppTheme.darkBrown,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Georgia',
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '记忆回响',
-                    style: TextStyle(
-                      color: AppTheme.darkBrown,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Georgia',
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           
@@ -109,14 +113,14 @@ class HomePage extends ConsumerWidget {
                 height: 48,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  color: AppTheme.primaryOrange.withOpacity(0.1),
                   border: Border.all(
-                    color: AppTheme.primaryOrange.withOpacity(0.3),
+                    color: AppTheme.primaryOrange.withOpacity(0.2),
                     width: 2,
                   ),
-                  boxShadow: AppTheme.softShadow,
                 ),
                 child: CircleAvatar(
-                  backgroundColor: AppTheme.primaryOrange.withOpacity(0.1),
+                  backgroundColor: Colors.transparent,
                   backgroundImage: user.photoURL != null
                       ? NetworkImage(user.photoURL!)
                       : null,
@@ -130,26 +134,7 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
             ),
-            orElse: () => GestureDetector(
-              onTap: () => context.go('/login'),
-              child: Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppTheme.primaryOrange.withOpacity(0.1),
-                  border: Border.all(
-                    color: AppTheme.primaryOrange.withOpacity(0.3),
-                    width: 2,
-                  ),
-                ),
-                child: Icon(
-                  Icons.person_outline,
-                  color: AppTheme.primaryOrange,
-                  size: 24,
-                ),
-              ),
-            ),
+            orElse: () => const SizedBox(),
           ),
         ],
       ),
@@ -159,234 +144,364 @@ class HomePage extends ConsumerWidget {
   Widget _buildSearchBar(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppTheme.lightCream,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: AppTheme.softShadow,
-        border: Border.all(
-          color: AppTheme.primaryOrange.withOpacity(0.2),
-          width: 1,
-        ),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: '搜索你的记忆...',
-          hintStyle: TextStyle(
-            color: AppTheme.richBrown.withOpacity(0.6),
-            fontFamily: 'Georgia',
-          ),
-          prefixIcon: Icon(
-            Icons.search,
-            color: AppTheme.primaryOrange,
-          ),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 16,
-          ),
-        ),
+      child: GestureDetector(
         onTap: () => context.go('/search'),
-        readOnly: true,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFAF7F2),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: AppTheme.primaryOrange.withOpacity(0.2),
+              width: 1,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppTheme.primaryOrange.withOpacity(0.08),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Icon(
+                Icons.search,
+                color: AppTheme.richBrown.withOpacity(0.5),
+                size: 20,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                '搜索故事、传记...',
+                style: TextStyle(
+                  color: AppTheme.richBrown.withOpacity(0.5),
+                  fontSize: 16,
+                  fontFamily: 'Georgia',
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildBiographySection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '我的传记',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: AppTheme.darkBrown,
-            fontFamily: 'Georgia',
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          '用AI整理你的人生故事',
-          style: TextStyle(
-            fontSize: 14,
-            color: AppTheme.richBrown.withOpacity(0.8),
-            fontFamily: 'Georgia',
-          ),
-        ),
-        const SizedBox(height: 20),
-        
-        Row(
-          children: [
-            // 传记预览卡片
-            Expanded(
-              child: _buildBiographyCard(
-                context,
-                title: '我的传记草稿',
-                subtitle: '基于你的故事生成',
-                icon: Icons.auto_awesome,
-                onTap: () => context.go('/biography'),
-              ),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '传记卡片的展示形式',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.darkBrown,
+              fontFamily: 'Georgia',
             ),
-            const SizedBox(width: 16),
-            // 创建传记卡片
-            Expanded(
-              child: _buildBiographyCard(
-                context,
-                title: '生成新传记',
-                subtitle: '选择故事创建传记',
-                icon: Icons.add_circle_outline,
-                onTap: () => context.go('/biography'),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              // 第一个传记卡片
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => context.go('/biography/create'),
+                  child: Container(
+                    height: 200,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          AppTheme.primaryOrange.withOpacity(0.1),
+                          AppTheme.accentOrange.withOpacity(0.1),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppTheme.primaryOrange.withOpacity(0.2),
+                        width: 1,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.auto_stories,
+                          color: AppTheme.primaryOrange,
+                          size: 32,
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          '这是传记卡片，具体UI没想好',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppTheme.darkBrown,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Georgia',
+                          ),
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryOrange.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '创建传记',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppTheme.primaryOrange,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildBiographyCard(
-    BuildContext context, {
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 140,
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              AppTheme.primaryOrange.withOpacity(0.8),
-              AppTheme.secondaryOrange,
+              
+              const SizedBox(width: 16),
+              
+              // 第二个传记卡片
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => context.go('/biography'),
+                  child: Container(
+                    height: 200,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          AppTheme.accentOrange.withOpacity(0.1),
+                          AppTheme.primaryOrange.withOpacity(0.1),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppTheme.primaryOrange.withOpacity(0.2),
+                        width: 1,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.person_outline,
+                          color: AppTheme.primaryOrange,
+                          size: 32,
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          '点击传记卡片会进入传记详情页',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppTheme.darkBrown,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Georgia',
+                          ),
+                        ),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryOrange.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '查看传记',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppTheme.primaryOrange,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: AppTheme.warmShadow,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                icon,
-                color: Colors.white,
-                size: 24,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Georgia',
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.9),
-                fontSize: 12,
-                fontFamily: 'Georgia',
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
 
-  Widget _buildRecommendedSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '发现更多',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: AppTheme.darkBrown,
-            fontFamily: 'Georgia',
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          '探索他人分享的温暖故事',
-          style: TextStyle(
-            fontSize: 14,
-            color: AppTheme.richBrown.withOpacity(0.8),
-            fontFamily: 'Georgia',
-          ),
-        ),
-        const SizedBox(height: 20),
-        
-        // 推荐故事卡片
-        Container(
-          height: 200,
-          decoration: BoxDecoration(
-            color: AppTheme.lightCream,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: AppTheme.softShadow,
-            border: Border.all(
-              color: AppTheme.primaryOrange.withOpacity(0.1),
-              width: 1,
+  Widget _buildQuickActionsSection(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '快速开始',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.darkBrown,
+              fontFamily: 'Georgia',
             ),
           ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.explore_outlined,
-                  size: 48,
-                  color: AppTheme.primaryOrange.withOpacity(0.6),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: FeatureCard(
+                  title: '开始对话',
+                  subtitle: '与AI分享今天的故事',
+                  icon: Icons.chat_bubble_outline,
+                  gradient: LinearGradient(
+                    colors: [
+                      AppTheme.primaryOrange.withOpacity(0.8),
+                      AppTheme.accentOrange.withOpacity(0.8),
+                    ],
+                  ),
+                  onTap: () => context.go('/chat'),
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  '即将推出',
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: FeatureCard(
+                  title: '创建故事',
+                  subtitle: '记录美好时光',
+                  icon: Icons.edit_outlined,
+                  gradient: LinearGradient(
+                    colors: [
+                      AppTheme.accentOrange.withOpacity(0.8),
+                      AppTheme.primaryOrange.withOpacity(0.8),
+                    ],
+                  ),
+                  onTap: () => context.go('/story/create'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRecentStoriesSection(BuildContext context, recentStoriesState) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '最近的故事',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.darkBrown,
+                  fontFamily: 'Georgia',
+                ),
+              ),
+              TextButton(
+                onPressed: () => context.go('/stories'),
+                child: Text(
+                  '查看全部',
                   style: TextStyle(
-                    fontSize: 18,
+                    color: AppTheme.primaryOrange,
                     fontWeight: FontWeight.w600,
-                    color: AppTheme.darkBrown,
                     fontFamily: 'Georgia',
                   ),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  '更多精彩内容正在准备中',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppTheme.richBrown.withOpacity(0.8),
-                    fontFamily: 'Georgia',
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          recentStoriesState.when(
+            data: (stories) {
+              if (stories.isEmpty) {
+                return Container(
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFAF7F2),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: AppTheme.primaryOrange.withOpacity(0.1),
+                      width: 1,
+                    ),
                   ),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.auto_stories_outlined,
+                        size: 48,
+                        color: AppTheme.primaryOrange.withOpacity(0.6),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        '还没有故事\n开始创建您的第一个故事吧！',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppTheme.richBrown.withOpacity(0.7),
+                          fontFamily: 'Georgia',
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return Column(
+                children: stories.take(3).map((story) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: StoryCard(
+                      story: story,
+                      onTap: () => context.push('/story/${story.id}'),
+                    ),
+                  );
+                }).toList(),
+              );
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stack) => Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: AppTheme.errorRed.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                '加载故事时出错: $error',
+                style: TextStyle(
+                  color: AppTheme.errorRed,
+                  fontFamily: 'Georgia',
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _buildBottomNavigation(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.lightCream,
+        color: const Color(0xFFFAF7F2),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.1),
+            color: AppTheme.primaryOrange.withOpacity(0.08),
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
@@ -408,11 +523,11 @@ class HomePage extends ConsumerWidget {
               ),
               _buildNavItem(
                 context,
-                icon: Icons.timeline_outlined,
-                activeIcon: Icons.timeline,
-                label: '连续',
+                icon: Icons.explore_outlined,
+                activeIcon: Icons.explore,
+                label: '发现',
                 isActive: false,
-                onTap: () => context.go('/timeline'),
+                onTap: () => context.go('/discover'),
               ),
               _buildNavItem(
                 context,
@@ -459,7 +574,7 @@ class HomePage extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive 
-              ? AppTheme.primaryOrange.withOpacity(0.1)
+              ? AppTheme.primaryOrange.withOpacity(0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/chat/message_bubble.dart';
-import '../../widgets/chat/chat_input.dart';
+import '../../widgets/chat/enhanced_chat_input.dart';
 import '../../providers/chat_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../../core/constants/app_theme.dart';
@@ -17,10 +17,12 @@ class AiChatPage extends ConsumerStatefulWidget {
 
 class _AiChatPageState extends ConsumerState<AiChatPage> {
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _messageController = TextEditingController();
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _messageController.dispose();
     super.dispose();
   }
 
@@ -30,7 +32,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
     final authState = ref.watch(authProvider);
 
     return Scaffold(
-      backgroundColor: AppTheme.warmCream,
+      backgroundColor: const Color(0xFFF5F1EB), // 温暖的奶油色背景
       body: SafeArea(
         child: Column(
           children: [
@@ -42,9 +44,15 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               child: Container(
                 margin: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: AppTheme.lightCream,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: AppTheme.softShadow,
+                  color: const Color(0xFFFAF7F2), // 更浅的奶油色
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.primaryOrange.withOpacity(0.08),
+                      blurRadius: 20,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: Column(
                   children: [
@@ -93,6 +101,9 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                           ],
                         ),
                       ),
+
+                    // 增强的聊天输入区域
+                    _buildEnhancedChatInput(),
                   ],
                 ),
               ),
@@ -108,10 +119,10 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
-        color: AppTheme.lightCream,
+        color: const Color(0xFFFAF7F2),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.1),
+            color: AppTheme.primaryOrange.withOpacity(0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -123,12 +134,12 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
           GestureDetector(
             onTap: () => context.go('/home'),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 color: AppTheme.primaryOrange.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: AppTheme.primaryOrange.withOpacity(0.3),
+                  color: AppTheme.primaryOrange.withOpacity(0.2),
                   width: 1,
                 ),
               ),
@@ -166,14 +177,14 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                 height: 48,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  color: AppTheme.primaryOrange.withOpacity(0.1),
                   border: Border.all(
-                    color: AppTheme.primaryOrange.withOpacity(0.3),
+                    color: AppTheme.primaryOrange.withOpacity(0.2),
                     width: 2,
                   ),
-                  boxShadow: AppTheme.softShadow,
                 ),
                 child: CircleAvatar(
-                  backgroundColor: AppTheme.primaryOrange.withOpacity(0.1),
+                  backgroundColor: Colors.transparent,
                   backgroundImage: user.photoURL != null
                       ? NetworkImage(user.photoURL!)
                       : null,
@@ -199,6 +210,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // AI 图标
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
@@ -211,15 +223,17 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               color: AppTheme.primaryOrange,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 32),
+          
+          // 欢迎消息气泡
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 40),
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: AppTheme.warmCream,
-              borderRadius: BorderRadius.circular(16),
+              color: const Color(0xFFF5F1EB),
+              borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: AppTheme.primaryOrange.withOpacity(0.2),
+                color: AppTheme.primaryOrange.withOpacity(0.15),
                 width: 1,
               ),
             ),
@@ -227,7 +241,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               '今天你的故事是什么？',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 20,
                 color: AppTheme.darkBrown,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Georgia',
@@ -240,7 +254,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: AppTheme.richBrown.withOpacity(0.8),
+              color: AppTheme.richBrown.withOpacity(0.7),
               fontFamily: 'Georgia',
             ),
           ),
@@ -249,103 +263,201 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
     );
   }
 
-  Widget _buildChatInput() {
+  Widget _buildEnhancedChatInput() {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppTheme.warmCream,
+        color: const Color(0xFFF5F1EB),
         borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
         ),
-        border: Border(
-          top: BorderSide(
-            color: AppTheme.primaryOrange.withOpacity(0.1),
+      ),
+      child: Column(
+        children: [
+          // 主输入区域
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: AppTheme.primaryOrange.withOpacity(0.2),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              children: [
+                // 文本输入框
+                Expanded(
+                  child: TextField(
+                    controller: _messageController,
+                    decoration: InputDecoration(
+                      hintText: '输入你的故事...',
+                      hintStyle: TextStyle(
+                        color: AppTheme.richBrown.withOpacity(0.5),
+                        fontFamily: 'Georgia',
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 16,
+                      ),
+                    ),
+                    maxLines: null,
+                    minLines: 1,
+                    style: TextStyle(
+                      fontFamily: 'Georgia',
+                      color: AppTheme.darkBrown,
+                    ),
+                  ),
+                ),
+                
+                // 语音输入按钮
+                Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.mic,
+                      color: AppTheme.primaryOrange,
+                      size: 24,
+                    ),
+                    onPressed: () {
+                      // TODO: 实现语音输入
+                    },
+                  ),
+                ),
+                
+                // 发送按钮
+                Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryOrange,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      _handleSendMessage(_messageController.text);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          
+          const SizedBox(height: 12),
+          
+          // 功能按钮行
+          Row(
+            children: [
+              // 文件上传
+              _buildActionButton(
+                icon: Icons.attach_file,
+                label: '文件',
+                onTap: () {
+                  // TODO: 实现文件上传
+                },
+              ),
+              
+              const SizedBox(width: 12),
+              
+              // 图片上传
+              _buildActionButton(
+                icon: Icons.image,
+                label: '图片',
+                onTap: () {
+                  // TODO: 实现图片上传
+                },
+              ),
+              
+              const Spacer(),
+              
+              // 生成故事按钮
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppTheme.primaryOrange,
+                      AppTheme.accentOrange,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.primaryOrange.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    _showGenerateStoryDialog();
+                  },
+                  icon: const Icon(Icons.auto_stories, size: 18),
+                  label: const Text('生成故事'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: AppTheme.primaryOrange.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppTheme.primaryOrange.withOpacity(0.2),
             width: 1,
           ),
         ),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppTheme.lightCream,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(
-                  color: AppTheme.primaryOrange.withOpacity(0.2),
-                  width: 1,
-                ),
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: '输入你的故事...',
-                  hintStyle: TextStyle(
-                    color: AppTheme.richBrown.withOpacity(0.6),
-                    fontFamily: 'Georgia',
-                  ),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
-                  ),
-                ),
-                maxLines: null,
-                onSubmitted: _handleSendMessage,
-              ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: AppTheme.primaryOrange,
+              size: 18,
             ),
-          ),
-          const SizedBox(width: 12),
-          
-          // 文件上传按钮
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppTheme.primaryOrange.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: AppTheme.primaryOrange.withOpacity(0.3),
-                width: 1,
-              ),
-            ),
-            child: IconButton(
-              icon: Icon(
-                Icons.attach_file,
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
                 color: AppTheme.primaryOrange,
-                size: 20,
-              ),
-              onPressed: () {
-                // TODO: 实现文件上传
-              },
-            ),
-          ),
-          const SizedBox(width: 8),
-          
-          // 图片上传按钮
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppTheme.primaryOrange.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: AppTheme.primaryOrange.withOpacity(0.3),
-                width: 1,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Georgia',
               ),
             ),
-            child: IconButton(
-              icon: Icon(
-                Icons.image,
-                color: AppTheme.primaryOrange,
-                size: 20,
-              ),
-              onPressed: () {
-                // TODO: 实现图片上传
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -353,10 +465,10 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
   Widget _buildBottomNavigation(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.lightCream,
+        color: const Color(0xFFFAF7F2),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryOrange.withOpacity(0.1),
+            color: AppTheme.primaryOrange.withOpacity(0.08),
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
@@ -378,11 +490,11 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               ),
               _buildNavItem(
                 context,
-                icon: Icons.timeline_outlined,
-                activeIcon: Icons.timeline,
-                label: '连续',
+                icon: Icons.explore_outlined,
+                activeIcon: Icons.explore,
+                label: '发现',
                 isActive: false,
-                onTap: () => context.go('/timeline'),
+                onTap: () => context.go('/discover'),
               ),
               _buildNavItem(
                 context,
@@ -429,7 +541,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive 
-              ? AppTheme.primaryOrange.withOpacity(0.1)
+              ? AppTheme.primaryOrange.withOpacity(0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -468,6 +580,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
     authState.maybeWhen(
       authenticated: (user) {
         ref.read(chatProvider.notifier).sendMessage(content, user.id);
+        _messageController.clear();
       },
       orElse: () {},
     );
@@ -484,5 +597,95 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
         );
       }
     });
+  }
+
+  void _showGenerateStoryDialog() {
+    final titleController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFFFAF7F2),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: Text(
+          '生成故事',
+          style: TextStyle(
+            color: AppTheme.darkBrown,
+            fontFamily: 'Georgia',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '根据这段对话生成一个温暖的故事',
+              style: TextStyle(
+                color: AppTheme.richBrown.withOpacity(0.8),
+                fontFamily: 'Georgia',
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: titleController,
+              decoration: InputDecoration(
+                labelText: '故事标题',
+                hintText: '为你的故事起个名字',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: AppTheme.primaryOrange.withOpacity(0.3),
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: AppTheme.primaryOrange,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              '取消',
+              style: TextStyle(
+                color: AppTheme.richBrown.withOpacity(0.7),
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (titleController.text.trim().isNotEmpty) {
+                final authState = ref.read(authStateProvider);
+                authState.maybeWhen(
+                  authenticated: (user) {
+                    ref.read(chatProvider.notifier).generateStoryFromChat(
+                          user.id,
+                          titleController.text.trim(),
+                        );
+                  },
+                  orElse: () {},
+                );
+                Navigator.of(context).pop();
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryOrange,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: const Text('生成'),
+          ),
+        ],
+      ),
+    );
   }
 }
