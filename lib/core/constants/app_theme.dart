@@ -19,36 +19,32 @@ class AppTheme {
 
   static final ColorScheme lightColorScheme = ColorScheme.light(
     primary: primaryOrange,
-    primaryContainer: warmCream,
-    onPrimaryContainer: darkBrown,
-    secondary: secondaryOrange,
+    primaryContainer: lightCream,
+    onPrimaryContainer: richBrown,
+    secondary: accentOrange,
     secondaryContainer: lightCream,
     onSecondaryContainer: richBrown,
-    surface: lightCream,
+    surface: warmCream,
     onSurface: darkBrown,
     surfaceContainerHighest: softGray,
-    background: warmCream,
-    onBackground: darkBrown,
     error: errorRed,
     onError: Colors.white,
-    outline: primaryOrange.withOpacity(0.3),
+    outline: primaryOrange.withValues(alpha: 0.3),
   );
 
   static final ColorScheme darkColorScheme = ColorScheme.dark(
     primary: accentOrange,
     primaryContainer: darkBrown,
     onPrimaryContainer: warmCream,
-    secondary: secondaryOrange,
-    secondaryContainer: richBrown,
-    onSecondaryContainer: lightCream,
-    surface: const Color(0xFF2C1810),
+    secondary: primaryOrange,
+    secondaryContainer: darkBrown,
+    onSecondaryContainer: warmCream,
+    surface: darkBrown,
     onSurface: warmCream,
-    surfaceContainerHighest: const Color(0xFF3D2418),
-    background: const Color(0xFF1F1209),
-    onBackground: warmCream,
+    surfaceContainerHighest: richBrown.withValues(alpha: 0.8),
     error: errorRed,
     onError: Colors.white,
-    outline: accentOrange.withOpacity(0.3),
+    outline: accentOrange.withValues(alpha: 0.4),
   );
 
   static final ThemeData lightTheme = ThemeData(
@@ -74,7 +70,7 @@ class AppTheme {
     // 卡片主题 - 温暖圆润
     cardTheme: CardThemeData(
       color: lightCream,
-      shadowColor: primaryOrange.withOpacity(0.2),
+      shadowColor: primaryOrange.withValues(alpha: 0.2),
       elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -88,7 +84,7 @@ class AppTheme {
         backgroundColor: primaryOrange,
         foregroundColor: Colors.white,
         elevation: 6,
-        shadowColor: primaryOrange.withOpacity(0.4),
+        shadowColor: primaryOrange.withValues(alpha: 0.4),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -138,7 +134,7 @@ class AppTheme {
       fillColor: lightCream,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: primaryOrange.withOpacity(0.3)),
+        borderSide: BorderSide(color: primaryOrange.withValues(alpha: 0.3)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
@@ -146,7 +142,7 @@ class AppTheme {
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: primaryOrange.withOpacity(0.3)),
+        borderSide: BorderSide(color: primaryOrange.withValues(alpha: 0.3)),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
@@ -154,7 +150,7 @@ class AppTheme {
       ),
       contentPadding: const EdgeInsets.all(20),
       hintStyle: TextStyle(
-        color: richBrown.withOpacity(0.6),
+        color: richBrown.withValues(alpha: 0.6),
         fontSize: 16,
         fontFamily: 'Georgia',
       ),
@@ -187,7 +183,7 @@ class AppTheme {
           Shadow(
             offset: const Offset(1, 1),
             blurRadius: 2,
-            color: primaryOrange.withOpacity(0.3),
+            color: primaryOrange.withValues(alpha: 0.3),
           ),
         ],
       ),
@@ -239,7 +235,7 @@ class AppTheme {
         fontFamily: 'Georgia',
       ),
       bodySmall: TextStyle(
-        color: richBrown.withOpacity(0.8),
+        color: richBrown.withValues(alpha: 0.8),
         fontSize: 12,
         height: 1.4,
         fontFamily: 'Georgia',
@@ -311,7 +307,7 @@ class AppTheme {
   // 阴影效果
   static List<BoxShadow> get warmShadow => [
         BoxShadow(
-          color: primaryOrange.withOpacity(0.2),
+          color: primaryOrange.withValues(alpha: 0.2),
           blurRadius: 8,
           offset: const Offset(0, 4),
         ),
@@ -319,7 +315,7 @@ class AppTheme {
 
   static List<BoxShadow> get softShadow => [
         BoxShadow(
-          color: Colors.black.withOpacity(0.1),
+          color: Colors.black.withValues(alpha: 0.1),
           blurRadius: 6,
           offset: const Offset(0, 2),
         ),
