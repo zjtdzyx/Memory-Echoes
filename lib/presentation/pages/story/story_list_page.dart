@@ -154,7 +154,8 @@ class StoryListPage extends ConsumerWidget {
                   boxShadow: AppTheme.softShadow,
                 ),
                 child: CircleAvatar(
-                  backgroundColor: AppTheme.primaryOrange.withValues(alpha: 0.1),
+                  backgroundColor:
+                      AppTheme.primaryOrange.withValues(alpha: 0.1),
                   backgroundImage: user.photoURL != null
                       ? NetworkImage(user.photoURL!)
                       : null,
@@ -534,11 +535,11 @@ class StoryListPage extends ConsumerWidget {
               ),
               _buildNavItem(
                 context,
-                icon: Icons.timeline_outlined,
-                activeIcon: Icons.timeline,
-                label: '连续',
+                icon: Icons.explore_outlined,
+                activeIcon: Icons.explore,
+                label: '发现',
                 isActive: false,
-                onTap: () => context.go('/timeline'),
+                onTap: () => context.go('/discover'),
               ),
               _buildNavItem(
                 context,
