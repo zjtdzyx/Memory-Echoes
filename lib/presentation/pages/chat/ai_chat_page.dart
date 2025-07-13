@@ -93,7 +93,8 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                             Text(
                               'AI 正在思考...',
                               style: TextStyle(
-                                color: AppTheme.richBrown.withValues(alpha: 0.8),
+                                color:
+                                    AppTheme.richBrown.withValues(alpha: 0.8),
                                 fontFamily: 'Georgia',
                               ),
                             ),
@@ -603,87 +604,170 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFFFAF7F2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        title: Text(
-          '生成故事',
-          style: TextStyle(
-            color: AppTheme.darkBrown,
-            fontFamily: 'Georgia',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '根据这段对话生成一个温暖的故事',
+      builder: (context) => Consumer(
+        builder: (context, ref, child) {
+          final chatState = ref.watch(chatProvider);
+
+          return AlertDialog(
+            backgroundColor: const Color(0xFFFAF7F2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: Text(
+              '生成故事',
               style: TextStyle(
-                color: AppTheme.richBrown.withValues(alpha: 0.8),
+                color: AppTheme.darkBrown,
                 fontFamily: 'Georgia',
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: titleController,
-              decoration: InputDecoration(
-                labelText: '故事标题',
-                hintText: '为你的故事起个名字',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                    color: AppTheme.primaryOrange.withValues(alpha: 0.3),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '根据这段对话生成一个温暖的故事',
+                  style: TextStyle(
+                    color: AppTheme.richBrown.withValues(alpha: 0.8),
+                    fontFamily: 'Georgia',
                   ),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                    color: AppTheme.primaryOrange,
+                const SizedBox(height: 16),
+                TextField(
+                  controller: titleController,
+                  decoration: InputDecoration(
+                    labelText: '故事标题',
+                    hintText: '为你的故事起个名字',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: AppTheme.primaryOrange.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: AppTheme.primaryOrange,
+                      ),
+                    ),
+                  ),
+                ),
+                if (chatState.error != null) ...[
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: Colors.red.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            chatState.error!,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                if (chatState.isLoading) ...[
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            AppTheme.primaryOrange,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        '正在生成故事...',
+                        style: TextStyle(
+                          color: AppTheme.richBrown.withValues(alpha: 0.8),
+                          fontFamily: 'Georgia',
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: chatState.isLoading
+                    ? null
+                    : () => Navigator.of(context).pop(),
+                child: Text(
+                  '取消',
+                  style: TextStyle(
+                    color: AppTheme.richBrown.withValues(alpha: 0.7),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(
-              '取消',
-              style: TextStyle(
-                color: AppTheme.richBrown.withValues(alpha: 0.7),
+              ElevatedButton(
+                onPressed: chatState.isLoading
+                    ? null
+                    : () {
+                        if (titleController.text.trim().isNotEmpty) {
+                          final authState = ref.read(authStateProvider);
+                          authState.maybeWhen(
+                            authenticated: (user) {
+                              ref
+                                  .read(chatProvider.notifier)
+                                  .generateStoryFromChat(
+                                    user.id,
+                                    titleController.text.trim(),
+                                  );
+                            },
+                            orElse: () {},
+                          );
+
+                          // 延迟关闭对话框，等待操作完成
+                          Future.delayed(const Duration(milliseconds: 100), () {
+                            if (context.mounted && !chatState.isLoading) {
+                              Navigator.of(context).pop();
+                              // 显示成功提示
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text('故事生成成功！'),
+                                  backgroundColor: AppTheme.primaryOrange,
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            }
+                          });
+                        }
+                      },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primaryOrange,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text('生成'),
               ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (titleController.text.trim().isNotEmpty) {
-                final authState = ref.read(authStateProvider);
-                authState.maybeWhen(
-                  authenticated: (user) {
-                    ref.read(chatProvider.notifier).generateStoryFromChat(
-                          user.id,
-                          titleController.text.trim(),
-                        );
-                  },
-                  orElse: () {},
-                );
-                Navigator.of(context).pop();
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primaryOrange,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: const Text('生成'),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }

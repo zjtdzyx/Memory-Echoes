@@ -58,20 +58,31 @@ class ChatNotifier extends StateNotifier<ChatState> {
   }
 
   Future<void> generateStoryFromChat(String userId, String title) async {
-    if (state.messages.isEmpty) return;
+    if (state.messages.isEmpty) {
+      state = state.copyWith(
+        error: '没有对话记录可生成故事',
+        isLoading: false,
+      );
+      return;
+    }
 
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true, error: null);
+
     try {
       await _generateStoryFromChatUseCase(
         userId: userId,
         messages: state.messages,
         title: title,
       );
-      state = state.copyWith(isLoading: false);
+
+      state = state.copyWith(
+        isLoading: false,
+        error: null,
+      );
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: e.toString(),
+        error: '生成故事失败: ${e.toString()}',
       );
     }
   }
