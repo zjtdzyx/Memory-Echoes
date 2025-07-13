@@ -35,8 +35,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
       backgroundColor: AppTheme.lightCream,
@@ -815,7 +815,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             onPressed: () async {
               Navigator.pop(context);
               try {
-                await ref.read(authProvider.notifier).signOut();
+                await ref.read(authStateProvider.notifier).signOut();
                 if (mounted) {
                   context.go('/login');
                 }

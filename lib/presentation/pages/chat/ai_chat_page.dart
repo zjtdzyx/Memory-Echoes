@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../widgets/chat/message_bubble.dart';
-import '../../widgets/chat/enhanced_chat_input.dart';
 import '../../providers/chat_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../../core/constants/app_theme.dart';
@@ -29,7 +28,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
   @override
   Widget build(BuildContext context) {
     final chatState = ref.watch(chatProvider);
-    final authState = ref.watch(authProvider);
+    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F1EB), // 温暖的奶油色背景
@@ -38,7 +37,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
           children: [
             // 顶部导航栏
             _buildTopNavigation(context, ref, authState),
-            
+
             // 聊天内容区域
             Expanded(
               child: Container(
@@ -165,9 +164,9 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               ),
             ),
           ),
-          
+
           const Spacer(),
-          
+
           // 用户头像
           authState.maybeWhen(
             authenticated: (user) => GestureDetector(
@@ -224,7 +223,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
             ),
           ),
           const SizedBox(height: 32),
-          
+
           // 欢迎消息气泡
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 40),
@@ -311,7 +310,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                     ),
                   ),
                 ),
-                
+
                 // 语音输入按钮
                 Container(
                   margin: const EdgeInsets.only(right: 8),
@@ -326,7 +325,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                     },
                   ),
                 ),
-                
+
                 // 发送按钮
                 Container(
                   margin: const EdgeInsets.only(right: 8),
@@ -348,9 +347,9 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 12),
-          
+
           // 功能按钮行
           Row(
             children: [
@@ -362,9 +361,9 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                   // TODO: 实现文件上传
                 },
               ),
-              
+
               const SizedBox(width: 12),
-              
+
               // 图片上传
               _buildActionButton(
                 icon: Icons.image,
@@ -373,9 +372,9 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                   // TODO: 实现图片上传
                 },
               ),
-              
+
               const Spacer(),
-              
+
               // 生成故事按钮
               Container(
                 decoration: BoxDecoration(
@@ -540,7 +539,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive 
+          color: isActive
               ? AppTheme.primaryOrange.withOpacity(0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
@@ -550,7 +549,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
           children: [
             Icon(
               isActive ? activeIcon : icon,
-              color: isActive 
+              color: isActive
                   ? AppTheme.primaryOrange
                   : AppTheme.richBrown.withOpacity(0.6),
               size: 24,
@@ -560,7 +559,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               label,
               style: TextStyle(
                 fontSize: 12,
-                color: isActive 
+                color: isActive
                     ? AppTheme.primaryOrange
                     : AppTheme.richBrown.withOpacity(0.6),
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
@@ -575,7 +574,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
 
   void _handleSendMessage(String content) {
     if (content.trim().isEmpty) return;
-    
+
     final authState = ref.read(authStateProvider);
     authState.maybeWhen(
       authenticated: (user) {

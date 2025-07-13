@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memory_echoes/presentation/providers/story_provider.dart';
 import 'package:memory_echoes/presentation/providers/auth_provider.dart';
-import 'package:memory_echoes/presentation/widgets/story/story_card.dart';
-import 'package:memory_echoes/presentation/widgets/common/empty_state.dart';
 import 'package:memory_echoes/core/constants/app_theme.dart';
 
 class StoryListPage extends ConsumerWidget {
@@ -12,7 +10,7 @@ class StoryListPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authProvider);
+    final authState = ref.watch(authStateProvider);
     final userId = authState.whenOrNull(authenticated: (user) => user.id);
 
     if (userId == null) {
@@ -29,10 +27,10 @@ class StoryListPage extends ConsumerWidget {
           children: [
             // 顶部导航栏
             _buildTopNavigation(context, ref, authState),
-            
+
             // 搜索框
             _buildSearchBar(context),
-            
+
             // 故事列表内容
             Expanded(
               child: storiesState.when(
@@ -137,9 +135,9 @@ class StoryListPage extends ConsumerWidget {
               ),
             ),
           ),
-          
+
           const Spacer(),
-          
+
           // 用户头像
           authState.maybeWhen(
             authenticated: (user) => GestureDetector(
@@ -232,7 +230,8 @@ class StoryListPage extends ConsumerWidget {
               ),
               const Spacer(),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   color: AppTheme.primaryOrange.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
@@ -250,9 +249,9 @@ class StoryListPage extends ConsumerWidget {
             ],
           ),
         ),
-        
+
         const SizedBox(height: 8),
-        
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
@@ -264,9 +263,9 @@ class StoryListPage extends ConsumerWidget {
             ),
           ),
         ),
-        
+
         const SizedBox(height: 20),
-        
+
         // 故事列表
         Expanded(
           child: ListView.builder(
@@ -281,7 +280,7 @@ class StoryListPage extends ConsumerWidget {
             },
           ),
         ),
-        
+
         // 底部提示
         Container(
           margin: const EdgeInsets.all(20),
@@ -359,9 +358,9 @@ class StoryListPage extends ConsumerWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      
+
                       const SizedBox(height: 12),
-                      
+
                       // 故事内容简介
                       Text(
                         story.content,
@@ -374,9 +373,9 @@ class StoryListPage extends ConsumerWidget {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      
+
                       const SizedBox(height: 16),
-                      
+
                       // 日期
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -400,9 +399,9 @@ class StoryListPage extends ConsumerWidget {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(width: 16),
-                
+
                 // 右侧图片
                 Container(
                   width: 80,
@@ -585,7 +584,7 @@ class StoryListPage extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive 
+          color: isActive
               ? AppTheme.primaryOrange.withOpacity(0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
@@ -595,7 +594,7 @@ class StoryListPage extends ConsumerWidget {
           children: [
             Icon(
               isActive ? activeIcon : icon,
-              color: isActive 
+              color: isActive
                   ? AppTheme.primaryOrange
                   : AppTheme.richBrown.withOpacity(0.6),
               size: 24,
@@ -605,7 +604,7 @@ class StoryListPage extends ConsumerWidget {
               label,
               style: TextStyle(
                 fontSize: 12,
-                color: isActive 
+                color: isActive
                     ? AppTheme.primaryOrange
                     : AppTheme.richBrown.withOpacity(0.6),
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,

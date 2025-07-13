@@ -9,7 +9,7 @@ class ProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authState = ref.watch(authProvider);
+    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
       backgroundColor: AppTheme.warmCream,
@@ -18,7 +18,7 @@ class ProfilePage extends ConsumerWidget {
           children: [
             // 顶部导航栏
             _buildTopNavigation(context, ref, authState),
-            
+
             // 个人信息区域
             Expanded(
               child: SingleChildScrollView(
@@ -27,14 +27,14 @@ class ProfilePage extends ConsumerWidget {
                   children: [
                     // 用户信息卡片
                     _buildUserInfoCard(context, authState),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // 功能菜单
                     _buildMenuSection(context),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // 设置区域
                     _buildSettingsSection(context, ref),
                   ],
@@ -98,9 +98,9 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
           ),
-          
+
           const Spacer(),
-          
+
           Text(
             '我的',
             style: TextStyle(
@@ -153,9 +153,8 @@ class ProfilePage extends ConsumerWidget {
               ),
               child: CircleAvatar(
                 backgroundColor: Colors.white.withOpacity(0.2),
-                backgroundImage: user.photoURL != null
-                    ? NetworkImage(user.photoURL!)
-                    : null,
+                backgroundImage:
+                    user.photoURL != null ? NetworkImage(user.photoURL!) : null,
                 child: user.photoURL == null
                     ? Icon(
                         Icons.person,
@@ -165,9 +164,9 @@ class ProfilePage extends ConsumerWidget {
                     : null,
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // 用户名
             Text(
               user.displayName ?? '记忆收藏家',
@@ -178,9 +177,9 @@ class ProfilePage extends ConsumerWidget {
                 fontFamily: 'Georgia',
               ),
             ),
-            
+
             const SizedBox(height: 8),
-            
+
             // 邮箱
             Text(
               user.email ?? '',
@@ -190,9 +189,9 @@ class ProfilePage extends ConsumerWidget {
                 fontFamily: 'Georgia',
               ),
             ),
-            
+
             const SizedBox(height: 20),
-            
+
             // 统计信息
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -499,7 +498,7 @@ class ProfilePage extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive 
+          color: isActive
               ? AppTheme.primaryOrange.withOpacity(0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
@@ -509,7 +508,7 @@ class ProfilePage extends ConsumerWidget {
           children: [
             Icon(
               isActive ? activeIcon : icon,
-              color: isActive 
+              color: isActive
                   ? AppTheme.primaryOrange
                   : AppTheme.richBrown.withOpacity(0.6),
               size: 24,
@@ -519,7 +518,7 @@ class ProfilePage extends ConsumerWidget {
               label,
               style: TextStyle(
                 fontSize: 12,
-                color: isActive 
+                color: isActive
                     ? AppTheme.primaryOrange
                     : AppTheme.richBrown.withOpacity(0.6),
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
@@ -561,7 +560,7 @@ class ProfilePage extends ConsumerWidget {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
-              ref.read(authProvider.notifier).signOut();
+              ref.read(authStateProvider.notifier).signOut();
               context.go('/home');
             },
             style: ElevatedButton.styleFrom(

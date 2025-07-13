@@ -21,21 +21,21 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       ref
-          .read(authProvider.notifier)
+          .read(authStateProvider.notifier)
           .signUpWithEmail(_email, _password, _displayName);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AuthState>(authProvider, (previous, next) {
+    ref.listen<AuthState>(authStateProvider, (previous, next) {
       next.maybeWhen(
         authenticated: (_) => context.go('/home'),
         orElse: () {},
       );
     });
 
-    final authState = ref.watch(authProvider);
+    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('注册')),

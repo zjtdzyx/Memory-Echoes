@@ -20,20 +20,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      ref.read(authProvider.notifier).signInWithEmail(_email, _password);
+      ref.read(authStateProvider.notifier).signInWithEmail(_email, _password);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AuthState>(authProvider, (previous, next) {
+    ref.listen<AuthState>(authStateProvider, (previous, next) {
       next.maybeWhen(
         authenticated: (_) => context.go('/home'),
         orElse: () {},
       );
     });
 
-    final authState = ref.watch(authProvider);
+    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
       body: Container(
@@ -90,10 +90,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       const SizedBox(height: 24),
                       Text(
                         '记忆回响',
-                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                              color: AppTheme.darkBrown,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                  color: AppTheme.darkBrown,
+                                  fontWeight: FontWeight.bold,
+                                ),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -159,7 +160,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 margin: const EdgeInsets.all(12),
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: AppTheme.primaryOrange.withOpacity(0.1),
+                                  color:
+                                      AppTheme.primaryOrange.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Icon(
@@ -190,7 +192,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 margin: const EdgeInsets.all(12),
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: AppTheme.primaryOrange.withOpacity(0.1),
+                                  color:
+                                      AppTheme.primaryOrange.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Icon(
@@ -226,7 +229,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 backgroundColor: AppTheme.primaryOrange,
                                 foregroundColor: Colors.white,
                                 elevation: 6,
-                                shadowColor: AppTheme.primaryOrange.withOpacity(0.4),
+                                shadowColor:
+                                    AppTheme.primaryOrange.withOpacity(0.4),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                 ),
@@ -237,10 +241,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   height: 24,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
                                   ),
                                 ),
-                                authenticated: (_) => const Icon(Icons.check, size: 24),
+                                authenticated: (_) =>
+                                    const Icon(Icons.check, size: 24),
                                 orElse: () => Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
