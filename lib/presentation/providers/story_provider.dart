@@ -5,7 +5,7 @@ import '../../dependency_injection.dart';
 
 // 用户故事提供者
 final userStoriesProvider =
-    FutureProvider.family<List<StoryEntity>, String>((ref, userId) async {
+    StreamProvider.family<List<StoryEntity>, String>((ref, userId) {
   final getUserStoriesUseCase = ref.read(getUserStoriesUseCaseProvider);
   return getUserStoriesUseCase(userId);
 });
@@ -110,12 +110,11 @@ final recentStoriesProvider = FutureProvider<List<StoryEntity>>((ref) async {
 
 // 用户最近故事提供者
 final userRecentStoriesProvider =
-    FutureProvider.family<List<StoryEntity>, String>((ref, userId) async {
+    StreamProvider.family<List<StoryEntity>, String>((ref, userId) {
   try {
     final getUserStoriesUseCase = ref.read(getUserStoriesUseCaseProvider);
-    final stories = await getUserStoriesUseCase(userId);
-    // 返回最近的5个故事
-    return stories.take(5).toList();
+    return getUserStoriesUseCase(userId)
+        .map((stories) => stories.take(5).toList());
   } catch (e) {
     throw Exception('Failed to load user recent stories: $e');
   }

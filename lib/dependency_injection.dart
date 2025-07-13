@@ -15,10 +15,12 @@ import 'data/datasources/remote/gemini_api_service.dart';
 import 'domain/repositories/auth_repository.dart';
 import 'domain/repositories/story_repository.dart';
 import 'domain/repositories/chat_repository.dart';
+import 'domain/repositories/biography_repository.dart';
 import 'domain/repositories/ai_repository.dart';
 import 'data/repositories/auth_repository_impl.dart';
 import 'data/repositories/story_repository_impl.dart';
 import 'data/repositories/chat_repository_impl.dart';
+import 'data/repositories/biography_repository_impl.dart';
 import 'data/repositories/ai_repository_impl.dart';
 
 // Use Cases
@@ -87,6 +89,11 @@ final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   return ChatRepositoryImpl(ref.watch(firestoreChatDataSourceProvider));
 });
 
+final biographyRepositoryProvider = Provider<BiographyRepository>((ref) {
+  // 暂时返回一个简单的实现，因为BiographyRepository还没有完全实现
+  return BiographyRepositoryImpl();
+});
+
 final aiRepositoryProvider = Provider<AiRepository>((ref) {
   return AiRepositoryImpl(ref.watch(geminiApiServiceProvider));
 });
@@ -121,6 +128,8 @@ final updateStoryUseCaseProvider = Provider<UpdateStoryUseCase>(
     (ref) => UpdateStoryUseCase(ref.watch(storyRepositoryProvider)));
 final deleteStoryUseCaseProvider = Provider<DeleteStoryUseCase>(
     (ref) => DeleteStoryUseCase(ref.watch(storyRepositoryProvider)));
+final searchStoriesUseCaseProvider = Provider<SearchStoriesUseCase>(
+    (ref) => SearchStoriesUseCase(ref.watch(storyRepositoryProvider)));
 
 // UseCases - AI Chat
 final sendChatMessageUseCaseProvider = Provider<SendChatMessageUseCase>(
