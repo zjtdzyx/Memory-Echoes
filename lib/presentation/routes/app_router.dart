@@ -138,4 +138,27 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/about',
-        builder: (context, state) =>
+        builder: (context, state) =>  const AboutPage(),
+      ),
+
+      // 错误页面
+      GoRoute(
+        path: '/error',
+        builder: (context, state) => ErrorPage(
+          errorMessage: state.uri.queryParameters['message'],
+          errorCode: state.uri.queryParameters['code'],
+        ),
+      ),
+
+      // 兼容旧路由
+      GoRoute(
+        path: '/login',
+        redirect: (context, state) => '/auth/login',
+      ),
+      GoRoute(
+        path: '/register',
+        redirect: (context, state) => '/auth/register',
+      ),
+    ],
+  );
+});
