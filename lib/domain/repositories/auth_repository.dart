@@ -7,6 +7,8 @@ abstract class AuthRepository {
       {required String email,
       required String password,
       required String displayName});
+  Future<UserEntity> signInWithGoogle();
+  Future<UserEntity> signInWithApple();
   Future<void> signOut();
   Future<void> updateUser(UserEntity user);
 }

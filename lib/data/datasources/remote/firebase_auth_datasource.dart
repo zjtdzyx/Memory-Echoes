@@ -1,13 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:memory_echoes/data/models/user_model.dart';
 import 'package:memory_echoes/domain/entities/user_entity.dart';
 
 class FirebaseAuthDataSource {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
+  final GoogleSignIn _googleSignIn;
 
-  FirebaseAuthDataSource(this._firebaseAuth, this._firestore);
+  FirebaseAuthDataSource(
+      this._firebaseAuth, this._firestore, this._googleSignIn);
 
   Future<UserEntity> signInWithEmail(String email, String password) async {
     try {
@@ -46,8 +50,91 @@ class FirebaseAuthDataSource {
     }
   }
 
+  Future<UserEntity> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        throw Exception('Google sign in was cancelled');
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential =
+          await _firebaseAuth.signInWithCredential(credential);
+      final user = userCredential.user;
+
+      if (user == null) {
+        throw Exception('Google sign in failed: user not found');
+      }
+
+      // Create or update user document in Firestore
+      await _firestore.collection('users').doc(user.uid).set({
+        'email': user.email,
+        'displayName': user.displayName,
+        'photoURL': user.photoURL,
+        'createdAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      return _userFromFirebase(user)!;
+    } catch (e) {
+      throw Exception('Google sign in failed: $e');
+    }
+  }
+
+  Future<UserEntity> signInWithApple() async {
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      final userCredential =
+          await _firebaseAuth.signInWithCredential(oauthCredential);
+      final user = userCredential.user;
+
+      if (user == null) {
+        throw Exception('Apple sign in failed: user not found');
+      }
+
+      // Create or update user document in Firestore
+      String displayName = user.displayName ??
+          '${appleCredential.givenName ?? ''} ${appleCredential.familyName ?? ''}'
+              .trim();
+
+      if (displayName.isEmpty) {
+        displayName = 'Apple User';
+      }
+
+      await _firestore.collection('users').doc(user.uid).set({
+        'email': user.email ?? appleCredential.email,
+        'displayName': displayName,
+        'photoURL': user.photoURL,
+        'createdAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      return _userFromFirebase(user)!;
+    } catch (e) {
+      throw Exception('Apple sign in failed: $e');
+    }
+  }
+
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+    await Future.wait([
+      _firebaseAuth.signOut(),
+      _googleSignIn.signOut(),
+    ]);
   }
 
   Stream<UserEntity?> get authStateChanges {

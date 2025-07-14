@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dio/dio.dart';
 
 // Data Sources
@@ -45,6 +46,10 @@ final firebaseStorageProvider = Provider<FirebaseStorage>((ref) {
   return FirebaseStorage.instance;
 });
 
+final googleSignInProvider = Provider<GoogleSignIn>((ref) {
+  return GoogleSignIn();
+});
+
 final dioProvider = Provider<Dio>((ref) {
   return Dio();
 });
@@ -52,99 +57,137 @@ final dioProvider = Provider<Dio>((ref) {
 // Data Sources
 final firebaseAuthDataSourceProvider = Provider<FirebaseAuthDataSource>((ref) {
   return FirebaseAuthDataSource(
-    ref.watch(firebaseAuthProvider),
-    ref.watch(firebaseFirestoreProvider),
+    ref.read(firebaseAuthProvider),
+    ref.read(firebaseFirestoreProvider),
+    ref.read(googleSignInProvider),
   );
 });
 
 final firestoreStoryDataSourceProvider =
     Provider<FirestoreStoryDataSource>((ref) {
-  return FirestoreStoryDataSource(ref.watch(firebaseFirestoreProvider));
+  return FirestoreStoryDataSource(ref.read(firebaseFirestoreProvider));
 });
 
 final firestoreChatDataSourceProvider =
     Provider<FirestoreChatDataSource>((ref) {
-  return FirestoreChatDataSource(ref.watch(firebaseFirestoreProvider));
+  return FirestoreChatDataSource(ref.read(firebaseFirestoreProvider));
 });
 
 final firebaseStorageDataSourceProvider =
     Provider<FirebaseStorageDataSource>((ref) {
-  return FirebaseStorageDataSourceImpl(ref.watch(firebaseStorageProvider));
+  return FirebaseStorageDataSourceImpl(ref.read(firebaseStorageProvider));
 });
 
 final geminiApiServiceProvider = Provider<GeminiApiService>((ref) {
-  return GeminiApiServiceImpl(ref.watch(dioProvider));
+  return GeminiApiServiceImpl(ref.read(dioProvider));
 });
 
 // Repositories
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl(ref.watch(firebaseAuthDataSourceProvider));
+  return AuthRepositoryImpl(ref.read(firebaseAuthDataSourceProvider));
 });
 
 final storyRepositoryProvider = Provider<StoryRepository>((ref) {
-  return StoryRepositoryImpl(ref.watch(firestoreStoryDataSourceProvider));
+  return StoryRepositoryImpl(ref.read(firestoreStoryDataSourceProvider));
 });
 
 final chatRepositoryProvider = Provider<ChatRepository>((ref) {
-  return ChatRepositoryImpl(ref.watch(firestoreChatDataSourceProvider));
+  return ChatRepositoryImpl(ref.read(firestoreChatDataSourceProvider));
 });
 
 final biographyRepositoryProvider = Provider<BiographyRepository>((ref) {
-  // 暂时返回一个简单的实现，因为BiographyRepository还没有完全实现
   return BiographyRepositoryImpl();
 });
 
 final aiRepositoryProvider = Provider<AiRepository>((ref) {
-  return AiRepositoryImpl(ref.watch(geminiApiServiceProvider));
+  return AiRepositoryImpl(ref.read(geminiApiServiceProvider));
+});
+
+// Use Cases
+final getAuthStatusUseCaseProvider = Provider<GetAuthStatusUseCase>((ref) {
+  return GetAuthStatusUseCase(ref.read(authRepositoryProvider));
+});
+
+final signInWithEmailUseCaseProvider = Provider<SignInWithEmailUseCase>((ref) {
+  return SignInWithEmailUseCase(ref.read(authRepositoryProvider));
+});
+
+final signUpWithEmailUseCaseProvider = Provider<SignUpWithEmailUseCase>((ref) {
+  return SignUpWithEmailUseCase(ref.read(authRepositoryProvider));
+});
+
+final signInWithGoogleUseCaseProvider =
+    Provider<SignInWithGoogleUseCase>((ref) {
+  return SignInWithGoogleUseCase(ref.read(authRepositoryProvider));
+});
+
+final signInWithAppleUseCaseProvider = Provider<SignInWithAppleUseCase>((ref) {
+  return SignInWithAppleUseCase(ref.read(authRepositoryProvider));
+});
+
+final signOutUseCaseProvider = Provider<SignOutUseCase>((ref) {
+  return SignOutUseCase(ref.read(authRepositoryProvider));
+});
+
+final updateUserUseCaseProvider = Provider<UpdateUserUseCase>((ref) {
+  return UpdateUserUseCase(ref.read(authRepositoryProvider));
+});
+
+final getUserStoriesUseCaseProvider = Provider<GetUserStoriesUseCase>((ref) {
+  return GetUserStoriesUseCase(ref.read(storyRepositoryProvider));
+});
+
+final getPublicStoriesUseCaseProvider =
+    Provider<GetPublicStoriesUseCase>((ref) {
+  return GetPublicStoriesUseCase(ref.read(storyRepositoryProvider));
+});
+
+final getStoryByIdUseCaseProvider = Provider<GetStoryByIdUseCase>((ref) {
+  return GetStoryByIdUseCase(ref.read(storyRepositoryProvider));
+});
+
+final createStoryUseCaseProvider = Provider<CreateStoryUseCase>((ref) {
+  return CreateStoryUseCase(ref.read(storyRepositoryProvider));
+});
+
+final updateStoryUseCaseProvider = Provider<UpdateStoryUseCase>((ref) {
+  return UpdateStoryUseCase(ref.read(storyRepositoryProvider));
+});
+
+final deleteStoryUseCaseProvider = Provider<DeleteStoryUseCase>((ref) {
+  return DeleteStoryUseCase(ref.read(storyRepositoryProvider));
+});
+
+final searchStoriesUseCaseProvider = Provider<SearchStoriesUseCase>((ref) {
+  return SearchStoriesUseCase(ref.read(storyRepositoryProvider));
+});
+
+final getChatMessagesUseCaseProvider = Provider<GetChatMessagesUseCase>((ref) {
+  return GetChatMessagesUseCase(ref.read(chatRepositoryProvider));
+});
+
+final saveChatMessageUseCaseProvider = Provider<SaveChatMessageUseCase>((ref) {
+  return SaveChatMessageUseCase(ref.read(chatRepositoryProvider));
+});
+
+final clearChatHistoryUseCaseProvider =
+    Provider<ClearChatHistoryUseCase>((ref) {
+  return ClearChatHistoryUseCase(ref.read(chatRepositoryProvider));
+});
+
+final postChatMessageUseCaseProvider = Provider<PostChatMessageUseCase>((ref) {
+  return PostChatMessageUseCase(ref.read(aiRepositoryProvider));
+});
+
+final generateStoryFromChatUseCaseProvider =
+    Provider<GenerateStoryFromChatUseCase>((ref) {
+  return GenerateStoryFromChatUseCase(
+    ref.read(aiRepositoryProvider),
+    ref.read(storyRepositoryProvider),
+  );
 });
 
 // Services
 final fileUploadServiceProvider = Provider<FileUploadService>((ref) {
-  return FileUploadService(ref.watch(firebaseStorageDataSourceProvider));
+  return FileUploadService(ref.read(firebaseStorageDataSourceProvider));
 });
-
-// UseCases - Auth
-final getAuthStatusUseCaseProvider = Provider<GetAuthStatusUseCase>(
-    (ref) => GetAuthStatusUseCase(ref.watch(authRepositoryProvider)));
-final signInWithEmailUseCaseProvider = Provider<SignInWithEmailUseCase>(
-    (ref) => SignInWithEmailUseCase(ref.watch(authRepositoryProvider)));
-final signUpWithEmailUseCaseProvider = Provider<SignUpWithEmailUseCase>(
-    (ref) => SignUpWithEmailUseCase(ref.watch(authRepositoryProvider)));
-final signOutUseCaseProvider = Provider<SignOutUseCase>(
-    (ref) => SignOutUseCase(ref.watch(authRepositoryProvider)));
-final updateUserUseCaseProvider = Provider<UpdateUserUseCase>(
-    (ref) => UpdateUserUseCase(ref.watch(authRepositoryProvider)));
-
-// UseCases - Story
-final getUserStoriesUseCaseProvider = Provider<GetUserStoriesUseCase>(
-    (ref) => GetUserStoriesUseCase(ref.watch(storyRepositoryProvider)));
-final getPublicStoriesUseCaseProvider = Provider<GetPublicStoriesUseCase>(
-    (ref) => GetPublicStoriesUseCase(ref.watch(storyRepositoryProvider)));
-final getStoryByIdUseCaseProvider = Provider<GetStoryByIdUseCase>(
-    (ref) => GetStoryByIdUseCase(ref.watch(storyRepositoryProvider)));
-final createStoryUseCaseProvider = Provider<CreateStoryUseCase>(
-    (ref) => CreateStoryUseCase(ref.watch(storyRepositoryProvider)));
-final updateStoryUseCaseProvider = Provider<UpdateStoryUseCase>(
-    (ref) => UpdateStoryUseCase(ref.watch(storyRepositoryProvider)));
-final deleteStoryUseCaseProvider = Provider<DeleteStoryUseCase>(
-    (ref) => DeleteStoryUseCase(ref.watch(storyRepositoryProvider)));
-final searchStoriesUseCaseProvider = Provider<SearchStoriesUseCase>(
-    (ref) => SearchStoriesUseCase(ref.watch(storyRepositoryProvider)));
-
-// UseCases - AI Chat
-final sendChatMessageUseCaseProvider = Provider<SendChatMessageUseCase>(
-    (ref) => SendChatMessageUseCase(ref.watch(aiRepositoryProvider)));
-final generateStoryFromChatUseCaseProvider =
-    Provider<GenerateStoryFromChatUseCase>((ref) =>
-        GenerateStoryFromChatUseCase(ref.watch(aiRepositoryProvider),
-            ref.watch(storyRepositoryProvider)));
-final postChatMessageUseCaseProvider = Provider<PostChatMessageUseCase>(
-    (ref) => PostChatMessageUseCase(ref.watch(aiRepositoryProvider)));
-
-// UseCases - Chat
-final getChatMessagesUseCaseProvider = Provider<GetChatMessagesUseCase>(
-    (ref) => GetChatMessagesUseCase(ref.watch(chatRepositoryProvider)));
-final saveChatMessageUseCaseProvider = Provider<SaveChatMessageUseCase>(
-    (ref) => SaveChatMessageUseCase(ref.watch(chatRepositoryProvider)));
-final clearChatHistoryUseCaseProvider = Provider<ClearChatHistoryUseCase>(
-    (ref) => ClearChatHistoryUseCase(ref.watch(chatRepositoryProvider)));

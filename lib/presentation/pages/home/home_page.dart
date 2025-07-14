@@ -6,7 +6,6 @@ import 'package:memory_echoes/presentation/providers/story_provider.dart';
 import 'package:memory_echoes/presentation/widgets/home/feature_card.dart';
 import 'package:memory_echoes/presentation/widgets/home/story_preview_card.dart';
 import 'package:memory_echoes/presentation/widgets/home/biography_preview_card.dart';
-import 'package:memory_echoes/presentation/widgets/story/story_card.dart';
 import 'package:memory_echoes/core/constants/app_theme.dart';
 import 'package:memory_echoes/domain/entities/story_entity.dart';
 
@@ -31,10 +30,10 @@ class HomePage extends ConsumerWidget {
           children: [
             // 顶部导航栏
             _buildTopNavigation(context, ref, authState),
-            
+
             // 搜索框
             _buildSearchBar(context),
-            
+
             // 主要内容
             Expanded(
               child: SingleChildScrollView(
@@ -43,27 +42,27 @@ class HomePage extends ConsumerWidget {
                   children: [
                     // 我的故事卡片组
                     _buildMyStoriesSection(context, recentStoriesState),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // 我的传记卡片组
                     _buildMyBiographySection(context),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // 快速开始卡片组
                     _buildQuickStartSection(context),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // 他人的故事卡片组
                     _buildOthersStoriesSection(context),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     // 今日推荐
                     _buildTodayRecommendationSection(context),
-                    
+
                     // 底部间距
                     const SizedBox(height: 100),
                   ],
@@ -275,7 +274,8 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildMyStoriesSection(BuildContext context, AsyncValue<List<StoryEntity>> storiesState) {
+  Widget _buildMyStoriesSection(
+      BuildContext context, AsyncValue<List<StoryEntity>> storiesState) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -371,7 +371,8 @@ class HomePage extends ConsumerWidget {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stack) => _buildErrorCard(context, error.toString()),
+              error: (error, stack) =>
+                  _buildErrorCard(context, error.toString()),
             ),
           ),
         ],
@@ -702,7 +703,8 @@ class HomePage extends ConsumerWidget {
                               children: [
                                 CircleAvatar(
                                   radius: 12,
-                                  backgroundColor: AppTheme.primaryOrange.withValues(alpha: 0.2),
+                                  backgroundColor: AppTheme.primaryOrange
+                                      .withValues(alpha: 0.2),
                                   child: Icon(
                                     Icons.person,
                                     size: 16,
@@ -714,7 +716,8 @@ class HomePage extends ConsumerWidget {
                                   '匿名用户',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: AppTheme.richBrown.withValues(alpha: 0.7),
+                                    color: AppTheme.richBrown
+                                        .withValues(alpha: 0.7),
                                     fontFamily: 'Georgia',
                                   ),
                                 ),
@@ -750,7 +753,8 @@ class HomePage extends ConsumerWidget {
                               '那个夏天，蝉鸣声声，我们在老槐树下...',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: AppTheme.richBrown.withValues(alpha: 0.8),
+                                color:
+                                    AppTheme.richBrown.withValues(alpha: 0.8),
                                 fontFamily: 'Georgia',
                               ),
                               maxLines: 2,

@@ -8,6 +8,8 @@ final authStateProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   return AuthNotifier(
     ref.read(signInWithEmailUseCaseProvider),
     ref.read(signUpWithEmailUseCaseProvider),
+    ref.read(signInWithGoogleUseCaseProvider),
+    ref.read(signInWithAppleUseCaseProvider),
     ref.read(signOutUseCaseProvider),
     ref.read(getAuthStatusUseCaseProvider),
   );
@@ -19,12 +21,16 @@ final authProvider = authStateProvider;
 class AuthNotifier extends StateNotifier<AuthState> {
   final SignInWithEmailUseCase _signInWithEmailUseCase;
   final SignUpWithEmailUseCase _signUpWithEmailUseCase;
+  final SignInWithGoogleUseCase _signInWithGoogleUseCase;
+  final SignInWithAppleUseCase _signInWithAppleUseCase;
   final SignOutUseCase _signOutUseCase;
   final GetAuthStatusUseCase _getAuthStatusUseCase;
 
   AuthNotifier(
     this._signInWithEmailUseCase,
     this._signUpWithEmailUseCase,
+    this._signInWithGoogleUseCase,
+    this._signInWithAppleUseCase,
     this._signOutUseCase,
     this._getAuthStatusUseCase,
   ) : super(const AuthState.loading()) {
@@ -45,6 +51,26 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = const AuthState.loading();
     try {
       final user = await _signInWithEmailUseCase(email, password);
+      state = AuthState.authenticated(user);
+    } catch (e) {
+      state = const AuthState.unauthenticated();
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    state = const AuthState.loading();
+    try {
+      final user = await _signInWithGoogleUseCase();
+      state = AuthState.authenticated(user);
+    } catch (e) {
+      state = const AuthState.unauthenticated();
+    }
+  }
+
+  Future<void> signInWithApple() async {
+    state = const AuthState.loading();
+    try {
+      final user = await _signInWithAppleUseCase();
       state = AuthState.authenticated(user);
     } catch (e) {
       state = const AuthState.unauthenticated();

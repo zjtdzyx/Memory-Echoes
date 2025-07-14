@@ -103,10 +103,6 @@ class ErrorHandler {
           "存储操作失败: ${error.message}",
           code: error.code,
           originalError: error,
-        );        return StorageException(
-          '存储操作失败: ${error.message}',
-          code: error.code,
-          originalError: error,
         );
     }
   }

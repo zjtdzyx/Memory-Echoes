@@ -32,6 +32,24 @@ class SignUpWithEmailUseCase {
   }
 }
 
+class SignInWithGoogleUseCase {
+  final AuthRepository _repository;
+  SignInWithGoogleUseCase(this._repository);
+
+  Future<UserEntity> call() {
+    return _repository.signInWithGoogle();
+  }
+}
+
+class SignInWithAppleUseCase {
+  final AuthRepository _repository;
+  SignInWithAppleUseCase(this._repository);
+
+  Future<UserEntity> call() {
+    return _repository.signInWithApple();
+  }
+}
+
 class SignOutUseCase {
   final AuthRepository _repository;
   SignOutUseCase(this._repository);
