@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../widgets/chat/message_bubble.dart';
 import '../../providers/chat_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../../core/constants/app_theme.dart';
+import '../../../core/services/file_upload_service.dart';
+import '../../../dependency_injection.dart';
 
 class AiChatPage extends ConsumerStatefulWidget {
   const AiChatPage({super.key});
@@ -17,6 +20,9 @@ class AiChatPage extends ConsumerStatefulWidget {
 class _AiChatPageState extends ConsumerState<AiChatPage> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _messageController = TextEditingController();
+  final List<String> _selectedImages = [];
+  final List<String> _selectedFiles = [];
+  bool _isUploading = false;
 
   @override
   void initState() {
@@ -304,6 +310,64 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
       ),
       child: Column(
         children: [
+          // 选中的图片预览
+          if (_selectedImages.isNotEmpty)
+            Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              height: 80,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _selectedImages.length,
+                itemBuilder: (context, index) {
+                  final imageUrl = _selectedImages[index];
+                  return Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            imageUrl,
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                width: 80,
+                                height: 80,
+                                color: Colors.grey[300],
+                                child: const Icon(Icons.error),
+                              );
+                            },
+                          ),
+                        ),
+                        Positioned(
+                          top: 4,
+                          right: 4,
+                          child: GestureDetector(
+                            onTap: () => _removeSelectedImage(imageUrl),
+                            child: Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Icon(
+                                Icons.close,
+                                color: Colors.white,
+                                size: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+
           // 主输入区域
           Container(
             decoration: BoxDecoration(
@@ -380,6 +444,41 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
 
           const SizedBox(height: 12),
 
+          // 上传状态指示器
+          if (_isUploading)
+            Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryOrange.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppTheme.primaryOrange,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '上传中...',
+                    style: TextStyle(
+                      color: AppTheme.primaryOrange,
+                      fontSize: 12,
+                      fontFamily: 'Georgia',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
           // 功能按钮行
           Row(
             children: [
@@ -387,9 +486,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               _buildActionButton(
                 icon: Icons.attach_file,
                 label: '文件',
-                onTap: () {
-                  // TODO: 实现文件上传
-                },
+                onTap: _handleFileUpload,
               ),
 
               const SizedBox(width: 12),
@@ -398,9 +495,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               _buildActionButton(
                 icon: Icons.image,
                 label: '图片',
-                onTap: () {
-                  // TODO: 实现图片上传
-                },
+                onTap: _handleImageUpload,
               ),
 
               const Spacer(),
@@ -602,18 +697,144 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
     );
   }
 
-  void _handleSendMessage(String content) {
-    if (content.trim().isEmpty) return;
-
+  // 处理图片上传
+  Future<void> _handleImageUpload() async {
     final authState = ref.read(authStateProvider);
-    authState.maybeWhen(
-      authenticated: (user) {
-        ref.read(chatProvider.notifier).sendMessage(content, user.id);
-        _messageController.clear();
-      },
-      orElse: () {},
-    );
-    _scrollToBottom();
+    final userId = authState.whenOrNull(authenticated: (user) => user.id);
+
+    if (userId == null) return;
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    try {
+      final fileUploadService = ref.read(fileUploadServiceProvider);
+
+      // 显示选择图片来源的对话框
+      final ImageSource? source = await showDialog<ImageSource>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('选择图片来源'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('从相册选择'),
+                onTap: () => Navigator.of(context).pop(ImageSource.gallery),
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('拍照'),
+                onTap: () => Navigator.of(context).pop(ImageSource.camera),
+              ),
+            ],
+          ),
+        ),
+      );
+
+      if (source != null) {
+        final imageUrl =
+            await fileUploadService.pickAndUploadImage(userId, source: source);
+        if (imageUrl != null) {
+          setState(() {
+            _selectedImages.add(imageUrl);
+          });
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('图片上传失败: $e')),
+        );
+      }
+    } finally {
+      setState(() {
+        _isUploading = false;
+      });
+    }
+  }
+
+  // 处理文件上传
+  Future<void> _handleFileUpload() async {
+    final authState = ref.read(authStateProvider);
+    final userId = authState.whenOrNull(authenticated: (user) => user.id);
+
+    if (userId == null) return;
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    try {
+      final fileUploadService = ref.read(fileUploadServiceProvider);
+      final imageUrls =
+          await fileUploadService.pickAndUploadMultipleImages(userId);
+
+      if (imageUrls.isNotEmpty) {
+        setState(() {
+          _selectedImages.addAll(imageUrls);
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('文件上传失败: $e')),
+        );
+      }
+    } finally {
+      setState(() {
+        _isUploading = false;
+      });
+    }
+  }
+
+  // 移除选中的图片
+  void _removeSelectedImage(String imageUrl) {
+    setState(() {
+      _selectedImages.remove(imageUrl);
+    });
+  }
+
+  // 发送消息（包含图片）
+  Future<void> _handleSendMessage(String text) async {
+    final authState = ref.read(authStateProvider);
+    final userId = authState.whenOrNull(authenticated: (user) => user.id);
+
+    if (userId == null) return;
+
+    if (text.trim().isEmpty && _selectedImages.isEmpty) return;
+
+    // 构建消息内容
+    String messageContent = text.trim();
+    if (_selectedImages.isNotEmpty) {
+      messageContent += '\n\n[图片]';
+      for (final imageUrl in _selectedImages) {
+        messageContent += '\n$imageUrl';
+      }
+    }
+
+    // 发送消息
+    await ref.read(chatProvider.notifier).sendMessage(messageContent, userId);
+
+    // 清空输入
+    _messageController.clear();
+    setState(() {
+      _selectedImages.clear();
+      _selectedFiles.clear();
+    });
+
+    // 滚动到底部
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   void _scrollToBottom() {
