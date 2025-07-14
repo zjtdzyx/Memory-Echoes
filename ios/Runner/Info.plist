@@ -45,14 +45,5 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<!-- 相机权限 -->
-	<key>NSCameraUsageDescription</key>
-	<string>需要访问相机以拍摄照片记录您的回忆</string>
-	<!-- 相册权限 -->
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>需要访问相册以选择图片记录您的回忆</string>
-	<!-- 录音权限 -->
-	<key>NSMicrophoneUsageDescription</key>
-	<string>需要访问麦克风以录制语音记录您的回忆</string>
 </dict>
 </plist>

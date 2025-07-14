@@ -40,38 +40,30 @@ class FirestoreStoryDataSource {
 
   Future<List<StoryModel>> searchStories(
       {required String query, String? mood, String? tag}) async {
-    try {
-      Query storyQuery =
-          _firestore.collection('stories').where('isPublic', isEqualTo: true);
+    Query storyQuery =
+        _firestore.collection('stories').where('isPublic', isEqualTo: true);
 
-      // 如果有查询条件，先按title排序，再添加其他条件
-      if (query.isNotEmpty) {
-        storyQuery = storyQuery
-            .where('title', isGreaterThanOrEqualTo: query)
-            .where('title', isLessThanOrEqualTo: '$query\uf8ff')
-            .orderBy('title'); // 使用title排序，避免索引问题
-      } else {
-        // 没有查询条件时，可以按创建时间排序
-        storyQuery = storyQuery.orderBy('createdAt', descending: true);
-      }
-
-      if (mood != null) {
-        storyQuery = storyQuery.where('mood', isEqualTo: mood);
-      }
-      if (tag != null) {
-        storyQuery = storyQuery.where('tags', arrayContains: tag);
-      }
-
-      final snapshot = await storyQuery.get();
-
-      return snapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        return StoryModel.fromJson(data).copyWith(id: doc.id);
-      }).toList();
-    } catch (e) {
-      // 如果查询失败，返回空列表而不是抛出异常
-      print('搜索故事失败: $e');
-      return [];
+    if (mood != null) {
+      storyQuery = storyQuery.where('mood', isEqualTo: mood);
     }
+    if (tag != null) {
+      storyQuery = storyQuery.where('tags', arrayContains: tag);
+    }
+    // Note: Firestore does not support full-text search on its own.
+    // This query will only find exact matches for the title.
+    // A more robust solution would use a third-party search service like Algolia.
+    if (query.isNotEmpty) {
+      storyQuery = storyQuery
+          .where('title', isGreaterThanOrEqualTo: query)
+          .where('title', isLessThanOrEqualTo: '$query\uf8ff');
+    }
+
+    final snapshot =
+        await storyQuery.orderBy('createdAt', descending: true).get();
+
+    return snapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return StoryModel.fromJson(data).copyWith(id: doc.id);
+    }).toList();
   }
 }

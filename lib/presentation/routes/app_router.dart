@@ -13,6 +13,9 @@ import '../pages/story/create_story_page.dart';
 import '../pages/story/edit_story_page.dart';
 import '../pages/biography/biography_page.dart';
 import '../pages/profile/profile_page.dart';
+import '../pages/profile/favorites_page.dart';
+import '../pages/profile/help_feedback_page.dart';
+import '../pages/profile/about_page.dart';
 import '../pages/search/search_page.dart';
 import '../pages/settings/settings_page.dart';
 import '../pages/error/error_page.dart';
@@ -124,18 +127,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SettingsPage(),
       ),
 
-      // 错误页面
+      // Profile 子页面
       GoRoute(
-        path: '/error',
-        builder: (context, state) {
-          final errorMessage = state.uri.queryParameters['message'];
-          final errorCode = state.uri.queryParameters['code'];
-          return ErrorPage(
-            errorMessage: errorMessage,
-            errorCode: errorCode,
-          );
-        },
+        path: '/favorites',
+        builder: (context, state) => const FavoritesPage(),
       ),
-    ],
-  );
-});
+      GoRoute(
+        path: '/help-feedback',
+        builder: (context, state) => const HelpFeedbackPage(),
+      ),
+      GoRoute(
+        path: '/about',
+        builder: (context, state) =>

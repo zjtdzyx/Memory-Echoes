@@ -24,6 +24,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
   }
 
+  void _signInWithGoogle() {
+    ref.read(authStateProvider.notifier).signInWithGoogle();
+  }
+
+  void _signInWithApple() {
+    ref.read(authStateProvider.notifier).signInWithApple();
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen<AuthState>(authStateProvider, (previous, next) {
@@ -133,6 +141,42 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
 
                 const SizedBox(height: 48),
+
+                // 社交登录按钮
+                _buildSocialLoginButtons(authState),
+
+                const SizedBox(height: 32),
+
+                // 分割线
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: AppTheme.primaryOrange.withValues(alpha: 0.3),
+                        thickness: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        '或使用邮箱登录',
+                        style: TextStyle(
+                          color: AppTheme.richBrown.withValues(alpha: 0.7),
+                          fontSize: 14,
+                          fontFamily: 'Georgia',
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: AppTheme.primaryOrange.withValues(alpha: 0.3),
+                        thickness: 1,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 32),
 
                 // 登录表单卡片
                 Container(
@@ -331,6 +375,126 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSocialLoginButtons(AuthState authState) {
+    return Column(
+      children: [
+        // Google 登录按钮
+        SizedBox(
+          width: double.infinity,
+          height: 56,
+          child: OutlinedButton(
+            onPressed: authState.maybeWhen(
+              loading: () => null,
+              authenticated: (_) => null,
+              orElse: () => _signInWithGoogle,
+            ),
+            style: OutlinedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: AppTheme.darkBrown,
+              side: BorderSide(
+                color: AppTheme.primaryOrange.withValues(alpha: 0.3),
+                width: 1,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 2,
+              shadowColor: AppTheme.primaryOrange.withValues(alpha: 0.2),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'G',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.primaryOrange,
+                        fontFamily: 'Georgia',
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  '使用 Google 登录',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.darkBrown,
+                    fontFamily: 'Georgia',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        // Apple 登录按钮
+        SizedBox(
+          width: double.infinity,
+          height: 56,
+          child: ElevatedButton(
+            onPressed: authState.maybeWhen(
+              loading: () => null,
+              authenticated: (_) => null,
+              orElse: () => _signInWithApple,
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.darkBrown,
+              foregroundColor: Colors.white,
+              elevation: 6,
+              shadowColor: AppTheme.darkBrown.withValues(alpha: 0.4),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.apple,
+                      size: 20,
+                      color: AppTheme.darkBrown,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  '使用 Apple 登录',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontFamily: 'Georgia',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
