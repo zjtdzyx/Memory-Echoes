@@ -15,12 +15,12 @@ class AboutPage extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: AppTheme.darkBrown,
           ),
         ),
-        title: Text(
+        title: const Text(
           '关于我们',
           style: TextStyle(
             color: AppTheme.darkBrown,
@@ -40,7 +40,7 @@ class AboutPage extends ConsumerWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
@@ -61,14 +61,14 @@ class AboutPage extends ConsumerWidget {
                       color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.auto_stories,
                       size: 40,
                       color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Text(
+                  const Text(
                     '记忆回响',
                     style: TextStyle(
                       fontSize: 24,
@@ -97,7 +97,7 @@ class AboutPage extends ConsumerWidget {
                       color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Text(
+                    child: const Text(
                       'v1.0.0',
                       style: TextStyle(
                         color: Colors.white,
@@ -192,14 +192,14 @@ class AboutPage extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Row(
+                  const Row(
                     children: [
                       Icon(
                         Icons.favorite,
                         color: AppTheme.errorRed,
                         size: 20,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Text(
                         '用心打造，用爱传递',
                         style: TextStyle(
@@ -300,7 +300,7 @@ class AboutPage extends ConsumerWidget {
               ),
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     '© 2024 Memory Echoes',
                     style: TextStyle(
                       fontSize: 14,
@@ -365,7 +365,7 @@ class AboutPage extends ConsumerWidget {
               const SizedBox(width: 12),
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.darkBrown,
@@ -405,7 +405,7 @@ class AboutPage extends ConsumerWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: AppTheme.darkBrown,
@@ -455,7 +455,7 @@ class AboutPage extends ConsumerWidget {
                 children: [
                   Text(
                     label,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.darkBrown,
@@ -473,7 +473,7 @@ class AboutPage extends ConsumerWidget {
                 ],
               ),
               const Spacer(),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios,
                 color: AppTheme.primaryOrange,
                 size: 16,
@@ -501,7 +501,7 @@ class AboutPage extends ConsumerWidget {
                   children: [
                     Text(
                       title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppTheme.darkBrown,
@@ -520,7 +520,7 @@ class AboutPage extends ConsumerWidget {
                   ],
                 ),
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios,
                 color: AppTheme.primaryOrange,
                 size: 16,

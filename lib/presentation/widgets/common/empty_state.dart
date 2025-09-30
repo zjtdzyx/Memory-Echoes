@@ -64,7 +64,7 @@ class EmptyState extends StatelessWidget {
                 ),
                 child: ElevatedButton.icon(
                   onPressed: onAction,
-                  icon: Icon(Icons.add_circle_outline),
+                  icon: const Icon(Icons.add_circle_outline),
                   label: Text(actionText!),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryOrange,

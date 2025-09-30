@@ -53,18 +53,18 @@ class AppTheme {
     fontFamily: 'Georgia', // 使用衬线字体增加文学感
 
     // AppBar 主题 - 温暖渐变
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
       foregroundColor: darkBrown,
       elevation: 0,
       scrolledUnderElevation: 0,
-      titleTextStyle: const TextStyle(
+      titleTextStyle: TextStyle(
         color: darkBrown,
         fontSize: 22,
         fontWeight: FontWeight.w600,
         fontFamily: 'Georgia',
       ),
-      iconTheme: const IconThemeData(color: darkBrown),
+      iconTheme: IconThemeData(color: darkBrown),
     ),
 
     // 卡片主题 - 温暖圆润
@@ -100,7 +100,7 @@ class AppTheme {
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: primaryOrange,
-        side: BorderSide(color: primaryOrange, width: 2),
+        side: const BorderSide(color: primaryOrange, width: 2),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -263,24 +263,24 @@ class AppTheme {
     useMaterial3: true,
     colorScheme: darkColorScheme,
     fontFamily: 'Georgia',
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
       foregroundColor: warmCream,
       elevation: 0,
       scrolledUnderElevation: 0,
-      titleTextStyle: const TextStyle(
+      titleTextStyle: TextStyle(
         color: warmCream,
         fontSize: 22,
         fontWeight: FontWeight.w600,
         fontFamily: 'Georgia',
       ),
-      iconTheme: const IconThemeData(color: warmCream),
+      iconTheme: IconThemeData(color: warmCream),
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 
   // 自定义装饰
-  static BoxDecoration get warmGradientDecoration => BoxDecoration(
+  static BoxDecoration get warmGradientDecoration => const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -289,11 +289,11 @@ class AppTheme {
             secondaryOrange,
             accentOrange,
           ],
-          stops: const [0.0, 0.5, 1.0],
+          stops: [0.0, 0.5, 1.0],
         ),
       );
 
-  static BoxDecoration get subtleGradientDecoration => BoxDecoration(
+  static BoxDecoration get subtleGradientDecoration => const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

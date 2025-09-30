@@ -189,7 +189,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
                 ),
                 background: Container(
                   decoration: AppTheme.warmGradientDecoration,
-                  child: Stack(
+                  child: const Stack(
                     children: [
                       // 装饰性图案
                       Positioned(
@@ -290,7 +290,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
         decoration: InputDecoration(
           labelText: '记忆标题',
           hintText: '给这段记忆起个温暖的名字...',
-          prefixIcon: Icon(Icons.title, color: AppTheme.primaryOrange),
+          prefixIcon: const Icon(Icons.title, color: AppTheme.primaryOrange),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide.none,
@@ -322,7 +322,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
         decoration: InputDecoration(
           labelText: '记忆内容',
           hintText: '分享你的故事，让温暖的回忆永远流传...',
-          prefixIcon: Icon(Icons.edit_note, color: AppTheme.primaryOrange),
+          prefixIcon: const Icon(Icons.edit_note, color: AppTheme.primaryOrange),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide.none,
@@ -355,7 +355,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.mood, color: AppTheme.primaryOrange),
+              const Icon(Icons.mood, color: AppTheme.primaryOrange),
               const SizedBox(width: 8),
               Text(
                 '选择心情',
@@ -435,7 +435,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
         decoration: InputDecoration(
           labelText: '标签',
           hintText: '用逗号分隔多个标签，如：家庭,快乐,成长',
-          prefixIcon: Icon(Icons.tag, color: AppTheme.primaryOrange),
+          prefixIcon: const Icon(Icons.tag, color: AppTheme.primaryOrange),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide.none,
@@ -461,7 +461,7 @@ class _CreateStoryPageState extends ConsumerState<CreateStoryPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.photo_library, color: AppTheme.primaryOrange),
+              const Icon(Icons.photo_library, color: AppTheme.primaryOrange),
               const SizedBox(width: 8),
               Text(
                 '添加图片',

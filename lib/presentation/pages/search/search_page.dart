@@ -127,7 +127,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               }
 
               if (results.isEmpty) {
-                return EmptyState(
+                return const EmptyState(
                   message: '没有找到相关故事\n尝试使用其他关键词搜索',
                   icon: Icons.search_off,
                 );

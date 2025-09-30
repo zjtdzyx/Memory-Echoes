@@ -88,7 +88,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                   width: 1,
                 ),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
@@ -96,7 +96,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(
@@ -120,7 +120,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
                 color: AppTheme.primaryOrange,
               ),
@@ -144,7 +144,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                   width: 2,
                 ),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.person,
                 color: AppTheme.primaryOrange,
                 size: 24,
@@ -222,13 +222,13 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.error_outline,
               size: 64,
               color: AppTheme.errorRed,
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               '加载失败',
               style: TextStyle(
                 fontSize: 18,
@@ -309,14 +309,14 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                     CircleAvatar(
                       radius: 16,
                       backgroundColor: AppTheme.primaryOrange.withValues(alpha: 0.1),
-                      child: Icon(
+                      child: const Icon(
                         Icons.person,
                         size: 18,
                         color: AppTheme.primaryOrange,
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Text(
+                    const Text(
                       '匿名用户',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
@@ -339,7 +339,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
                 // 故事标题
                 Text(
                   story.title ?? '无标题',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.darkBrown,
@@ -418,7 +418,7 @@ class _DiscoverPageState extends ConsumerState<DiscoverPage>
           const SizedBox(width: 4),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppTheme.primaryOrange,
               fontSize: 12,
               fontWeight: FontWeight.w500,

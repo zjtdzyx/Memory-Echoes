@@ -68,7 +68,7 @@ class StoryCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 AppTheme.primaryOrange,
@@ -86,7 +86,7 @@ class StoryCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Icon(
                               Icons.broken_image_outlined,
                               color: AppTheme.primaryOrange,
@@ -144,7 +144,7 @@ class StoryCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: PopupMenuButton<String>(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.more_horiz,
                                 color: AppTheme.primaryOrange,
                               ),
@@ -160,26 +160,26 @@ class StoryCard extends StatelessWidget {
                               },
                               itemBuilder: (context) => [
                                 if (onEdit != null)
-                                  PopupMenuItem(
+                                  const PopupMenuItem(
                                     value: 'edit',
                                     child: Row(
                                       children: [
                                         Icon(Icons.edit_outlined, 
                                             color: AppTheme.primaryOrange),
-                                        const SizedBox(width: 12),
-                                        const Text('编辑'),
+                                        SizedBox(width: 12),
+                                        Text('编辑'),
                                       ],
                                     ),
                                   ),
                                 if (onDelete != null)
-                                  PopupMenuItem(
+                                  const PopupMenuItem(
                                     value: 'delete',
                                     child: Row(
                                       children: [
                                         Icon(Icons.delete_outlined, 
                                             color: AppTheme.errorRed),
-                                        const SizedBox(width: 12),
-                                        const Text('删除'),
+                                        SizedBox(width: 12),
+                                        Text('删除'),
                                       ],
                                     ),
                                   ),
@@ -287,7 +287,7 @@ class StoryCard extends StatelessWidget {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.favorite_border,
                                       size: 16,
                                       color: AppTheme.primaryOrange,

@@ -102,7 +102,7 @@ class HomePage extends ConsumerWidget {
                 width: 1,
               ),
             ),
-            child: Row(
+            child: const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
@@ -110,7 +110,7 @@ class HomePage extends ConsumerWidget {
                   color: AppTheme.primaryOrange,
                   size: 20,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Text(
                   '记忆回响',
                   style: TextStyle(
@@ -137,7 +137,7 @@ class HomePage extends ConsumerWidget {
               onPressed: () => context.go('/notifications'),
               icon: Stack(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.notifications_outlined,
                     color: AppTheme.primaryOrange,
                     size: 24,
@@ -149,7 +149,7 @@ class HomePage extends ConsumerWidget {
                     child: Container(
                       width: 8,
                       height: 8,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: AppTheme.errorRed,
                         shape: BoxShape.circle,
                       ),
@@ -261,7 +261,7 @@ class HomePage extends ConsumerWidget {
                   color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.mic_outlined,
                   color: AppTheme.primaryOrange,
                   size: 16,
@@ -292,7 +292,7 @@ class HomePage extends ConsumerWidget {
                       color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.auto_stories,
                       color: AppTheme.primaryOrange,
                       size: 20,
@@ -302,7 +302,7 @@ class HomePage extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         '我的故事',
                         style: TextStyle(
                           fontSize: 18,
@@ -325,7 +325,7 @@ class HomePage extends ConsumerWidget {
               ),
               TextButton(
                 onPressed: () => context.go('/stories'),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
@@ -336,7 +336,7 @@ class HomePage extends ConsumerWidget {
                         fontFamily: 'Georgia',
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4),
                     Icon(
                       Icons.arrow_forward_ios,
                       color: AppTheme.primaryOrange,
@@ -397,7 +397,7 @@ class HomePage extends ConsumerWidget {
                       color: AppTheme.accentOrange.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.person_outline,
                       color: AppTheme.accentOrange,
                       size: 20,
@@ -407,7 +407,7 @@ class HomePage extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         '我的传记',
                         style: TextStyle(
                           fontSize: 18,
@@ -430,7 +430,7 @@ class HomePage extends ConsumerWidget {
               ),
               TextButton(
                 onPressed: () => context.go('/biography'),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
@@ -441,7 +441,7 @@ class HomePage extends ConsumerWidget {
                         fontFamily: 'Georgia',
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4),
                     Icon(
                       Icons.arrow_forward_ios,
                       color: AppTheme.accentOrange,
@@ -493,7 +493,7 @@ class HomePage extends ConsumerWidget {
                   color: AppTheme.successGreen.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.flash_on,
                   color: AppTheme.successGreen,
                   size: 20,
@@ -503,7 +503,7 @@ class HomePage extends ConsumerWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     '快速开始',
                     style: TextStyle(
                       fontSize: 18,
@@ -590,7 +590,7 @@ class HomePage extends ConsumerWidget {
                       color: AppTheme.infoBlue.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.explore_outlined,
                       color: AppTheme.infoBlue,
                       size: 20,
@@ -600,7 +600,7 @@ class HomePage extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         '他人的故事',
                         style: TextStyle(
                           fontSize: 18,
@@ -623,7 +623,7 @@ class HomePage extends ConsumerWidget {
               ),
               TextButton(
                 onPressed: () => context.go('/discover'),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
@@ -634,7 +634,7 @@ class HomePage extends ConsumerWidget {
                         fontFamily: 'Georgia',
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4),
                     Icon(
                       Icons.arrow_forward_ios,
                       color: AppTheme.infoBlue,
@@ -684,7 +684,7 @@ class HomePage extends ConsumerWidget {
                               ],
                             ),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Icon(
                               Icons.photo_outlined,
                               color: AppTheme.primaryOrange,
@@ -705,7 +705,7 @@ class HomePage extends ConsumerWidget {
                                   radius: 12,
                                   backgroundColor: AppTheme.primaryOrange
                                       .withValues(alpha: 0.2),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.person,
                                     size: 16,
                                     color: AppTheme.primaryOrange,
@@ -722,7 +722,7 @@ class HomePage extends ConsumerWidget {
                                   ),
                                 ),
                                 const Spacer(),
-                                Icon(
+                                const Icon(
                                   Icons.favorite_border,
                                   size: 16,
                                   color: AppTheme.primaryOrange,
@@ -730,7 +730,7 @@ class HomePage extends ConsumerWidget {
                                 const SizedBox(width: 4),
                                 Text(
                                   '${12 + index}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     color: AppTheme.primaryOrange,
                                     fontFamily: 'Georgia',
@@ -739,7 +739,7 @@ class HomePage extends ConsumerWidget {
                               ],
                             ),
                             const SizedBox(height: 8),
-                            Text(
+                            const Text(
                               '童年的夏天',
                               style: TextStyle(
                                 fontSize: 14,
@@ -788,7 +788,7 @@ class HomePage extends ConsumerWidget {
                   color: AppTheme.warningAmber.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.wb_sunny_outlined,
                   color: AppTheme.warningAmber,
                   size: 20,
@@ -798,7 +798,7 @@ class HomePage extends ConsumerWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     '今日推荐',
                     style: TextStyle(
                       fontSize: 18,
@@ -840,14 +840,14 @@ class HomePage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   children: [
                     Icon(
                       Icons.auto_awesome,
                       color: AppTheme.warningAmber,
                       size: 24,
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Text(
                       '记忆提示',
                       style: TextStyle(
@@ -877,7 +877,7 @@ class HomePage extends ConsumerWidget {
                         onPressed: () => context.go('/chat'),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppTheme.warningAmber,
-                          side: BorderSide(color: AppTheme.warningAmber),
+                          side: const BorderSide(color: AppTheme.warningAmber),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -996,7 +996,7 @@ class HomePage extends ConsumerWidget {
             color: AppTheme.primaryOrange.withValues(alpha: 0.6),
           ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             '还没有故事',
             style: TextStyle(
               fontSize: 16,
@@ -1039,13 +1039,13 @@ class HomePage extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.error_outline,
             size: 48,
             color: AppTheme.errorRed,
           ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             '加载失败',
             style: TextStyle(
               fontSize: 16,

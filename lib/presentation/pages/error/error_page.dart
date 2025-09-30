@@ -84,7 +84,7 @@ class ErrorPage extends StatelessWidget {
                           ),
                           child: Text(
                             errorCode!,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: AppTheme.primaryOrange,
@@ -98,7 +98,7 @@ class ErrorPage extends StatelessWidget {
                       // 主要错误信息
                       Text(
                         _getErrorTitle(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.darkBrown,
@@ -141,7 +141,7 @@ class ErrorPage extends StatelessWidget {
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                 colors: [
                                   AppTheme.primaryOrange,
                                   AppTheme.accentOrange,
@@ -184,19 +184,19 @@ class ErrorPage extends StatelessWidget {
                           const SizedBox(height: 12),
                           
                           // 重试按钮
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             child: OutlinedButton.icon(
                               onPressed: () {
                                 // 刷新当前页面
                                 Navigator.of(context).pop();
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.refresh,
                                 size: 20,
                                 color: AppTheme.primaryOrange,
                               ),
-                              label: Text(
+                              label: const Text(
                                 '重新尝试',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -206,7 +206,7 @@ class ErrorPage extends StatelessWidget {
                                 ),
                               ),
                               style: OutlinedButton.styleFrom(
-                                side: BorderSide(
+                                side: const BorderSide(
                                   color: AppTheme.primaryOrange,
                                   width: 2,
                                 ),
@@ -273,7 +273,7 @@ class ErrorPage extends StatelessWidget {
                   width: 1,
                 ),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
@@ -281,7 +281,7 @@ class ErrorPage extends StatelessWidget {
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(
@@ -305,7 +305,7 @@ class ErrorPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back,
                 color: AppTheme.primaryOrange,
               ),

@@ -38,39 +38,12 @@ graph TB
     FirebaseConsole --> FirebaseAuth
     FirebaseConsole --> Firestore
     FirebaseConsole --> Storage
-
+    
     %% 未来扩展
     CloudFunctions[Firebase Cloud Functions<br/>AI 内容审核 Agent<br/>复杂业务逻辑编排] -.-> Firestore
     CloudFunctions -.-> GeminiAPI
     Admin -.-> CloudFunctions
 \`\`\`
-
-### 数据流向描述
-
-1. **✅ 用户认证流** - 已实现
-
-   - 用户通过 Flutter App 输入邮箱/密码
-   - Firebase Authentication 验证并返回认证状态
-   - 用户信息存储在 Cloud Firestore
-
-2. **✅ 故事/传记生成流** - 已实现
-
-   - 用户输入记忆碎片或选择现有故事
-   - 通过 Dio HTTP Client 调用 Google Gemini Pro API
-   - AI 生成故事文本或引导性问题
-   - 生成内容存储至 Cloud Firestore
-
-3. **✅ 数据存储与检索流** - 已实现
-
-   - 故事数据写入 Cloud Firestore
-   - 多媒体文件上传至 Firebase Storage
-   - 实时数据同步和离线访问支持
-
-4. **🚧 内容审核流** - 待扩展
-   - 通过 Cloud Functions 触发自动审核
-   - Gemini Pro 作为内容审核 Agent
-
-## 2. 模块结构图
 
 ### 当前实现的模块结构 ✅
 
@@ -191,14 +164,6 @@ lib/
 7. **多媒体支持**
    - 图片上传与展示
    - Firebase Storage 集成
-
-### 🚧 待扩展功能
-
-1. **内容审核系统** - Cloud Functions 自动审核
-2. **高级搜索** - 全文搜索优化
-3. **社交互动** - 评论、关注系统
-4. **个性化推荐** - AI 驱动的内容推荐
-5. **语音功能** - 语音转文字输入
 
 ## 4. 技术栈更新状态
 

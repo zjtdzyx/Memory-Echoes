@@ -62,7 +62,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         width: 120,
                         height: 120,
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
@@ -77,7 +77,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           alignment: Alignment.center,
                           children: [
                             // 书本图标
-                            Icon(
+                            const Icon(
                               Icons.menu_book_rounded,
                               size: 60,
                               color: Colors.white,
@@ -208,7 +208,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                       .withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.email_outlined,
                                   color: AppTheme.primaryOrange,
                                   size: 20,
@@ -240,7 +240,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                       .withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.lock_outline,
                                   color: AppTheme.primaryOrange,
                                   size: 20,
@@ -281,7 +281,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 ),
                               ),
                               child: authState.maybeWhen(
-                                loading: () => SizedBox(
+                                loading: () => const SizedBox(
                                   width: 24,
                                   height: 24,
                                   child: CircularProgressIndicator(
@@ -292,12 +292,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 ),
                                 authenticated: (_) =>
                                     const Icon(Icons.check, size: 24),
-                                orElse: () => Row(
+                                orElse: () => const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(Icons.login, size: 20),
-                                    const SizedBox(width: 8),
-                                    const Text(
+                                    SizedBox(width: 8),
+                                    Text(
                                       '登录',
                                       style: TextStyle(
                                         fontSize: 16,
@@ -318,7 +318,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             onPressed: () {
                               // TODO: 实现忘记密码功能
                             },
-                            child: Text(
+                            child: const Text(
                               '忘记密码？',
                               style: TextStyle(
                                 color: AppTheme.primaryOrange,
@@ -356,7 +356,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                       TextButton(
                         onPressed: () => context.go('/register'),
-                        child: Text(
+                        child: const Text(
                           '立即注册',
                           style: TextStyle(
                             color: AppTheme.primaryOrange,
@@ -414,7 +414,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'G',
                       style: TextStyle(
@@ -427,7 +427,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Text(
+                const Text(
                   '使用 Google 登录',
                   style: TextStyle(
                     fontSize: 16,
@@ -472,7 +472,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Icon(
                       Icons.apple,
                       size: 20,
@@ -481,7 +481,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Text(
+                const Text(
                   '使用 Apple 登录',
                   style: TextStyle(
                     fontSize: 16,

@@ -151,7 +151,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       ? NetworkImage(user.photoURL!)
                       : null,
                   child: user.photoURL == null
-                      ? Icon(
+                      ? const Icon(
                           Icons.person,
                           size: 40,
                           color: AppTheme.primaryOrange,
@@ -744,15 +744,15 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             color: AppTheme.darkBrown,
           ),
         ),
-        content: Column(
+        content: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('缓存大小: 约 5.2 MB'),
-            const SizedBox(height: 8),
-            const Text('本地数据: 约 12.8 MB'),
-            const SizedBox(height: 16),
-            const Text(
+            Text('缓存大小: 约 5.2 MB'),
+            SizedBox(height: 8),
+            Text('本地数据: 约 12.8 MB'),
+            SizedBox(height: 16),
+            Text(
               '清除数据后，您需要重新登录，但云端数据不会丢失。',
               style: TextStyle(
                 color: AppTheme.richBrown,
@@ -873,7 +873,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         title: const Row(
           children: [
             Icon(Icons.check_circle, color: AppTheme.successGreen),
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             Text(
               '成功',
               style: TextStyle(
@@ -911,7 +911,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         title: const Row(
           children: [
             Icon(Icons.error, color: AppTheme.errorRed),
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             Text(
               '错误',
               style: TextStyle(

@@ -47,13 +47,13 @@ class StoryListPage extends ConsumerWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.error_outline,
                         size: 48,
                         color: AppTheme.errorRed,
                       ),
                       const SizedBox(height: 16),
-                      Text(
+                      const Text(
                         '加载故事失败',
                         style: TextStyle(
                           fontSize: 18,
@@ -113,7 +113,7 @@ class StoryListPage extends ConsumerWidget {
                   width: 1,
                 ),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
@@ -121,7 +121,7 @@ class StoryListPage extends ConsumerWidget {
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(
@@ -160,7 +160,7 @@ class StoryListPage extends ConsumerWidget {
                       ? NetworkImage(user.photoURL!)
                       : null,
                   child: user.photoURL == null
-                      ? Icon(
+                      ? const Icon(
                           Icons.person,
                           color: AppTheme.primaryOrange,
                           size: 24,
@@ -195,7 +195,7 @@ class StoryListPage extends ConsumerWidget {
             color: AppTheme.richBrown.withValues(alpha: 0.6),
             fontFamily: 'Georgia',
           ),
-          prefixIcon: Icon(
+          prefixIcon: const Icon(
             Icons.search,
             color: AppTheme.primaryOrange,
           ),
@@ -220,7 +220,7 @@ class StoryListPage extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             children: [
-              Text(
+              const Text(
                 '我的故事',
                 style: TextStyle(
                   fontSize: 24,
@@ -239,7 +239,7 @@ class StoryListPage extends ConsumerWidget {
                 ),
                 child: Text(
                   '${stories.length} 个故事',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     color: AppTheme.primaryOrange,
                     fontWeight: FontWeight.w600,
@@ -294,14 +294,14 @@ class StoryListPage extends ConsumerWidget {
               width: 1,
             ),
           ),
-          child: Row(
+          child: const Row(
             children: [
               Icon(
                 Icons.lightbulb_outline,
                 color: AppTheme.primaryOrange,
                 size: 20,
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: Text(
                   '选择多个故事可以生成个人传记哦！',
@@ -350,7 +350,7 @@ class StoryListPage extends ConsumerWidget {
                       // 标题
                       Text(
                         story.title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.darkBrown,
@@ -387,7 +387,7 @@ class StoryListPage extends ConsumerWidget {
                           color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Text(
+                        child: const Text(
                           '2024年1月15日', // 这里应该使用实际的日期
                           style: TextStyle(
                             fontSize: 12,
@@ -454,14 +454,14 @@ class StoryListPage extends ConsumerWidget {
               color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(
+            child: const Icon(
               Icons.auto_stories_outlined,
               size: 64,
               color: AppTheme.primaryOrange,
             ),
           ),
           const SizedBox(height: 24),
-          Text(
+          const Text(
             '还没有故事',
             style: TextStyle(
               fontSize: 24,

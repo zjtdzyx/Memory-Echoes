@@ -42,7 +42,7 @@ class StoryPreviewCard extends StatelessWidget {
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
                 ),
-                child: Container(
+                child: SizedBox(
                   height: 100,
                   width: double.infinity,
                   child: story.imageUrls.isNotEmpty
@@ -58,7 +58,7 @@ class StoryPreviewCard extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                   AppTheme.primaryOrange,
@@ -75,7 +75,7 @@ class StoryPreviewCard extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Icon(
                                 Icons.photo_outlined,
                                 color: AppTheme.primaryOrange,
@@ -93,7 +93,7 @@ class StoryPreviewCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Icon(
                               Icons.auto_stories_outlined,
                               color: AppTheme.primaryOrange,
@@ -113,7 +113,7 @@ class StoryPreviewCard extends StatelessWidget {
                     children: [
                       Text(
                         story.title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: AppTheme.darkBrown,
@@ -159,7 +159,7 @@ class StoryPreviewCard extends StatelessWidget {
                             ),
                             child: Text(
                               story.tags.isNotEmpty ? story.tags.first : '回忆',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 10,
                                 color: AppTheme.primaryOrange,
                                 fontWeight: FontWeight.w500,

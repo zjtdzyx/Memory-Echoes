@@ -115,7 +115,7 @@ class BiographyPreviewCard extends StatelessWidget {
                 color: AppTheme.accentOrange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.person_outline,
                 color: AppTheme.accentOrange,
                 size: 20,
@@ -128,7 +128,7 @@ class BiographyPreviewCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.darkBrown,
@@ -166,7 +166,7 @@ class BiographyPreviewCard extends StatelessWidget {
               ),
               Text(
                 '${(progress! * 100).toInt()}%',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.accentOrange,
@@ -179,7 +179,7 @@ class BiographyPreviewCard extends StatelessWidget {
           LinearProgressIndicator(
             value: progress,
             backgroundColor: AppTheme.accentOrange.withValues(alpha: 0.2),
-            valueColor: AlwaysStoppedAnimation<Color>(AppTheme.accentOrange),
+            valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.accentOrange),
             borderRadius: BorderRadius.circular(4),
           ),
           const SizedBox(height: 16),
@@ -197,7 +197,7 @@ class BiographyPreviewCard extends StatelessWidget {
           ),
           child: Text(
             progress != null ? '查看详情' : '开始创建',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: AppTheme.accentOrange,

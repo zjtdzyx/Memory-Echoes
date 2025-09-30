@@ -37,9 +37,9 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF5F1EB),
-        borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+        color: Color(0xFFF5F1EB),
+        borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(24),
           bottomRight: Radius.circular(24),
         ),
@@ -83,7 +83,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
                     ),
                     maxLines: null,
                     minLines: 1,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Georgia',
                       color: AppTheme.darkBrown,
                     ),
@@ -127,7 +127,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
                       width: 44,
                       height: 44,
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           colors: [
                             AppTheme.primaryOrange,
                             AppTheme.accentOrange,
@@ -181,7 +181,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
               if (widget.onGenerateStory != null)
                 Container(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [
                         AppTheme.primaryOrange,
                         AppTheme.accentOrange,
@@ -249,7 +249,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput> {
             const SizedBox(width: 6),
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppTheme.primaryOrange,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,

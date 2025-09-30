@@ -7,7 +7,7 @@ import '../../providers/chat_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../../core/constants/app_theme.dart';
 
-class AiChatPage extends ConsumerStatefulWidget {
+class AiChatPage extends ConsumerStatefulWidget {  
   const AiChatPage({super.key});
 
   @override
@@ -158,7 +158,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                   width: 1,
                 ),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
@@ -166,7 +166,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(
@@ -186,7 +186,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
           // 清除聊天历史按钮
           authState.maybeWhen(
             authenticated: (user) => IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.clear_all,
                 color: AppTheme.primaryOrange,
                 size: 24,
@@ -218,7 +218,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                       ? NetworkImage(user.photoURL!)
                       : null,
                   child: user.photoURL == null
-                      ? Icon(
+                      ? const Icon(
                           Icons.person,
                           color: AppTheme.primaryOrange,
                           size: 24,
@@ -246,7 +246,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(
+            child: const Icon(
               Icons.psychology,
               size: 48,
               color: AppTheme.primaryOrange,
@@ -266,7 +266,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                 width: 1,
               ),
             ),
-            child: Text(
+            child: const Text(
               '今天你的故事是什么？',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -295,9 +295,9 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
   Widget _buildEnhancedChatInput() {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF5F1EB),
-        borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+        color: Color(0xFFF5F1EB),
+        borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(24),
           bottomRight: Radius.circular(24),
         ),
@@ -334,7 +334,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                     ),
                     maxLines: null,
                     minLines: 1,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Georgia',
                       color: AppTheme.darkBrown,
                     ),
@@ -345,7 +345,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                 Container(
                   margin: const EdgeInsets.only(right: 8),
                   child: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.mic,
                       color: AppTheme.primaryOrange,
                       size: 24,
@@ -408,7 +408,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
               // 生成故事按钮
               Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [
                       AppTheme.primaryOrange,
                       AppTheme.accentOrange,
@@ -478,7 +478,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
             const SizedBox(width: 6),
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppTheme.primaryOrange,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -642,7 +642,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            title: Text(
+            title: const Text(
               '生成故事',
               style: TextStyle(
                 color: AppTheme.darkBrown,
@@ -674,7 +674,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: AppTheme.primaryOrange,
                       ),
                     ),
@@ -693,7 +693,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                     ),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.error_outline,
                           color: Colors.red,
                           size: 20,
@@ -702,7 +702,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                         Expanded(
                           child: Text(
                             chatState.error!,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.red,
                               fontSize: 12,
                             ),
@@ -775,10 +775,10 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
                               Navigator.of(context).pop();
                               // 显示成功提示
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: const Text('故事生成成功！'),
+                                const SnackBar(
+                                  content: Text('故事生成成功！'),
                                   backgroundColor: AppTheme.primaryOrange,
-                                  duration: const Duration(seconds: 2),
+                                  duration: Duration(seconds: 2),
                                 ),
                               );
                             }
@@ -809,7 +809,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        title: Text(
+        title: const Text(
           '确认清除聊天历史',
           style: TextStyle(
             color: AppTheme.darkBrown,

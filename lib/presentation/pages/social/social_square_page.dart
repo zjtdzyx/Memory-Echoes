@@ -36,7 +36,7 @@ class SocialSquarePage extends ConsumerWidget {
                 ),
                 background: Container(
                   decoration: AppTheme.warmGradientDecoration,
-                  child: Stack(
+                  child: const Stack(
                     children: [
                       // 装饰性图案
                       Positioned(
@@ -188,7 +188,7 @@ class SocialSquarePage extends ConsumerWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.error_outline,
                         size: 64,
                         color: AppTheme.errorRed,
@@ -237,7 +237,7 @@ class SocialSquarePage extends ConsumerWidget {
           const SizedBox(width: 4),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppTheme.primaryOrange,
               fontSize: 14,
               fontWeight: FontWeight.w500,

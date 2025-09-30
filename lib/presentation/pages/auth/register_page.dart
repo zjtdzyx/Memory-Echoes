@@ -58,7 +58,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       '创建您的记忆回响账户',
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: '用户名',
@@ -72,7 +72,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       },
                       onSaved: (value) => _displayName = value!,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: '邮箱',
@@ -87,7 +87,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       },
                       onSaved: (value) => _email = value!,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: '密码',
@@ -102,7 +102,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       },
                       onSaved: (value) => _password = value!,
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -121,7 +121,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     TextButton(
                       onPressed: () => context.go('/login'),
                       child: const Text('已经有账户了？登录'),

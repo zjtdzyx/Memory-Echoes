@@ -76,7 +76,7 @@ class ProfilePage extends ConsumerWidget {
                   width: 1,
                 ),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
@@ -84,7 +84,7 @@ class ProfilePage extends ConsumerWidget {
                     color: AppTheme.primaryOrange,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     '记忆回响',
                     style: TextStyle(
@@ -101,7 +101,7 @@ class ProfilePage extends ConsumerWidget {
 
           const Spacer(),
 
-          Text(
+          const Text(
             '我的',
             style: TextStyle(
               fontSize: 18,
@@ -120,7 +120,7 @@ class ProfilePage extends ConsumerWidget {
       authenticated: (user) => Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
@@ -156,7 +156,7 @@ class ProfilePage extends ConsumerWidget {
                 backgroundImage:
                     user.photoURL != null ? NetworkImage(user.photoURL!) : null,
                 child: user.photoURL == null
-                    ? Icon(
+                    ? const Icon(
                         Icons.person,
                         color: Colors.white,
                         size: 40,
@@ -219,7 +219,7 @@ class ProfilePage extends ConsumerWidget {
               color: AppTheme.primaryOrange.withValues(alpha: 0.6),
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               '未登录',
               style: TextStyle(
                 fontSize: 20,
@@ -403,7 +403,7 @@ class ProfilePage extends ConsumerWidget {
           fontFamily: 'Georgia',
         ),
       ),
-      trailing: Icon(
+      trailing: const Icon(
         Icons.chevron_right,
         color: AppTheme.primaryOrange,
       ),
@@ -538,14 +538,14 @@ class ProfilePage extends ConsumerWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        title: Text(
+        title: const Text(
           '确认退出',
           style: TextStyle(
             fontFamily: 'Georgia',
             color: AppTheme.darkBrown,
           ),
         ),
-        content: Text(
+        content: const Text(
           '确定要退出登录吗？',
           style: TextStyle(
             fontFamily: 'Georgia',

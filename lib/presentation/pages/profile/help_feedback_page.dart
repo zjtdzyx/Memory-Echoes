@@ -39,12 +39,12 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: AppTheme.darkBrown,
           ),
         ),
-        title: Text(
+        title: const Text(
           '帮助与反馈',
           style: TextStyle(
             color: AppTheme.darkBrown,
@@ -98,7 +98,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
                   color: AppTheme.richBrown.withValues(alpha: 0.6),
                   fontFamily: 'Georgia',
                 ),
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.search,
                   color: AppTheme.primaryOrange,
                 ),
@@ -111,7 +111,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
           const SizedBox(height: 24),
 
           // 常见问题
-          Text(
+          const Text(
             '常见问题',
             style: TextStyle(
               fontSize: 18,
@@ -128,7 +128,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
           const SizedBox(height: 32),
 
           // 功能指南
-          Text(
+          const Text(
             '功能指南',
             style: TextStyle(
               fontSize: 18,
@@ -163,14 +163,14 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   children: [
                     Icon(
                       Icons.support_agent,
                       color: AppTheme.primaryOrange,
                       size: 24,
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Text(
                       '联系我们',
                       style: TextStyle(
@@ -198,11 +198,11 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
                         onPressed: () {
                           // TODO: 打开邮箱
                         },
-                        icon: Icon(Icons.email_outlined),
+                        icon: const Icon(Icons.email_outlined),
                         label: const Text('发送邮件'),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppTheme.primaryOrange,
-                          side: BorderSide(color: AppTheme.primaryOrange),
+                          side: const BorderSide(color: AppTheme.primaryOrange),
                         ),
                       ),
                     ),
@@ -212,7 +212,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
                         onPressed: () {
                           _tabController.animateTo(1);
                         },
-                        icon: Icon(Icons.feedback_outlined),
+                        icon: const Icon(Icons.feedback_outlined),
                         label: const Text('在线反馈'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.primaryOrange,
@@ -236,7 +236,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 反馈类型选择
-          Text(
+          const Text(
             '反馈类型',
             style: TextStyle(
               fontSize: 16,
@@ -262,7 +262,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
           const SizedBox(height: 24),
 
           // 反馈内容
-          Text(
+          const Text(
             '详细描述',
             style: TextStyle(
               fontSize: 16,
@@ -301,7 +301,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
           const SizedBox(height: 24),
 
           // 联系邮箱
-          Text(
+          const Text(
             '联系邮箱（可选）',
             style: TextStyle(
               fontSize: 16,
@@ -331,7 +331,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
                   color: AppTheme.richBrown.withValues(alpha: 0.6),
                   fontFamily: 'Georgia',
                 ),
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.email_outlined,
                   color: AppTheme.primaryOrange,
                 ),
@@ -357,11 +357,11 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.send, size: 20),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     '提交反馈',
                     style: TextStyle(
@@ -388,14 +388,14 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
                 width: 1,
               ),
             ),
-            child: Row(
+            child: const Row(
               children: [
                 Icon(
                   Icons.info_outline,
                   color: AppTheme.infoBlue,
                   size: 20,
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     '我们会认真对待每一条反馈，通常在1-3个工作日内回复。',
@@ -448,7 +448,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
       child: ExpansionTile(
         title: Text(
           question,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
             color: AppTheme.darkBrown,
             fontFamily: 'Georgia',
@@ -528,7 +528,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
         ),
         title: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
             color: AppTheme.darkBrown,
             fontFamily: 'Georgia',
@@ -541,7 +541,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
             fontFamily: 'Georgia',
           ),
         ),
-        trailing: Icon(
+        trailing: const Icon(
           Icons.arrow_forward_ios,
           color: AppTheme.primaryOrange,
           size: 16,
@@ -569,7 +569,7 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
       backgroundColor: AppTheme.lightCream,
       selectedColor: AppTheme.primaryOrange.withValues(alpha: 0.2),
       checkmarkColor: AppTheme.primaryOrange,
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         color: AppTheme.darkBrown,
         fontFamily: 'Georgia',
       ),
@@ -585,8 +585,8 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
   void _submitFeedback() {
     if (_feedbackController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('请输入反馈内容'),
+        const SnackBar(
+          content: Text('请输入反馈内容'),
           backgroundColor: AppTheme.errorRed,
         ),
       );
@@ -596,8 +596,8 @@ class _HelpFeedbackPageState extends ConsumerState<HelpFeedbackPage>
     // TODO: 实现提交反馈逻辑
     
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('反馈提交成功，感谢您的建议！'),
+      const SnackBar(
+        content: Text('反馈提交成功，感谢您的建议！'),
         backgroundColor: AppTheme.successGreen,
       ),
     );

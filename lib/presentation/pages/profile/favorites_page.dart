@@ -35,12 +35,12 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: AppTheme.darkBrown,
           ),
         ),
-        title: Text(
+        title: const Text(
           '收藏夹',
           style: TextStyle(
             color: AppTheme.darkBrown,
@@ -54,7 +54,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
             onPressed: () {
               // TODO: 实现搜索功能
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.search,
               color: AppTheme.primaryOrange,
             ),
@@ -63,7 +63,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
             onPressed: () {
               // TODO: 实现更多操作
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.more_vert,
               color: AppTheme.primaryOrange,
             ),
@@ -126,7 +126,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.auto_stories,
                 color: AppTheme.primaryOrange,
                 size: 24,
@@ -134,7 +134,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
             ),
             title: Text(
               '童年的夏天 ${index + 1}',
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 color: AppTheme.darkBrown,
                 fontFamily: 'Georgia',
@@ -156,7 +156,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.favorite,
                       size: 16,
                       color: AppTheme.errorRed,
@@ -175,7 +175,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
               ],
             ),
             trailing: PopupMenuButton<String>(
-              icon: Icon(
+              icon: const Icon(
                 Icons.more_horiz,
                 color: AppTheme.primaryOrange,
               ),
@@ -190,23 +190,23 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
                 }
               },
               itemBuilder: (context) => [
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'share',
                   child: Row(
                     children: [
                       Icon(Icons.share, color: AppTheme.primaryOrange),
-                      const SizedBox(width: 12),
-                      const Text('分享'),
+                      SizedBox(width: 12),
+                      Text('分享'),
                     ],
                   ),
                 ),
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'remove',
                   child: Row(
                     children: [
                       Icon(Icons.favorite_border, color: AppTheme.errorRed),
-                      const SizedBox(width: 12),
-                      const Text('取消收藏'),
+                      SizedBox(width: 12),
+                      Text('取消收藏'),
                     ],
                   ),
                 ),
@@ -251,7 +251,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.person_outline,
                 color: AppTheme.accentOrange,
                 size: 24,
@@ -259,7 +259,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
             ),
             title: Text(
               '李明的人生传记 ${index + 1}',
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 color: AppTheme.darkBrown,
                 fontFamily: 'Georgia',
@@ -281,7 +281,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.favorite,
                       size: 16,
                       color: AppTheme.errorRed,
@@ -300,7 +300,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
               ],
             ),
             trailing: PopupMenuButton<String>(
-              icon: Icon(
+              icon: const Icon(
                 Icons.more_horiz,
                 color: AppTheme.accentOrange,
               ),
@@ -315,23 +315,23 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
                 }
               },
               itemBuilder: (context) => [
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'share',
                   child: Row(
                     children: [
                       Icon(Icons.share, color: AppTheme.accentOrange),
-                      const SizedBox(width: 12),
-                      const Text('分享'),
+                      SizedBox(width: 12),
+                      Text('分享'),
                     ],
                   ),
                 ),
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'remove',
                   child: Row(
                     children: [
                       Icon(Icons.favorite_border, color: AppTheme.errorRed),
-                      const SizedBox(width: 12),
-                      const Text('取消收藏'),
+                      SizedBox(width: 12),
+                      Text('取消收藏'),
                     ],
                   ),
                 ),
@@ -376,7 +376,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.folder_outlined,
                 color: AppTheme.infoBlue,
                 size: 24,
@@ -384,7 +384,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
             ),
             title: Text(
               '童年回忆集 ${index + 1}',
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 color: AppTheme.darkBrown,
                 fontFamily: 'Georgia',
@@ -417,7 +417,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
                       ),
                       child: Text(
                         '${15 + index} 项内容',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppTheme.infoBlue,
                           fontWeight: FontWeight.w500,
@@ -439,7 +439,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
               ],
             ),
             trailing: PopupMenuButton<String>(
-              icon: Icon(
+              icon: const Icon(
                 Icons.more_horiz,
                 color: AppTheme.infoBlue,
               ),
@@ -457,33 +457,33 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage>
                 }
               },
               itemBuilder: (context) => [
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'edit',
                   child: Row(
                     children: [
                       Icon(Icons.edit_outlined, color: AppTheme.infoBlue),
-                      const SizedBox(width: 12),
-                      const Text('编辑'),
+                      SizedBox(width: 12),
+                      Text('编辑'),
                     ],
                   ),
                 ),
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'share',
                   child: Row(
                     children: [
                       Icon(Icons.share, color: AppTheme.primaryOrange),
-                      const SizedBox(width: 12),
-                      const Text('分享'),
+                      SizedBox(width: 12),
+                      Text('分享'),
                     ],
                   ),
                 ),
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'delete',
                   child: Row(
                     children: [
                       Icon(Icons.delete_outlined, color: AppTheme.errorRed),
-                      const SizedBox(width: 12),
-                      const Text('删除'),
+                      SizedBox(width: 12),
+                      Text('删除'),
                     ],
                   ),
                 ),
